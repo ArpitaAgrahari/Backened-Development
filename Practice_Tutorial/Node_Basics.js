@@ -8,3 +8,4 @@
 // greet('arpita');
 
 
+//Gobal Object
