@@ -33,7 +33,7 @@ const fs =require('fs');
 //         }
 //         console.log('FOlder Deleted');
 //     });
-}
+// }
 
 
 // deleting files
