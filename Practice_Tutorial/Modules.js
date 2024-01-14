@@ -3,5 +3,5 @@
 
 const a = require('./people');
 
-console.log(a);
+console.log(a.people, a.ages);
 
