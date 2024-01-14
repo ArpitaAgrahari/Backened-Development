@@ -39,4 +39,11 @@ const fs =require('fs');
 
 
 // deleting files
-if(fs.existsSync())
+if(fs.existsSync('E:\\Backened Development\\Practice_Tutorial\\docs\\Delete.txt')){
+    fs.unlink('E:\\Backened Development\\Practice_Tutorial\\docs\\Delete.txt',(err)=>{
+        if(err){
+            console.log(err);
+        }
+        console.log("File deleted")
+    });
+}
