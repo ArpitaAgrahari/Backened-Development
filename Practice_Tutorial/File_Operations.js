@@ -19,12 +19,14 @@ const fs =require('fs');
 
 
 // directories
+if(!fs.existsSync('E:\\Backened Development\\Practice_Tutorial\\docs\\assets')){
 fs.mkdir('E:\\Backened Development\\Practice_Tutorial\\docs\\assets',(err)=>{
     if (err){
         console.log(err);
     }
     console.log('Folder Created!!')
 });
+}
 
 
 // deleting files
