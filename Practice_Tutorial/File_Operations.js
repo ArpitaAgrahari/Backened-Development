@@ -19,7 +19,12 @@ const fs =require('fs');
 
 
 // directories
-
+fs.mkdir('E:\\Backened Development\\Practice_Tutorial\\docs\\assets',(err)=>{
+    if (err){
+        console.log(err);
+    }
+    console.log('Folder Created!!')
+});
 
 
 // deleting files
