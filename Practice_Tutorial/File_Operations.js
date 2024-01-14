@@ -36,4 +36,7 @@ const fs =require('fs');
 // }
 
 
+
+
 // deleting files
+if(fs.existsSync())
