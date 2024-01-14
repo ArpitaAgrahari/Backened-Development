@@ -7,3 +7,5 @@ console.log(people,ages);
 
 // console.log(a.people,a.ages);
 
+const os = require('os');
+console.log(os.platform(),os.homedir());
