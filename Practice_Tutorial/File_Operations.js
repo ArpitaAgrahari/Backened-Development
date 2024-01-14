@@ -12,9 +12,14 @@ const fs =require('fs');
 
 
 // Writing files
+// fs.writeFile('E:\\Backened Development\\Practice_Tutorial\\docs\\blog.txt',  'hello world',()=>{
+//     console.log("File was Written");
+// });
+
 
 
 // directories
+
 
 
 // deleting files
