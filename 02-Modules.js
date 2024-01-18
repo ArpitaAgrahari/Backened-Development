@@ -5,6 +5,6 @@
 // //to create error msg
 // console.error(new Error("Error happened!!"));
 
-//warning msg
+//warning msg 
 const name ="Arpita";
 console.warn(`Don't mess with me ${name}!!!`);
