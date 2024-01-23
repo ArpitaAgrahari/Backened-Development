@@ -34,4 +34,17 @@
 // }
 
 
-//
+// const name = ["Aru","Arpita"];
+// let i = 0;
+// while(name[i]){
+//     console.log("The name is:"+i);
+//     i++;
+// }
+
+
+//DO...WHILE 
+let i=0;
+do{
+    console.log("the iteration is:" +i);
+    i++;
+}while(i<=5);
