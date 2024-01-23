@@ -1,0 +1,21 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h2>LOOPing in Javascript</h2>
+        <p id="demo"></p>
+        <script>
+            const name=["Aru","Harsh","Iram"];
+            let flen = name.length;
+
+            let text = "<ul>";
+                for(let i= 0;i<flen;i++){
+                    text+="<li>"+name[i]+"</li>";
+                }
+                text +="</ul>";
+                
+                document.getElementById("demo").innerHTML = text;
+        </script>
+    </body>
+</html>
