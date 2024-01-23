@@ -14,7 +14,7 @@
 
 
 
-//Cotinue comdition in LOOping
+//Continue comdition in LOOping
 
 // let i = 0;
 // for(i = 0;i<=5;i++){
