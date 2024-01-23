@@ -42,7 +42,7 @@
 // }
 
 
-//DO...WHILE 
+//DO...WHILE : in this once atleast code is excuted.
 let i=0;
 do{
     console.log("the iteration is:" +i);
