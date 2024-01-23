@@ -14,3 +14,19 @@
 // if(new Date().getHours()<18){
 //     console.log("Good Day!!");
 // }
+
+
+//if else condition
+
+// const hour = new Date().getHours();
+// let greeting;
+
+// if(hour<18){
+//     greeting = "Good Day!!";
+// }else{
+//     greeting = "Good Evening!!";
+// }
+// document.getElementById("demo").innerHML = greeting;
+
+
+//if else
