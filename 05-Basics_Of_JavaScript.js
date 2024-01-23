@@ -42,16 +42,41 @@
 
 
 //switch statwement
-let a = 3;
-switch(a){
+// let a = 3;
+// switch(a){
+//     case 1:
+//         console.log("Hey!! I am 1");
+//         break;
+//     case 2:
+//         console.log("hey!! I am 2");
+//         break;
+//     case 3:
+//         console.log("hey!! I am 3");
+//     dafault:
+//         console.log("Hey!! I am deafult");
+// }
+
+
+let day = 0;
+switch(day){
+    case 0:
+        console.log("Sunday");
+        break;
     case 1:
-        console.log("Hey!! I am 1");
+        console.log("Monday");
         break;
     case 2:
-        console.log("hey!! I am 2");
+        console.log("Tuesday");
         break;
     case 3:
-        console.log("hey!! I am 3");
-    dafault:
-        console.log("Hey!! I am deafult");
+        console.log("wednesday");
+        break;
+    case 4:
+        console.log("Thursday");
+        break;
+    case 5:
+        console.log("Friday");
+        break;
+    case 6:
+        console.log("Saturday");
 }
