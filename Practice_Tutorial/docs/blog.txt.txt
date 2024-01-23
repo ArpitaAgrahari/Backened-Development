@@ -1,1 +1,7 @@
-Hello,my name is Arpita.
+22 jan - 31 jan = linked list with questions
+1 feb -  7feb  = stack 
+8feb - 15 feb = queue
+16 feb - 25 feb = tree
+most probably end of feb = DSA complete
+Daily practice 3-4 questions on leetcode
+ 
