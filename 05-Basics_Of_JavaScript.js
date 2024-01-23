@@ -30,11 +30,12 @@
 
 
 //if else if
-let a = 5;
-if(a >5){
-    console.log("Hi!!");
-}else if(a<5){
-    console.log("Hey!!");
-}else {
-    console.log("Hello!!");
-}
+// let a = 5;
+// if(a >5){
+//     console.log("Hi!!");
+// }else if(a<5){
+//     console.log("Hey!!");
+// }else {
+//     console.log("Hello!!");
+// }
+
