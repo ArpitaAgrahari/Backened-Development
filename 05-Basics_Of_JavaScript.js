@@ -39,3 +39,19 @@
 //     console.log("Hello!!");
 // }
 
+
+
+//switch statwement
+let a = 3;
+switch(a){
+    case 1:
+        console.log("Hey!! I am 1");
+        break;
+    case 2:
+        console.log("hey!! I am 2");
+        break;
+    case 3:
+        console.log("hey!! I am 3");
+    dafault:
+        console.log("Hey!! I am deafult");
+}
