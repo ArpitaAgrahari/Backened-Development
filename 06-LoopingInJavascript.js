@@ -23,3 +23,12 @@
 //         continue;
 //     }
 // }
+
+
+//WHILE syntax
+
+let i = 0;
+while(i<=7){
+    console.log("Hey!! I am here!!")
+    i++;
+}
