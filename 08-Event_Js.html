@@ -4,16 +4,18 @@
             
     </head>
     <body>
+        <button id="myBtn">Try it</button>
+        <p id="demo"></p>
         <script type="text/javascript">
             var x = document.getElementById("myBtn");
-            x.addEventListener("MouseOver",myFunction);
-            x.addEventListener("Clicke",mySecondFucntion);
-            x.addEventListener("mouse out!!",myThirdFunction);
+            x.addEventListener("mouseover",myFunction);
+            x.addEventListener("click",mySecondFucntion);
+            x.addEventListener("mouseout",myThirdFunction);
         function myFunction(){
                 document.getElementById("demo").innerHTML += "Moused over!<br>";
             }
             function mySecondFucntion(){
-                document.getElementById("demo").innerHTML += "CLicked!<br>";
+                document.getElementById("demo").innerHTML += "Clicked!<br>";
             }
             function myThirdFunction(){
                 document.getElementById("demo").innerHTML += "Moused out!<br>";
