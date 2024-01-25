@@ -13,13 +13,27 @@
         </script> -->
 
         <!-- object instance method -->
-        <script>
+        <!-- <script>
             var emp = new Object();
             emp.id=101;
             emp.name="Aarav";
             emp.salary=50000;
             document.write(emp.id+" "+emp.name+" "+emp.salary);
 
+        </script> -->
+
+        <!-- object instamce with this operator -->
+        <p id ="demo"></p>
+        <script>
+            const person={
+                firstName:"Arpita",
+                lastName:"Agrahari",
+                id: 12218430,
+                fullName: function(){
+                    return this.firstName+" "+this.lastName;
+                }
+            };
+            document.getElementById("demo").innerHTML = person.fullName;
         </script>
     </body>
 </html>
