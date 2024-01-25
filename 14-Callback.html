@@ -1,12 +1,15 @@
 <html>
     <body>
+        <p id="demo"></p>
         <script>
-            function myDisplayer(a){
-                document.getElementById("demo").innerHTMl=something;
+            function myDisplayer(something){
+                document.getElementById("demo").innerHTML=something;
             }     
             function myCalculator(num1,num2,myCallBack){
                 let sum =num1+num2;
+                myCallBack(sum);
             }
+            myCalculator(5,5,myDisplayer);
               </script>
     </body>
 </html>
