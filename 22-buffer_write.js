@@ -15,5 +15,5 @@ fs.open('input.txt','r+',function(err,fd){
         if(bytes>0){
             console.log(buf.slice(0,bytes).toString());
         }
-    })
+    });
 });
