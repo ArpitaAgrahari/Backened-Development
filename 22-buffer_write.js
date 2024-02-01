@@ -13,7 +13,7 @@ fs.open('input.txt','r+',function(err,fd){
         }
         console.log(bytes +"bytes read");
         if(bytes>0){
-            console.log()
+            console.log(buf.slice(0,bytes).toString());
         }
     })
 });
