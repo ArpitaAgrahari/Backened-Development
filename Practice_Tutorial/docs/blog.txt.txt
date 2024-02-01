@@ -5,3 +5,17 @@
 most probably end of feb = DSA complete
 Daily practice 3-4 questions on leetcode
  
+
+cpp - mid term feb ke end week toh mtlb reappear feb ke end term ke aas paas hoga .
+so i have one month left to prepare
+cpp - ca's
+
+sorting, searching,constructor destructor,inheritence,
+
+https://www.w3resource.com/cpp-exercises/oop/index.php
+
+https://www.codesdope.com/practice/cpp-classes-and-objects/
+
+https://www.geeksforgeeks.org/c-plus-plus-gq/class-and-object-gq/
+
+https://www.w3resource.com/cpp-exercises/
