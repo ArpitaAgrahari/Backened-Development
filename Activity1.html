@@ -20,7 +20,17 @@
         </tr>
     </table>
     <script>
-
+        function submitForm(){
+            var name=document.getElementById("name").value;
+            var age=document.getElementById("age").value;
+            var data = [name,age];
+            var table = document.getElementById("myTable");
+            var row=table.insertRow();
+            for(var i=0;i<data.length;i++){
+                var cell = row.insertCell(i);
+                cell.innerHTML = data[i];
+            }
+        }
     </script>
     </body>
 </html>
