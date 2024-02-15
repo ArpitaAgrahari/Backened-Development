@@ -16,3 +16,7 @@ fs.writeFile('input.txt','Simple learning!!',function(err){
 });
 
 
+
+
+var writer = fs.createWriteStream('text');
+var reader0 = fs.careet 
