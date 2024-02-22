@@ -5,7 +5,7 @@ app.use(express.static('public'));
 app.get('/01-index.html', function (req, res) {  
    res.sendFile( __dirname + "/" + "01-index.html" );  
 })  
-app.get('/process_get', function (req, res) {  
+app.get('/get_example', function (req, res) {  
 response = {  
        first_name:req.query.first_name,  
        last_name:req.query.last_name  
