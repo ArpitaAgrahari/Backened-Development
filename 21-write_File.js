@@ -14,9 +14,3 @@ fs.writeFile('input.txt','Simple learning!!',function(err){
         console.log("Asyn read: "+data.toString());
     });
 });
-
-
-
-
-var writer = fs.createWriteStream('text');
-var reader0 = fs.careet 
