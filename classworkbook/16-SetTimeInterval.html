@@ -1,0 +1,14 @@
+<html>
+    <body>
+        <script>
+            function waitAndshow(){
+                var systemdate = new Date();
+                document.getElementById("clock").innerHTML = systemdate.toLocaleTimeString()
+            }
+            setInterval(waitAndshow,4000);
+        </script>
+        <h3>Updated time</h3>
+        <h3>The current time:
+        <span id="clock"></span></h3>
+    </body>
+</html>
