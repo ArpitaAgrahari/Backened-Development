@@ -7,13 +7,6 @@ app.use(express.json());  //middleware for parsing
 
 
 
-app.listen(PORT, ()=>{
-    console.log(`server is running on ${PORT}`);
-});
-
-
-
-
 let todo=[];
 const {v4:uuidv4}=require('uuid');
 
@@ -48,15 +41,15 @@ app.get('/gettodo',(req,res)=>{
 //updating todo
 
 app.put('/todo/:id',(req,res)=>{
-    const id=req.params;
+    const {id}=req.params;
     const {title,completed}=req.body;
 
 
     const todos=todo.find(t=>t.id===id);
     if(!todos) return res.status(404).json({error: 'todo not found'});
 
-    if(title !== undefined) todo.title=title;
-    if(completed!==undefined) todo.completed=completed;
+    if (title !== undefined) item.title = title;
+if (completed !== undefined) item.completed = completed;
 
     res.json(todo);
 });
@@ -76,7 +69,8 @@ app.delete('/todo/:id',(req,res)=>{
 
 
 app.use((req,res,next)=>{
-
+    console.log(`${req.method} ${req.url}`);
+    next();
 })
 
 //normal syntax of middleware
@@ -85,3 +79,12 @@ app.use((req,res,next)=>{
 //   // Do something
 //   next(); // Pass control to the next middleware or route handler
 // }
+
+
+
+
+
+app.listen(PORT, ()=>{
+    console.log(`server is running on ${PORT}`);
+});
+
