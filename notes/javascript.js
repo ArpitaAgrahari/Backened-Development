@@ -154,3 +154,12 @@ function canVote1(age) {
 
 canVote1(20); // Yes, you can vote
 canVote1(15); // No, you can't vote
+
+
+let age = 19;
+
+if (age >= 18) {
+    console.log("Yes, you can vote");
+} else {
+    console.log("No, you can't vote");
+}
