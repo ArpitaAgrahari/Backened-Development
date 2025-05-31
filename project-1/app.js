@@ -3,6 +3,9 @@ const app=express();
 
 const PORT=8000
 
+app.use(express.json());  //middleware for parsing
+
+
 app.get('/', (req,res)=>{
     res.send('this is home page');
 })
@@ -18,3 +21,4 @@ app.get('/contact',(req,res)=>{
 app.listen(PORT, ()=>{
     console.log(`server is running on ${PORT}`);
 });
+
