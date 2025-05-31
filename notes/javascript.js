@@ -348,3 +348,9 @@ function getEligibleUsers(users) {
 
 let allUsers = getEligibleUsers(users);
 console.log(allUsers); 
+
+
+
+https://www.freecodecamp.org/news/learn-javascript-for-beginners/
+https://medium.com/@pratyushatrivedi/javascript-behind-the-scenes-dc1469511ada    //must read
+https://www.freecodecamp.org/news/how-javascript-works-behind-the-scenes/
