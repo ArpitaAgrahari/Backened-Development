@@ -34,3 +34,84 @@ console.log(ans); // 55
 
 
 
+// Syncronous code - code that runs line by line and waits for the current line to finish before moving to the next line
+
+// function to calculate the sum of numbers from 1 to n
+function sum(num) {
+    // variable to store the sum
+	let ans = 0;
+
+    // loop to iterate from 1 to n 
+	for (let i = 1; i <= num; i++) {
+        // adding the current number to the sum
+		ans = ans + i
+	}
+
+    // returning the sum of numbers from 1 to n
+	return ans;
+}
+
+// calling the function and storing the result in a variable
+const ans1 = sum(10);
+// printing the result
+console.log(ans1); // 55
+
+// calling the function and storing the result in a variable
+const ans2 = sum(100);
+// printing the result
+console.log(ans2); // 5050
+
+// calling the function and storing the result in a variable
+const ans3 = sum(1000); 
+// printing the result
+console.log(ans3); // 500500
+
+
+
+
+// fs is stands for file system used to read and write files in your local system 
+
+// import an external fs module
+const fs = require('fs');
+
+// read file a.txt and store its content in contents variable
+const contents = fs.readFileSync("a.txt", "utf-8"); // synchronous way of reading file
+
+// print the contents of the file 
+console.log(contents); 
+
+
+
+// fs is stands for file system used to read and write files in your local system 
+
+// import an external fs module
+const fs = require('fs');
+
+// read file a.txt & b.txt and store its content in contents variable
+const contents = fs.readFileSync("a.txt", "utf8") + fs.readFileSync("b.txt", "utf-8");
+
+// print the contents of the file 
+console.log(contents); 
+
+// read file a.txt and store its content in contents1 variable
+const contents1 = fs.readFileSync("a.txt", "utf8"); 
+
+// read file b.txt and store its content in contents2 variable
+const contents2 = fs.readFileSync("b.txt", "utf8");
+
+// print the contents of the file
+console.log(contents1); 
+console.log(contents2);
+
+
+
+// create a variable ans and set it to 0 
+let ans = 0;
+
+// loop through 1 to 1000000 and add each number to ans
+for (let i = 1; i <= 1000000; i++) {
+	ans = ans + i
+}
+
+// print the value of ans
+console.log(ans); // 500000500000
