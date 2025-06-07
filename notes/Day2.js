@@ -193,6 +193,9 @@ function divide(a, b) {
   return a / b;
 }
 
+
+
+
 // function to do an operation on two numbers
 function doOperation(a, b, op) {
   // return op(a, b);
@@ -314,6 +317,8 @@ function timeout() {
 }
 
 console.log("Hi!");
+
+
 
 // IO task 
 setTimeout(timeout, 1000);
