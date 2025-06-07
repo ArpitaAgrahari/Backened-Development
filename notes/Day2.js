@@ -306,3 +306,54 @@ function timeout() {
 setTimeout(timeout, 1000);
 
 console.log("Welcome to Loupe!");
+
+
+
+function timeout() {
+  console.log("Click the button!");
+}
+
+console.log("Hi!");
+
+// IO task 
+setTimeout(timeout, 1000);
+
+console.log("Welcome to Loupe!");
+
+let c = 0;
+
+// CPU intensive task
+for (let i = 0; i < 10000000000; i++) {
+    c = c + 1;
+}
+
+console.log("Expensive operation done!");
+
+
+
+
+/**
+ * Call Stack
+ *  - A call stack is a mechanism for an interpreter to keep track of its place in a script that calls multiple functions.
+ *  - When a script calls a function, the interpreter adds it to the call stack and then starts executing the function.
+ */
+
+// function to print First to the console
+function first() {
+  console.log("First");
+}
+
+// function to call first function and print Second to the console
+function second() {
+  // call first function
+  first();
+
+  // print Second to the console
+  console.log("Second");
+}
+
+// call second function
+second();
+
+
+
