@@ -281,3 +281,26 @@ setTimeOutPromisified(3000).then(promiseCallback); // Output: 3 Seconds have Pas
 
 
 
+/**
+ * 1. logs hi after 1 second
+ * 2. logs hello 3 seconds after step 1
+ * 3. logs hello there 5 seconds after step 2
+ */
+
+/*
+// callback hell example - nested callbacks 
+setTimeout(function () {
+  // print hi after 1 second
+  console.log("hi");
+
+  // print hello after 3 seconds
+  setTimeout(function () {
+    console.log("hello");
+
+    // print hello there after 5 seconds
+    setTimeout(function () {
+      console.log("hello there");
+    }, 5000);
+  }, 3000);
+}, 1000);
+*/
