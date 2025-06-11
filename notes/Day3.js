@@ -173,7 +173,7 @@ console.log(circle1.getDescription()); // Output: A circle with radius 5 and col
 const date = new Date();
 
 // Print the current date and time
-console.log(date); // Output: 2024-08-11T15:13:47.818Z
+console.log(date); // Output: 2025-06-11+T15:13:47.818Z
 
 // print the current year
 console.log(date.getFullYear());  
@@ -192,3 +192,26 @@ console.log(date.getHours());
 
 // print the current minutes
 console.log(date.getMinutes()); 
+
+
+
+// create a map object with key-value pairs
+const map = new Map();
+
+// Set key-value pairs in the map object
+map.set('name', 'Bharat');
+map.set('age', 21);
+
+// Log the map object
+console.log(map); // Output: Map(2) { 'name' => 'Bharat', 'age' => 21 }
+
+// Get the value of the key 'name' and 'age' from the map object
+console.log(map.get('name')); // Output: Bharat
+console.log(map.get('age')); // Output: 21
+
+
+
+
+
+
+
