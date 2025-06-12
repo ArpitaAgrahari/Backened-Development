@@ -1,0 +1,8 @@
+.square {
+    height: 100px;
+    width: 200px;
+    background-color: slategray;
+    display: grid;
+    place-items: center; /* centers content inside */
+    margin: auto;        /* centers the .square itself horizontally */
+}
