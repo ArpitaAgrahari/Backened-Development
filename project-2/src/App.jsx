@@ -53,20 +53,53 @@
 
 //NESTED COMPONENTS
 
-function Greeting(){
-  return (
-    <div>
-      <Person/>
-      <Message/>
-    </div>
+// function Greeting(){
+//   return (
+//     <div>
+//       <Person/>
+//       <Message/>
+//     </div>
+//   );
+// }
+
+// const Person = () => <h2>Johnn Joe</h2>
+// const Message = () => {
+//   return <p>this is my message</p>
+// }
+
+// export default Greeting;
+
+
+
+
+
+
+
+function BookList(){
+  return(
+    <section>
+      <Book/>
+      <Book/>
+      <Book/>
+      <Book/>
+    </section>
   );
 }
 
-const Person = () => <h2>Johnn Joe</h2>
-const Message = () => {
-  return <p>this is my message</p>
+const Book = () =>{
+  return(
+    <article>
+      <Image/>
+      <Title/>
+      <Author/>
+    </article>
+  );
+}
+const Image = ()=>{
+  return <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s" alt="Book Image" />
 }
 
-export default Greeting;
+const Title= ()=> <h1>A Single Spy</h1>;
+const Author = () => <h1>William Christie</h1>
 
-
+export default BookList;
