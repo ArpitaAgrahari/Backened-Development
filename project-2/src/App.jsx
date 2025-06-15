@@ -73,7 +73,7 @@
 
 
 
-
+import './App.css';
 
 function BookList(){
   return(
@@ -85,7 +85,6 @@ function BookList(){
     </section>
   );
 }
-
 const Book = () =>{
   return(
     <article>
@@ -98,7 +97,6 @@ const Book = () =>{
 const Image = ()=>{
   return <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s" alt="Book Image" />
 }
-
 const Title= ()=> <h1>A Single Spy</h1>;
 const Author = () => <h1>William Christie</h1>
 
