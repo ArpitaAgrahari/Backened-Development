@@ -494,31 +494,148 @@
 
 
 
-//Event Basics
-//attributes , eventhandlers
+// //Event Basics
+// //attributes , eventhandlers
+// import './App.css';
+// const books=[
+//       {
+//         id:1,
+//         img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//         title: 'A Single Spy',
+//         author: 'William Christie'
+//       },
+//       {
+//         id:2,
+//         img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//         title: 'Spy',
+//         author: 'William'
+//       },
+// ]
 
+// function BookList(){
+//   return(
+//     <section className='booklist'>
+//       {books.map((book)=>{
+//         return (
+//           //key props 
+//           <Book key={book.id} book={book}></Book>
+//         );
+//       })}
+//     </section>
+//   );
+// }
+// const Book =(props)=>{
+//   const {img,title,author}=props.book;
+
+//   //handler
+//   const clickHandler=()=>{
+//     alert('Button is clicked');
+//   }
+
+//    //we can invoke event as argudment as well
+//   const eventclickHandler=(e)=>{
+//     console.log(e);
+//     console.log(e.target);
+//     alert('Event argument Button is clicked');
+//   }
+
+
+//   //more compelex handler
+//   // it will work the moment we render 
+//   //the moment we render it will get invoked and print the all auhors
+//   const moreclickHandler=(author)=>{
+//     console.log(author);
+//   }
+
+//   return(
+//     <article className="book">
+//       <img src={img} alt="Book Image" />
+//       {/* on lcik on title console will also log the title  - using inline functionalyt*/}
+//       <h1 onClick={()=>console.log(title)}>{title}</h1>
+//       <h4>{author}</h4>
+
+//       {/*onclick on mousehover using reference of click Handler*/}
+//       <button type="button" onClick={clickHandler}>On click Event Handler</button>
+//     {/* invoked event as argument */}
+//       <button type="button" onClick={eventclickHandler}>On click Event Handler</button>
+
+//       {/*  here we invoked the moreclickHandler fucntion */}
+//       <button type="btn" onClick={moreclickHandler}>More complex Button</button>
+
+//       {/* so to get only when we click we have to use arrow fucnction ;
+//       if ther is condiiton where we must pass the argument into fun first setup arrwofucntion*/}
+//       <button type="btn" onClick={() => moreclickHandler(author)}>Modified complex Button</button>
+//     </article>
+//   );
+// }
+// export default BookList;
+
+
+
+
+
+
+
+// //OnMOUSEOVER -***
+// import './App.css';
+// const books=[
+//       {
+//         id:1,
+//         img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//         title: 'A Single Spy',
+//         author: 'William Christie'
+//       },
+// ]
+
+// function BookList(){
+//   return(
+//     <section className='booklist'>
+//       {books.map((book)=>{
+//         return (
+//           <Book key={book.id} book={book}></Book>
+//         );
+//       })}
+//     </section>
+//   );
+// }
+// const Book =(props)=>{
+//   const {img,title,author}=props.book;
+//   const clickHandler=()=>{
+//     alert('Button is clicked');
+//   }
+//   return(
+//     // we are using mouseover by imliplicty ways to event handle
+//     <article className="book" onMouseOver={()=>{
+//       console.log(title);
+//     }}>
+//       <img src={img} alt="Book Image" />
+//       <h1 onClick={()=>console.log(title)}>{title}</h1>
+//       <h4>{author}</h4>
+//       <button type="button" onClick={clickHandler}>On click Event Handler</button>
+//     </article>
+//   );
+// }
+// export default BookList;
+
+
+
+
+
+
+
+
+
+
+//IMPORT AND EXPORT STATEMENTS
 import './App.css';
-const books=[
-      {
-        id:1,
-        img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
-        title: 'A Single Spy',
-        author: 'William Christie'
-      },
-      {
-        id:2,
-        img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
-        title: 'Spy',
-        author: 'William'
-      },
-]
+//to import the books.jsx
+import books from '../Components/books';
 
 function BookList(){
   return(
     <section className='booklist'>
       {books.map((book)=>{
         return (
-          //key props 
           <Book key={book.id} book={book}></Book>
         );
       })}
@@ -527,21 +644,26 @@ function BookList(){
 }
 const Book =(props)=>{
   const {img,title,author}=props.book;
-
-  //handler
   const clickHandler=()=>{
     alert('Button is clicked');
   }
-
   return(
-    <article className="book">
+    <article className="book" onMouseOver={()=>{
+      console.log(title);
+    }}>
       <img src={img} alt="Book Image" />
-      {/* on lcik on title console will also log the title  - using inline functionalyt*/}
       <h1 onClick={()=>console.log(title)}>{title}</h1>
       <h4>{author}</h4>
-      {/*onclick on mousehover using reference of click Handler*/}
       <button type="button" onClick={clickHandler}>On click Event Handler</button>
     </article>
   );
 }
 export default BookList;
+
+
+
+
+
+
+
+
