@@ -110,6 +110,13 @@
 
 import './App.css';
 
+
+//setup  vars
+
+const title='A Single Spy'
+const author='William Christie'
+const img='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s'
+
 function BookList(){
   return(
     <section class='booklist'>
@@ -119,14 +126,13 @@ function BookList(){
 }
 const Book = () =>{
 
-  const title='A Single Spy'
-  const author='William Christie'
 
   return(
     <article class="book">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s" alt="Book Image" />
+      <img src={img} alt="Book Image" />
       <h1>{title}</h1>
-      <h1 style={{color:'#617d98',fontSize:'0.75rem',marginTop:'0.25rem'}}>{author}</h1>
+      {/* <h1 style={{color:'#617d98',fontSize:'0.75rem',marginTop:'0.25rem'}}>{author}</h1> */}
+      <h4>{author}</h4>
       {/* to upper case auhtor name*/}
       {/* <h1 style={{color:'#617d98',fontSize:'0.75rem',marginTop:'0.25rem'}}>{author.toUpperCase()}</h1> */}
       <p>{6+6}</p>
