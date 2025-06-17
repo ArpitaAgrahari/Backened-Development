@@ -420,7 +420,6 @@ function BookList(){
   return(
     <section class='booklist'>
       {books.map((book)=>{
-        const {img,title,author}=book;
         return (
           <Book book={book}></Book>
         );
