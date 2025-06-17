@@ -77,7 +77,7 @@ import './App.css';
 
 function BookList(){
   return(
-    <section>
+    <section class='booklist'>
       <Book/>
       <Book/>
       <Book/>
@@ -87,7 +87,7 @@ function BookList(){
 }
 const Book = () =>{
   return(
-    <article>
+    <article class="book">
       <Image/>
       <Title/>
       <Author/>
