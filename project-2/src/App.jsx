@@ -185,6 +185,57 @@
 
 //object and props for each book
 
+// import './App.css';
+// const firstBook={
+//   img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//   title: 'A Single Spy',
+//   author: 'William Christie'
+// }
+// const secondBook={
+//   img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//   title: 'Spy',
+//   author: 'William'
+// }
+// function BookList(){
+//   return(
+//     <section class='booklist'>
+//       <Book 
+//         img={firstBook.img} 
+//         title={firstBook.title}
+//         author={firstBook.author}
+//       />
+//       <Book 
+//         img={secondBook.img} 
+//         title={secondBook.title} 
+//         author={secondBook.author}
+//       />
+//       <Book 
+//         title='random book title' 
+//         author='author'
+//       />
+//     </section>
+//   );
+// }
+// const Book = (props) =>{
+//   return(
+//     <article class="book">
+//       <img src={props.img} alt="Book Image" />
+//       <h1>{props.title}</h1>
+//       <h4>{props.author}</h4>
+//     </article>
+//   );
+// }
+// export default BookList;
+
+
+
+
+
+
+
+
+//PROPS DESTRCUTURING
+
 import './App.css';
 
 const firstBook={
@@ -192,7 +243,6 @@ const firstBook={
   title: 'A Single Spy',
   author: 'William Christie'
 }
-
 const secondBook={
   img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
   title: 'Spy',
@@ -218,14 +268,18 @@ function BookList(){
     </section>
   );
 }
-const Book = (props) =>{
+
+// const Book = (props) =>{
+//   const {img,title,author}=props;
+
+//   //OR
+const Book =({img,title,author})=>{
   return(
     <article class="book">
-      <img src={props.img} alt="Book Image" />
-      <h1>{props.title}</h1>
-      <h4>{props.author}</h4>
+      <img src={img} alt="Book Image" />
+      <h1>{title}</h1>
+      <h4>{author}</h4>
     </article>
   );
 }
-
 export default BookList;
