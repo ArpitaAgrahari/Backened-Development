@@ -71,6 +71,9 @@
 
 
 
+
+
+
 //ONE WAY
 
 // import './App.css';
@@ -137,16 +140,16 @@
 //     </article>
 //   );
 // }
-
 // export default BookList;
 
 
 
 
 
+
+
+
 // //props including 
-
-
 
 // import './App.css';
 
@@ -287,49 +290,150 @@
 
 
 
-//Children Props
+// //Children Props
+// import './App.css';
+// const firstBook={
+//   img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//   title: 'A Single Spy',
+//   author: 'William Christie'
+// }
+// const secondBook={
+//   img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//   title: 'Spy',
+//   author: 'William'
+// }
+// function BookList(){
+//   return(
+//     <section class='booklist'>
+//       <Book 
+//         img={firstBook.img} 
+//         title={firstBook.title}
+//         author={firstBook.author}
+//       >
+//         <p>
+//           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, quos impedit adipisci id deleniti soluta odit maxime officia atque odio suscipit aspernatur numquam ullam corporis facilis
+//         </p>
+//       </Book>
+//       <Book 
+//         img={secondBook.img} 
+//         title={secondBook.title} 
+//         author={secondBook.author}
+//       />
+//       <Book 
+//         title='random book title' 
+//         author='author'
+//       />
+//     </section>
+//   );
+// }
+// //adding children props 
+// const Book =({img,title,author,children})=>{
+//   return(
+//     <article class="book">
+//       <img src={img} alt="Book Image" />
+//       {/* add children wherever u like */}
+//       {children}
+//       <h1>{title}</h1>
+//       <h4>{author}</h4>
+      
+//     </article>
+//   );
+// }
+// export default BookList;
+
+
+
+
+
+
+// import './App.css';
+
+// //now we cannot always make diff vars foe ach book so instead we will use array of objects
+// const books=[
+//       {
+//         img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//         title: 'A Single Spy',
+//         author: 'William Christie'
+//       },
+//       {
+//         img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//         title: 'Spy',
+//         author: 'William'
+//       },
+// ]
+
+
+// //so we created a name array 
+// const names=['john','peter','susan']
+// //to access the array we are going to map the names  to iterate over a array 
+// const newNames=names.map((name)=>{
+//   return <h1>{name}</h1>
+// });
+// console.log(newNames);
+
+
+// function BookList(){
+//   return(
+//     <section class='booklist'>
+//       {newNames}
+//     </section>
+//   );
+// }
+// const Book =({img,title,author})=>{
+//   return(
+//     <article class="book">
+//       <img src={img} alt="Book Image" />
+//       <h1>{title}</h1>
+//       <h4>{author}</h4>
+      
+//     </article>
+//   );
+// }
+// export default BookList;
+
+
+
+
+
+
+
+
+//passing props wiht array of data 
 import './App.css';
-const firstBook={
-  img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
-  title: 'A Single Spy',
-  author: 'William Christie'
-}
-const secondBook={
-  img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
-  title: 'Spy',
-  author: 'William'
-}
+
+//now we cannot always make diff vars foe ach book so instead we will use array of objects
+const books=[
+      {
+        img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+        title: 'A Single Spy',
+        author: 'William Christie'
+      },
+      {
+        img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+        title: 'Spy',
+        author: 'William'
+      },
+]
+
+
 function BookList(){
   return(
     <section class='booklist'>
-      <Book 
-        img={firstBook.img} 
-        title={firstBook.title}
-        author={firstBook.author}
-      >
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, quos impedit adipisci id deleniti soluta odit maxime officia atque odio suscipit aspernatur numquam ullam corporis facilis
-        </p>
-      </Book>
-      <Book 
-        img={secondBook.img} 
-        title={secondBook.title} 
-        author={secondBook.author}
-      />
-      <Book 
-        title='random book title' 
-        author='author'
-      />
+      {books.map((book)=>{
+        const {img,title,author}=book;
+        return (
+          <Book book={book}></Book>
+        );
+      })}
     </section>
   );
 }
-//adding children props 
-const Book =({img,title,author,children})=>{
+
+const Book =(props)=>{
+  const {img,title,author}=props.book;
   return(
     <article class="book">
       <img src={img} alt="Book Image" />
-      {/* add children wherever u like */}
-      {children}
       <h1>{title}</h1>
       <h4>{author}</h4>
       
