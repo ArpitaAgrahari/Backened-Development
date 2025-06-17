@@ -398,44 +398,149 @@
 
 
 
-//passing props wiht array of data 
-import './App.css';
+// //passing props wiht array of data 
+// import './App.css';
 
-//now we cannot always make diff vars foe ach book so instead we will use array of objects
+// //now we cannot always make diff vars foe ach book so instead we will use array of objects
+// const books=[
+//       {
+//         img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//         title: 'A Single Spy',
+//         author: 'William Christie'
+//       },
+//       {
+//         img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//         title: 'Spy',
+//         author: 'William'
+//       },
+// ]
+
+// function BookList(){
+//   return(
+//     <section class='booklist'>
+//       {books.map((book)=>{
+//         return (
+//           <Book book={book}></Book>
+//         );
+//       })}
+//     </section>
+//   );
+// }
+
+// const Book =(props)=>{
+//   const {img,title,author}=props.book;
+//   return(
+//     <article class="book">
+//       <img src={img} alt="Book Image" />
+//       <h1>{title}</h1>
+//       <h4>{author}</h4>
+      
+//     </article>
+//   );
+// }
+// export default BookList;
+
+
+
+
+
+
+
+//key props and spread operator
+// import './App.css';
+// const books=[
+//       {
+//         id:1,
+//         img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//         title: 'A Single Spy',
+//         author: 'William Christie'
+//       },
+//       {
+//         id:2,
+//         img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//         title: 'Spy',
+//         author: 'William'
+//       },
+// ]
+
+// function BookList(){
+//   return(
+//     <section className='booklist'>
+//       {books.map((book)=>{
+//         return (
+//           //key props 
+//           <Book key={book.id} book={book}></Book>
+//         );
+//       })}
+//     </section>
+//   );
+// }
+// const Book =(props)=>{
+//   const {img,title,author}=props.book;
+//   return(
+//     <article className="book">
+//       <img src={img} alt="Book Image" />
+//       <h1>{title}</h1>
+//       <h4>{author}</h4>
+      
+//     </article>
+//   );
+// }
+// export default BookList;
+
+
+
+
+
+
+
+//Event Basics
+//attributes , eventhandlers
+
+import './App.css';
 const books=[
       {
+        id:1,
         img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
         title: 'A Single Spy',
         author: 'William Christie'
       },
       {
+        id:2,
         img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
         title: 'Spy',
         author: 'William'
       },
 ]
 
-
 function BookList(){
   return(
-    <section class='booklist'>
+    <section className='booklist'>
       {books.map((book)=>{
         return (
-          <Book book={book}></Book>
+          //key props 
+          <Book key={book.id} book={book}></Book>
         );
       })}
     </section>
   );
 }
-
 const Book =(props)=>{
   const {img,title,author}=props.book;
+
+  //handler
+  const clickHandler=()=>{
+    alert('Button is clicked');
+  }
+
   return(
-    <article class="book">
+    <article className="book">
       <img src={img} alt="Book Image" />
-      <h1>{title}</h1>
+      {/* on lcik on title console will also log the title  - using inline functionalyt*/}
+      <h1 onClick={()=>console.log(title)}>{title}</h1>
       <h4>{author}</h4>
-      
+      {/*onclick on mousehover using reference of click Handler*/}
+      <button type="button" onClick={clickHandler}>On click Event Handler</button>
     </article>
   );
 }
