@@ -236,8 +236,61 @@
 
 //PROPS DESTRCUTURING
 
-import './App.css';
+// import './App.css';
+// const firstBook={
+//   img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//   title: 'A Single Spy',
+//   author: 'William Christie'
+// }
+// const secondBook={
+//   img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+//   title: 'Spy',
+//   author: 'William'
+// }
+// function BookList(){
+//   return(
+//     <section class='booklist'>
+//       <Book 
+//         img={firstBook.img} 
+//         title={firstBook.title}
+//         author={firstBook.author}
+//       />
+//       <Book 
+//         img={secondBook.img} 
+//         title={secondBook.title} 
+//         author={secondBook.author}
+//       />
+//       <Book 
+//         title='random book title' 
+//         author='author'
+//       />
+//     </section>
+//   );
+// }
+// // const Book = (props) =>{
+// //   const {img,title,author}=props;
 
+// //   //OR
+// const Book =({img,title,author})=>{
+//   return(
+//     <article class="book">
+//       <img src={img} alt="Book Image" />
+//       <h1>{title}</h1>
+//       <h4>{author}</h4>
+//     </article>
+//   );
+// }
+// export default BookList;
+
+
+
+
+
+
+//Children Props
+
+
+import './App.css';
 const firstBook={
   img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
   title: 'A Single Spy',
@@ -255,7 +308,11 @@ function BookList(){
         img={firstBook.img} 
         title={firstBook.title}
         author={firstBook.author}
-      />
+      >
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, quos impedit adipisci id deleniti soluta odit maxime officia atque odio suscipit aspernatur numquam ullam corporis facilis
+        </p>
+      </Book>
       <Book 
         img={secondBook.img} 
         title={secondBook.title} 
@@ -268,17 +325,16 @@ function BookList(){
     </section>
   );
 }
-
-// const Book = (props) =>{
-//   const {img,title,author}=props;
-
-//   //OR
-const Book =({img,title,author})=>{
+//adding children props 
+const Book =({img,title,author,children})=>{
   return(
     <article class="book">
       <img src={img} alt="Book Image" />
+      {/* add children wherever u like */}
+      {children}
       <h1>{title}</h1>
       <h4>{author}</h4>
+      
     </article>
   );
 }
