@@ -108,34 +108,122 @@
 
 
 
+
+// import './App.css';
+
+// //setup  vars
+// const title='A Single Spy'
+// const author='William Christie'
+// const img='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s'
+
+// function BookList(){
+//   return(
+//     <section class='booklist'>
+//       <Book/>
+//     </section>
+//   );
+// }
+// const Book = () =>{
+
+
+//   return(
+//     <article class="book">
+//       <img src={img} alt="Book Image" />
+//       <h1>{title}</h1>
+//       {/* <h1 style={{color:'#617d98',fontSize:'0.75rem',marginTop:'0.25rem'}}>{author}</h1> */}
+//       <h4>{author}</h4>
+//       {/* to upper case auhtor name*/}
+//       {/* <h1 style={{color:'#617d98',fontSize:'0.75rem',marginTop:'0.25rem'}}>{author.toUpperCase()}</h1> */}
+//     </article>
+//   );
+// }
+
+// export default BookList;
+
+
+
+
+
+// //props including 
+
+
+
+// import './App.css';
+
+// //setup  vars
+// const title='A Single Spy'
+// const author='William Christie'
+// const img='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s'
+
+// function BookList(){
+//   return(
+//     <section className='booklist'>
+//       <Book job='developer'/>
+//       <Book title='randome title' number={22}/>
+//     </section>
+//   );
+// }
+// //props adding
+// const Book = (props) =>{
+//   console.log(props);
+//   return(
+//     <article className="book">
+//       <img src={img} alt="Book Image" />
+//       <h1>{title}</h1>
+//       <h4>{author}</h4>
+//       <p>{props.job}</p>
+//     </article>
+//   );
+// }
+
+// export default BookList;
+
+
+
+
+
+
+//object and props for each book
+
 import './App.css';
 
+const firstBook={
+  img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+  title: 'A Single Spy',
+  author: 'William Christie'
+}
 
-//setup  vars
-
-const title='A Single Spy'
-const author='William Christie'
-const img='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s'
-
+const secondBook={
+  img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJHrQ4nhsrLaoOY0JMhK27pCcFKebdDfKlwg&s',
+  title: 'Spy',
+  author: 'William'
+}
 function BookList(){
   return(
     <section class='booklist'>
-      <Book/>
+      <Book 
+        img={firstBook.img} 
+        title={firstBook.title}
+        author={firstBook.author}
+      />
+      <Book 
+        img={secondBook.img} 
+        title={secondBook.title} 
+        author={secondBook.author}
+      />
+      <Book 
+        title='random book title' 
+        author='author'
+      />
     </section>
   );
 }
-const Book = () =>{
-
-
+const Book = (props) =>{
   return(
     <article class="book">
-      <img src={img} alt="Book Image" />
-      <h1>{title}</h1>
-      {/* <h1 style={{color:'#617d98',fontSize:'0.75rem',marginTop:'0.25rem'}}>{author}</h1> */}
-      <h4>{author}</h4>
-      {/* to upper case auhtor name*/}
-      {/* <h1 style={{color:'#617d98',fontSize:'0.75rem',marginTop:'0.25rem'}}>{author.toUpperCase()}</h1> */}
-      <p>{6+6}</p>
+      <img src={props.img} alt="Book Image" />
+      <h1>{props.title}</h1>
+      <h4>{props.author}</h4>
     </article>
   );
 }
