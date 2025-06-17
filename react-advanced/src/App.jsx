@@ -1,7 +1,12 @@
+//UseState Basics
+import { useState } from "react";
+import './App.css'
+import UseState from "../Components/UseState";
+
 function App(){
   return(
-    <div>
-      <h1>Hello</h1>
+    <div className="container">
+      <UseState/>
     </div>
   );
 }

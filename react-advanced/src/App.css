@@ -1,0 +1,28 @@
+*{
+  background-color: rgb(221, 224, 226);
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+h1{
+  color: rgb(63, 12, 111);
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+  padding: 2px;
+}
+
+.container{
+  width:90vw;
+  margin: 0 auto;
+  max-width: var(--max-width);
+}
+
+.btn{
+  background-color:  rgb(63, 12, 111);
+  color: #fff;
+  border-radius: 5px;
+  align-items: center;
+  padding: 6px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
