@@ -31,38 +31,45 @@
 
 
 
-//Now we will useState to ivercome the re rendering the data chnaged
-import React from 'react';
-import {useState} from 'react';
+// //Now we will useState to ivercome the re rendering the data chnaged
+// import React from 'react';
+// import {useState} from 'react';
 
-const UseState=()=>{
-    // useState is a function*******
-    // this fun return an array of statevalue(can be arrar,number,var,let,any data type) and fun
-    // console.log(useState());
+// const UseState=()=>{
+//     // useState is a function*******
+//     // this fun return an array of statevalue(can be arrar,number,var,let,any data type) and fun
+//     // console.log(useState());
 
-    //example
-    //['hello', ƒ] undefined is now chnaged to hello it can be any data type
-    // console.log(useState('hello'));
+//     //example
+//     //['hello', ƒ] undefined is now chnaged to hello it can be any data type
+//     // console.log(useState('hello'));
 
-    // array destructuring - used to set up in single line
-    const [text, setText]=useState('A spy World');
+//     // array destructuring - used to set up in single line
+//     const [text, setText]=useState('A spy World');
 
-    const handleClick=()=>{
-        if(text=='A spy World'){
-            setText('Spy World!!!')
-            console.log('Title Changed');
-        }else{
-            setText('A spy World')
-        }
-    }
-    return(
-        <React.Fragment>
-            <h1>{text}</h1>
-            <button type='button' className='btn' onClick={handleClick} >Change Button</button>
-        </React.Fragment>
+//     const handleClick=()=>{
+//         if(text=='A spy World'){
+//             setText('Spy World!!!')
+//             console.log('Title Changed');
+//         }else{
+//             setText('A spy World')
+//         }
+//     }
+//     return(
+//         <React.Fragment>
+//             <h1>{text}</h1>
+//             <button type='button' className='btn' onClick={handleClick} >Change Button</button>
+//         </React.Fragment>
 
-    );
-}
+//     );
+// }
 
 
-export default UseState;
+// export default UseState;
+
+
+
+
+
+
+
