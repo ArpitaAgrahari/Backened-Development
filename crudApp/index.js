@@ -12,6 +12,9 @@ dotenv.config();
 //middleware
 app.use(express.json());
 
+//for form type data inputs to post the data in fromat of form in testing we can use a express middleware
+app.use(express.urlencoded({extended: false}));
+
 const MONGO_URI=process.env.MONGO_URI;
 const PORT=3000
 
