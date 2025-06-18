@@ -15,6 +15,10 @@ app.use(express.json());
 //for form type data inputs to post the data in fromat of form in testing we can use a express middleware
 app.use(express.urlencoded({extended: false}));
 
+
+//to import all route
+app.use('api/products', productRoute);
+
 const MONGO_URI=process.env.MONGO_URI;
 const PORT=3000
 
@@ -22,6 +26,8 @@ const PORT=3000
 app.get('/',(req,res)=>{
     res.send('hello from node API');
 });
+
+
 
 
 //to save user data we are using post
@@ -87,6 +93,12 @@ app.delete('/api/deleteproducts/:id',async (req,res)=>{
         res.status(500).json({message:error.message});
     }
 })
+
+
+
+
+
+
 
 //mongoose connectiond
 mongoose.connect(MONGO_URI)
