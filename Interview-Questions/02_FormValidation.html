@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+</head>
+<body>
+    <form class="form" onsubmit="return validateForm()">
+        <input type="email" placeholder="Email"><br>
+        <input type="password" placeholder="Password"><br>
+        <span id="error" style="color:red;"></span><br>
+        <button type="submit"> Submit</button>
+    </form>
+    <script>
+        function validateForm(){
+            const Email=document.getElementById(email).value;
+            const Password=document.getElementById(password).value;
+            const error=document.getElementById(error);
+
+            if(!email.includes('@') || password.length<6){
+                error.textContent="Invalid email or password (min 6 characters)";
+                return false;
+            }
+            error.textContent="";
+            return true;
+        }
+    </script>
+</body>
+</html>

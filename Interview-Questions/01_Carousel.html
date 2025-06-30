@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Carousel</title>
+  <style>
+    .carousel {
+      text-align: center;
+      margin-top: 50px;
+    }
+    .carousel img {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 20px;
+    }
+    .carousel button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="carousel">
+  <img id="carousel-image" src="img1.png" alt="Image Carousel" />
+  <button onclick="prev()">Prev</button>
+  <button onclick="next()">Next</button>
+</div>
+
+<script>
+  const images = ["img1.png", "img2.png", "img3.png"];
+  let index = 0;
+
+  function showImage() {
+    const imgElement = document.getElementById("carousel-image");
+    imgElement.src = images[index];
+  }
+
+  function prev() {
+    index = (index - 1 + images.length) % images.length;
+    showImage();
+  }
+
+  function next() {
+    index = (index + 1) % images.length;
+    showImage();
+  }
+</script>
+
+</body>
+</html>
