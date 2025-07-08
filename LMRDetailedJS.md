@@ -6209,3 +6209,720 @@ console.log("2. End synchronous code"); // Sync
 Therefore, `setTimeout(0)` guarantees that the callback will be executed asynchronously, but not _immediately_. It's placed into the macrotask queue, which has lower priority than the microtask queue, ensuring that the immediate synchronous and microtask work finishes first. This mechanism is crucial for ensuring responsiveness and predictable behavior in JavaScript applications.
 
 ---
+
+## VI. Common Built-in Objects and Methods
+
+JavaScript comes with a rich set of built-in objects that provide fundamental functionality. Understanding these is key to writing effective and efficient code.
+
+### 1\. `String` Object and its Methods
+
+The `String` object is used to represent and manipulate a sequence of characters. String literals are automatically converted to `String` objects when methods are called on them.
+
+- **`length`**: Property, returns the length of the string.
+  ```javascript
+  const str = "Hello World";
+  console.log(str.length); // 11
+  ```
+- **`toUpperCase()` / `toLowerCase()`**: Converts the string to upper/lower case.
+  ```javascript
+  console.log(str.toUpperCase()); // HELLO WORLD
+  console.log(str.toLowerCase()); // hello world
+  ```
+- **`trim()`**: Removes whitespace from both ends of a string.
+  ```javascript
+  const padded = "   Hello   ";
+  console.log(padded.trim()); // "Hello"
+  ```
+- **`indexOf(substring, [fromIndex])`**: Returns the index of the first occurrence of a substring. Returns `-1` if not found.
+  ```javascript
+  console.log(str.indexOf("World")); // 6
+  console.log(str.indexOf("o", 5)); // 7 (starts search from index 5)
+  console.log(str.indexOf("xyz")); // -1
+  ```
+- **`includes(substring, [position])`**: Checks if a string contains another string. Returns boolean. (ES6+)
+  ```javascript
+  console.log(str.includes("World")); // true
+  console.log(str.includes("xyz")); // false
+  ```
+- **`slice(startIndex, [endIndex])`**: Extracts a portion of a string. `endIndex` is exclusive. Negative indices count from the end.
+  ```javascript
+  console.log(str.slice(0, 5)); // "Hello"
+  console.log(str.slice(6)); // "World" (from index 6 to end)
+  console.log(str.slice(-5)); // "World" (last 5 characters)
+  ```
+- **`substring(startIndex, [endIndex])`**: Similar to `slice`, but negative indices are treated as 0. Swaps arguments if `startIndex` is greater than `endIndex`.
+  ```javascript
+  console.log(str.substring(0, 5)); // "Hello"
+  console.log(str.substring(5, 0)); // "Hello" (swaps 0 and 5)
+  ```
+- **`replace(searchValue, replaceValue)`**: Replaces the first occurrence of `searchValue`. Use regex with `g` flag for all occurrences.
+  ```javascript
+  const sentence = "The dog is a dog.";
+  console.log(sentence.replace("dog", "cat")); // "The cat is a dog."
+  console.log(sentence.replace(/dog/g, "cat")); // "The cat is a cat."
+  ```
+- **`split(separator, [limit])`**: Splits a string into an array of substrings.
+  ```javascript
+  const fruits = "apple,banana,orange";
+  console.log(fruits.split(",")); // ["apple", "banana", "orange"]
+  console.log(str.split(" ")); // ["Hello", "World"]
+  console.log("hello".split("")); // ["h", "e", "l", "l", "o"]
+  ```
+- **`startsWith(searchString, [position])` / `endsWith(searchString, [length])`**: Checks if a string starts/ends with another string. (ES6+)
+  ```javascript
+  console.log(str.startsWith("Hello")); // true
+  console.log(str.endsWith("World")); // true
+  ```
+- **`repeat(count)`**: Returns a new string with the specified number of copies of the string. (ES6+)
+  ```javascript
+  console.log("abc".repeat(3)); // "abcabcabc"
+  ```
+
+### 2\. `Array` Object and its Methods
+
+The `Array` object is used to store ordered collections of data.
+
+- **`length`**: Property, returns the number of elements.
+  ```javascript
+  const arr = [1, 2, 3, 4, 5];
+  console.log(arr.length); // 5
+  ```
+- **`push(element1, ...)`**: Adds one or more elements to the end of an array. Returns new length.
+  ```javascript
+  arr.push(6);
+  console.log(arr); // [1, 2, 3, 4, 5, 6]
+  ```
+- **`pop()`**: Removes the last element from an array and returns that element.
+  ```javascript
+  const last = arr.pop();
+  console.log(last); // 6
+  console.log(arr); // [1, 2, 3, 4, 5]
+  ```
+- **`shift()`**: Removes the first element from an array and returns that element.
+  ```javascript
+  const first = arr.shift();
+  console.log(first); // 1
+  console.log(arr); // [2, 3, 4, 5]
+  ```
+- **`unshift(element1, ...)`**: Adds one or more elements to the beginning of an array. Returns new length.
+  ```javascript
+  arr.unshift(0, 1);
+  console.log(arr); // [0, 1, 2, 3, 4, 5]
+  ```
+- **`splice(startIndex, deleteCount, [item1, ...])`**: Changes the contents of an array by removing or replacing existing elements and/or adding new elements. Returns an array of deleted elements.
+  ```javascript
+  const fruits = ["apple", "banana", "cherry", "date"];
+  fruits.splice(1, 1); // Remove 1 element at index 1 ("banana")
+  console.log(fruits); // ["apple", "cherry", "date"]
+  fruits.splice(1, 0, "grape", "kiwi"); // Add "grape", "kiwi" at index 1, delete 0
+  console.log(fruits); // ["apple", "grape", "kiwi", "cherry", "date"]
+  fruits.splice(2, 2, "mango"); // Remove 2 elements from index 2, add "mango"
+  console.log(fruits); // ["apple", "grape", "mango", "date"]
+  ```
+- **`slice(startIndex, [endIndex])`**: Returns a shallow copy of a portion of an array into a new array object. `endIndex` is exclusive.
+  ```javascript
+  const original = [10, 20, 30, 40, 50];
+  const newArr = original.slice(1, 4); // [20, 30, 40]
+  console.log(newArr);
+  console.log(original); // Original is unchanged
+  const copy = original.slice(); // Creates a shallow copy of the entire array
+  ```
+- **`concat(array1, array2, ...)`**: Joins two or more arrays. Returns a new array.
+  ```javascript
+  const arrA = [1, 2];
+  const arrB = [3, 4];
+  const combined = arrA.concat(arrB, [5, 6]);
+  console.log(combined); // [1, 2, 3, 4, 5, 6]
+  // (Spread operator `...` is often preferred for array concatenation now)
+  ```
+- **`join(separator)`**: Joins all elements of an array into a string.
+  ```javascript
+  const words = ["Hello", "World"];
+  console.log(words.join(" ")); // "Hello World"
+  console.log(words.join("-")); // "Hello-World"
+  ```
+- **`indexOf(element, [fromIndex])`**: Returns the first index of an element.
+  - **`lastIndexOf(element, [fromIndex])`**: Returns the last index of an element.
+  <!-- end list -->
+  ```javascript
+  const nums = [1, 2, 3, 2, 1];
+  console.log(nums.indexOf(2)); // 1
+  console.log(nums.lastIndexOf(2)); // 3
+  ```
+- **`includes(element, [fromIndex])`**: Checks if an array contains an element. (ES6+)
+  ```javascript
+  console.log(nums.includes(3)); // true
+  console.log(nums.includes(9)); // false
+  ```
+- **`forEach(callbackFn)`**: Executes a provided function once for each array element.
+  ```javascript
+  arr.forEach((item, index) => {
+    console.log(`Index ${index}: ${item}`);
+  });
+  ```
+- **`map(callbackFn)`**: Creates a **new array** by calling a provided function on every element in the calling array.
+  ```javascript
+  const numbers = [1, 2, 3];
+  const doubled = numbers.map((num) => num * 2);
+  console.log(doubled); // [2, 4, 6]
+  ```
+- **`filter(callbackFn)`**: Creates a **new array** with all elements that pass the test implemented by the provided function.
+  ```javascript
+  const evens = numbers.filter((num) => num % 2 === 0);
+  console.log(evens); // [2]
+  ```
+- **`reduce(callbackFn, [initialValue])`**: Executes a reducer function on each element of the array, resulting in a single output value.
+
+  ```javascript
+  const sum = numbers.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0
+  );
+  console.log(sum); // 6 (0+1+2+3)
+
+  const max = numbers.reduce(
+    (maxVal, currentVal) => Math.max(maxVal, currentVal),
+    -Infinity
+  );
+  console.log(max); // 3
+  ```
+
+- **`find(callbackFn)`**: Returns the **first element** in the array that satisfies the provided testing function. Returns `undefined` if no elements satisfy the test.
+  ```javascript
+  const found = numbers.find((num) => num > 1);
+  console.log(found); // 2
+  ```
+- **`findIndex(callbackFn)`**: Returns the **index** of the first element in the array that satisfies the provided testing function. Returns `-1` if no elements satisfy the test.
+  ```javascript
+  const foundIndex = numbers.findIndex((num) => num > 1);
+  console.log(foundIndex); // 1 (index of 2)
+  ```
+- **`some(callbackFn)`**: Tests whether at least one element in the array passes the test implemented by the provided function. Returns boolean.
+  ```javascript
+  console.log(numbers.some((num) => num > 2)); // true (3 is > 2)
+  ```
+- **`every(callbackFn)`**: Tests whether all elements in the array pass the test implemented by the provided function. Returns boolean.
+  ```javascript
+  console.log(numbers.every((num) => num > 0)); // true (1,2,3 are all > 0)
+  console.log(numbers.every((num) => num > 2)); // false (1,2 are not > 2)
+  ```
+- **`sort([compareFunction])`**: Sorts the elements of an array in place and returns the sorted array. Default sort is lexicographical (string Unicode code points). For numbers, use a compare function.
+
+  ```javascript
+  const unsorted = [3, 1, 4, 1, 5];
+  unsorted.sort(); // Sorts as strings by default
+  console.log(unsorted); // [1, 1, 3, 4, 5] (correct in this case)
+
+  const numsToSort = [10, 2, 100, 5];
+  numsToSort.sort((a, b) => a - b); // Ascending numeric sort
+  console.log(numsToSort); // [2, 5, 10, 100]
+
+  numsToSort.sort((a, b) => b - a); // Descending numeric sort
+  console.log(numsToSort); // [100, 10, 5, 2]
+  ```
+
+### 3\. `Object` Object and its Methods
+
+The global `Object` object is a constructor for objects and provides static methods for common object operations.
+
+- **`Object.keys(obj)`**: Returns an array of a given object's own enumerable property names.
+  ```javascript
+  const user = { name: "Alice", age: 30, city: "NYC" };
+  console.log(Object.keys(user)); // ["name", "age", "city"]
+  ```
+- **`Object.values(obj)`**: Returns an array of a given object's own enumerable property values. (ES8+)
+  ```javascript
+  console.log(Object.values(user)); // ["Alice", 30, "NYC"]
+  ```
+- **`Object.entries(obj)`**: Returns an array of a given object's own enumerable string-keyed property `[key, value]` pairs. (ES8+)
+  ```javascript
+  console.log(Object.entries(user)); // [["name", "Alice"], ["age", 30], ["city", "NYC"]]
+  ```
+- **`Object.assign(target, ...sources)`**: Copies all enumerable own properties from one or more source objects to a target object. Returns the target object. Used for shallow copying or merging objects.
+
+  ```javascript
+  const obj1 = { a: 1, b: 2 };
+  const obj2 = { b: 3, c: 4 };
+  const merged = Object.assign({}, obj1, obj2); // {} is the target to avoid mutating obj1
+  console.log(merged); // { a: 1, b: 3, c: 4 } (b is overwritten)
+
+  const copy = Object.assign({}, obj1); // Shallow copy
+  console.log(copy); // { a: 1, b: 2 }
+  // (Spread operator `{...obj}` is often preferred for shallow copying/merging now)
+  ```
+
+- **`obj.hasOwnProperty(prop)`**: Returns a boolean indicating whether the object has the specified property as its _own property_ (not inherited).
+  ```javascript
+  console.log(user.hasOwnProperty("name")); // true
+  console.log(user.hasOwnProperty("toString")); // false (inherited from Object.prototype)
+  ```
+
+### 4\. `Math` Object and its Methods/Properties
+
+The `Math` object is a built-in object that has properties and methods for mathematical constants and functions. It's not a constructor.
+
+- **`Math.PI`**: The ratio of the circumference of a circle to its diameter.
+  ```javascript
+  console.log(Math.PI); // 3.141592653589793
+  ```
+- **`Math.random()`**: Returns a pseudo-random floating-point number between 0 (inclusive) and 1 (exclusive).
+  ```javascript
+  console.log(Math.random()); // e.g., 0.123456789
+  // Get random integer between min (inclusive) and max (exclusive)
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+  console.log(getRandomInt(1, 10)); // e.g., 5
+  ```
+- **`Math.floor(x)`**: Returns the largest integer less than or equal to `x`. (Rounds down)
+  ```javascript
+  console.log(Math.floor(4.7)); // 4
+  console.log(Math.floor(-4.7)); // -5
+  ```
+- **`Math.ceil(x)`**: Returns the smallest integer greater than or equal to `x`. (Rounds up)
+  ```javascript
+  console.log(Math.ceil(4.3)); // 5
+  console.log(Math.ceil(-4.3)); // -4
+  ```
+- **`Math.round(x)`**: Returns the value of `x` rounded to the nearest integer.
+  ```javascript
+  console.log(Math.round(4.4)); // 4
+  console.log(Math.round(4.5)); // 5
+  ```
+- **`Math.abs(x)`**: Returns the absolute value of `x`.
+  ```javascript
+  console.log(Math.abs(-5)); // 5
+  ```
+- **`Math.min(x, y, ...)` / `Math.max(x, y, ...)`**: Returns the smallest/largest of the given numbers.
+  ```javascript
+  console.log(Math.min(10, 5, 20)); // 5
+  console.log(Math.max(10, 5, 20)); // 20
+  console.log(Math.max(...[1, 5, 9])); // 9 (using spread operator for array)
+  ```
+- **`Math.pow(base, exponent)`**: Returns `base` to the `exponent` power.
+  ```javascript
+  console.log(Math.pow(2, 3)); // 8 (2 * 2 * 2)
+  ```
+- **`Math.sqrt(x)`**: Returns the square root of `x`.
+  ```javascript
+  console.log(Math.sqrt(9)); // 3
+  ```
+
+### 5\. `Date` Object and its Methods
+
+The `Date` object is used to work with dates and times.
+
+- **Creating Dates:**
+
+  - `new Date()`: Current date and time.
+  - `new Date(milliseconds)`: Number of milliseconds since Jan 1, 1970, 00:00:00 UTC.
+  - `new Date(dateString)`: Parses a date string.
+  - `new Date(year, monthIndex, [day, hours, minutes, seconds, milliseconds])`: Month is 0-indexed (0 for January, 11 for December).
+
+  <!-- end list -->
+
+  ```javascript
+  const now = new Date();
+  console.log(now); // Current date and time
+
+  const specificDate = new Date(2023, 10, 15, 10, 30, 0); // Nov 15, 2023, 10:30:00
+  console.log(specificDate);
+  ```
+
+- **Get Methods (local time):**
+
+  - `getFullYear()`: 4-digit year.
+  - `getMonth()`: 0-11 (Jan-Dec).
+  - `getDate()`: 1-31 (day of month).
+  - `getDay()`: 0-6 (day of week: Sun-Sat).
+  - `getHours()`, `getMinutes()`, `getSeconds()`, `getMilliseconds()`.
+  - `getTime()`: Milliseconds since Jan 1, 1970 UTC.
+
+  <!-- end list -->
+
+  ```javascript
+  console.log(specificDate.getFullYear()); // 2023
+  console.log(specificDate.getMonth()); // 10 (November)
+  console.log(specificDate.getDate()); // 15
+  console.log(specificDate.getHours()); // 10
+  console.log(specificDate.getTime()); // Milliseconds timestamp
+  ```
+
+- **Set Methods (local time):** (e.g., `setFullYear()`, `setMonth()`, etc.)
+
+  ```javascript
+  const d = new Date();
+  d.setFullYear(2025);
+  console.log(d.getFullYear()); // 2025
+  ```
+
+- **Conversion Methods:**
+
+  - `toISOString()`: Returns date as a string in ISO format (e.g., "2023-11-15T04:30:00.000Z").
+  - `toDateString()`: Returns just the date portion.
+  - `toTimeString()`: Returns just the time portion.
+  - `toLocaleString()`: Returns date and time as a string, using local conventions.
+  - `toLocaleDateString()`, `toLocaleTimeString()`.
+
+  <!-- end list -->
+
+  ```javascript
+  console.log(specificDate.toLocaleString()); // "11/15/2023, 10:30:00 AM" (or similar based on locale)
+  console.log(specificDate.toISOString()); // "2023-11-15T04:30:00.000Z" (UTC equivalent of the local time)
+  ```
+
+### 6\. `JSON` Object and its Methods
+
+The `JSON` object has methods for parsing JavaScript Object Notation (JSON) strings and converting JavaScript values to JSON strings.
+
+- **`JSON.parse(jsonString)`**: Parses a JSON string, constructing the JavaScript value or object described by the string.
+
+  ```javascript
+  const jsonString =
+    '{"name": "Bob", "age": 40, "isStudent": false, "courses": ["Math", "Science"]}';
+  const obj = JSON.parse(jsonString);
+  console.log(obj.name); // Bob
+  console.log(obj.courses[0]); // Math
+  ```
+
+- **`JSON.stringify(value, [replacer], [space])`**: Converts a JavaScript value (object, array, primitive) to a JSON string.
+
+  - `replacer`: Optional, a function or array to control the stringification process.
+  - `space`: Optional, number of spaces or a string for indentation.
+
+  <!-- end list -->
+
+  ```javascript
+  const myObj = {
+    product: "Laptop",
+    price: 1200,
+    features: ["lightweight", "fast"],
+    available: true,
+  };
+  const jsonStr = JSON.stringify(myObj);
+  console.log(jsonStr); // {"product":"Laptop","price":1200,"features":["lightweight","fast"],"available":true}
+
+  const prettyJson = JSON.stringify(myObj, null, 2); // Indent with 2 spaces
+  console.log(prettyJson);
+  /* Output:
+  {
+    "product": "Laptop",
+    "price": 1200,
+    "features": [
+      "lightweight",
+      "fast"
+    ],
+    "available": true
+  }
+  */
+  ```
+
+  **Important:** `JSON.stringify` does not handle functions, `undefined`, `Symbol` values, or circular references. They will be removed or cause an error.
+
+### 7\. `Number` Object and its Global/Related Methods
+
+The global `Number` object is a wrapper object allowing you to work with numerical values. It also provides static methods. Additionally, there are global functions related to number parsing.
+
+- **`Number.isNaN(value)`**: Checks if the passed value is `NaN` (Not-a-Number). More reliable than global `isNaN()`.
+  ```javascript
+  console.log(Number.isNaN(NaN)); // true
+  console.log(Number.isNaN("hello")); // false (global isNaN would be true)
+  console.log(Number.isNaN(123)); // false
+  ```
+- **`Number.isFinite(value)`**: Determines whether the passed value is a finite number. More reliable than global `isFinite()`.
+  ```javascript
+  console.log(Number.isFinite(123)); // true
+  console.log(Number.isFinite(Infinity)); // false
+  console.log(Number.isFinite(NaN)); // false
+  console.log(Number.isFinite("123")); // false (global isFinite would be true)
+  ```
+- **`Number.isInteger(value)`**: Determines whether the passed value is an integer. (ES6+)
+  ```javascript
+  console.log(Number.isInteger(5)); // true
+  console.log(Number.isInteger(5.0)); // true
+  console.log(Number.isInteger(5.1)); // false
+  ```
+- **`parseInt(string, [radix])` (Global Function)**: Parses a string argument and returns an integer. `radix` is the base (e.g., 10 for decimal, 16 for hex).
+  ```javascript
+  console.log(parseInt("10")); // 10
+  console.log(parseInt("10.5")); // 10
+  console.log(parseInt("10 years")); // 10
+  console.log(parseInt("years 10")); // NaN
+  console.log(parseInt("0xF")); // 15 (hex)
+  console.log(parseInt("11", 2)); // 3 (binary)
+  ```
+- **`parseFloat(string)` (Global Function)**: Parses a string argument and returns a floating-point number.
+  ```javascript
+  console.log(parseFloat("10.5")); // 10.5
+  console.log(parseFloat("10.5 years")); // 10.5
+  console.log(parseFloat("years 10.5")); // NaN
+  ```
+- **`toFixed(digits)`**: Formats a number using fixed-point notation (returns a string).
+  ```javascript
+  const num = 123.4567;
+  console.log(num.toFixed(2)); // "123.46" (rounds)
+  console.log(num.toFixed(0)); // "123"
+  ```
+- **`toPrecision(precision)`**: Returns a string representation of the Number object to a specified precision.
+  ```javascript
+  console.log(num.toPrecision(4)); // "123.5"
+  ```
+
+---
+
+This comprehensive overview covers the most frequently used built-in objects and their methods. Mastering these provides a strong foundation for everyday JavaScript tasks.
+
+Now, let's test your understanding with some cross-questions.
+
+---
+
+**Cross-Questions & Answers (Common Built-in Objects and Methods):**
+
+**Q1: You have an array of objects, and you want to extract specific properties from each object into a new array. Which array methods would you use, and why? Provide an example.**
+
+**A1:**
+
+To extract specific properties from each object in an array and create a new array with these extracted values, the `Array.prototype.map()` method is the most suitable choice.
+
+- **`Array.prototype.map()`**:
+  - It creates a **new array** by calling a provided function on every element in the calling array.
+  - The callback function you provide to `map()` should return the value you want to include in the new array for each corresponding element.
+  - It's non-mutating; it doesn't change the original array.
+
+**Why `map()` is preferred:**
+
+- **Clarity:** Its purpose is explicitly to "map" each element of an array to a new value, producing a new array of the same length.
+- **Immutability:** It returns a brand new array, which is a best practice in modern JavaScript to avoid side effects and make code easier to reason about.
+- **Conciseness:** It allows for a very compact and readable solution using an arrow function.
+
+**Example:**
+
+Let's say you have an array of user objects, and you want to get an array containing only their names.
+
+```javascript
+const users = [
+  { id: 1, name: "Alice", email: "alice@example.com" },
+  { id: 2, name: "Bob", email: "bob@example.com" },
+  { id: 3, name: "Charlie", email: "charlie@example.com" },
+];
+
+// Using map() to extract names
+const userNames = users.map((user) => user.name);
+
+console.log(userNames); // Output: ["Alice", "Bob", "Charlie"]
+
+// Another example: Extracting IDs and doubling them
+const doubledIds = users.map((user) => user.id * 2);
+console.log(doubledIds); // Output: [2, 4, 6]
+
+// Using destructuring in map() for more complex extractions
+const userEmailsAndNames = users.map(({ name, email }) => ({ name, email }));
+console.log(userEmailsAndNames);
+/* Output:
+[
+  { name: 'Alice', email: 'alice@example.com' },
+  { name: 'Bob', email: 'bob@example.com' },
+  { name: 'Charlie', email: 'charlie@example.com' }
+]
+*/
+```
+
+**Alternative (less ideal): `forEach()` with a new array:**
+
+While you _could_ achieve this with `forEach()`, it's generally not recommended for this specific task because `forEach()` is designed for side effects (like logging or modifying external state) and doesn't return a new array. You'd have to manually create and push into a new array, making the code more verbose and less declarative.
+
+```javascript
+const userNamesUsingForEach = [];
+users.forEach((user) => {
+  userNamesUsingForEach.push(user.name);
+});
+console.log(userNamesUsingForEach); // Output: ["Alice", "Bob", "Charlie"]
+// This works, but map() is more idiomatic for transformations.
+```
+
+In summary, `Array.prototype.map()` is the go-to method for transforming each element of an array into a new value and collecting those new values into a new array.
+
+---
+
+**Q2: When would you use `JSON.parse()` and `JSON.stringify()`? What are some common pitfalls or limitations of `JSON.stringify()`?**
+
+**A2:**
+
+**`JSON.parse()`:**
+
+- **Purpose:** To convert a JSON string (which must be strictly valid JSON format) into a JavaScript value or object.
+- **When to use:**
+  - **Receiving data from a server (API response):** Most web APIs return data in JSON format. Before you can work with this data in your JavaScript application, you need to parse it into a native JavaScript object.
+    ```javascript
+    const apiResponse = '{"id": 1, "productName": "Laptop", "price": 1200}';
+    const product = JSON.parse(apiResponse);
+    console.log(product.productName); // Laptop
+    ```
+  - **Reading data from Local Storage or Session Storage:** These browser storage mechanisms store data as strings. If you've stored objects, you'll need to stringify them before storing and parse them after retrieving.
+    ```javascript
+    localStorage.setItem("userPref", '{"theme": "dark", "fontSize": 14}');
+    const userPrefString = localStorage.getItem("userPref");
+    const userPreferences = JSON.parse(userPrefString);
+    console.log(userPreferences.theme); // dark
+    ```
+
+**`JSON.stringify()`:**
+
+- **Purpose:** To convert a JavaScript value (object, array, primitive) into a JSON string.
+- **When to use:**
+  - **Sending data to a server (API request body):** When making `POST` or `PUT` requests to an API, the request body is often expected to be a JSON string.
+    ```javascript
+    const newProduct = { name: "Keyboard", price: 75, stock: 50 };
+    const jsonPayload = JSON.stringify(newProduct);
+    // fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: jsonPayload });
+    console.log(jsonPayload); // {"name":"Keyboard","price":75,"stock":50}
+    ```
+  - **Storing data in Local Storage or Session Storage:** Since these storage mechanisms only store strings, you need to convert JavaScript objects/arrays into JSON strings before storing them.
+    ```javascript
+    const settings = { notifications: true, language: "en-US" };
+    localStorage.setItem("appSettings", JSON.stringify(settings));
+    ```
+  - **Debugging/Logging complex objects:** To get a readable string representation of a complex JavaScript object for console logging.
+    ```javascript
+    const complexObj = { a: 1, b: { c: 2 } };
+    console.log(JSON.stringify(complexObj, null, 2)); // Pretty-prints the object
+    ```
+
+**Common Pitfalls / Limitations of `JSON.stringify()`:**
+
+1.  **Handles only basic JSON data types:**
+
+    - It can convert: Objects (`{}`), Arrays (`[]`), Strings (`""`), Numbers (`0`), Booleans (`true`/`false`), and `null`.
+    - **It does NOT handle:**
+      - **Functions:** Functions will be completely omitted from the JSON string.
+      - **`undefined`:** `undefined` values in object properties will be omitted. If an array contains `undefined`, it will be converted to `null`.
+      - **`Symbol` values:** `Symbol` properties or values will be omitted.
+      - **`BigInt`:** Throws a `TypeError`.
+      - **`Date` objects:** Converted to ISO 8601 string format (e.g., `"2023-10-27T10:00:00.000Z"`). This means you'd need to parse them back into `Date` objects manually after `JSON.parse()`.
+      - **`Map`s, `Set`s, `RegExp`s, `Error` objects:** These are not directly serializable and will often be converted to empty objects `{}` or omitted.
+
+    <!-- end list -->
+
+    ```javascript
+    const complexData = {
+      name: "Test",
+      age: 30,
+      isAdmin: true,
+      method: () => console.log("hello"), // Will be omitted
+      birthdate: new Date(), // Will be converted to ISO string
+      status: undefined, // Will be omitted
+      id: Symbol("unique"), // Will be omitted
+      numbers: [1, undefined, 3], // undefined in array becomes null
+    };
+    const stringified = JSON.stringify(complexData);
+    console.log(stringified);
+    // {"name":"Test","age":30,"isAdmin":true,"birthdate":"2023-10-27T....Z","numbers":[1,null,3]}
+    // Notice: method, status, id are gone. undefined in array became null.
+    ```
+
+2.  **Circular References:** If an object has a property that directly or indirectly references itself, `JSON.stringify()` will throw a `TypeError: Converting circular structure to JSON`.
+
+    ```javascript
+    const a = {};
+    const b = { ref: a };
+    a.ref = b; // Circular reference
+    // JSON.stringify(a); // Throws TypeError
+    ```
+
+3.  **Loss of prototype chain/instance methods:** When you `stringify` an object and then `parse` it back, you get a plain JavaScript object. It loses any methods or properties that were part of its prototype chain (e.g., if it was an instance of a `class`). You'll need to re-instantiate the object from the parsed data if you need its original class methods.
+
+Due to these limitations, `JSON.stringify()` is best used for simple, data-only objects and arrays that primarily contain primitives, nested objects, and arrays. For complex object serialization, you might need custom serialization logic or libraries like `superjson`.
+
+---
+
+**Q3: Describe three ways to create a shallow copy of an array in JavaScript. Which method(s) would you prefer in modern JavaScript and why?**
+
+**A3:**
+
+A **shallow copy** means that a new array is created, but if the original array contains objects or other arrays, those nested structures are **not copied**; instead, their references are copied. This means changes to nested objects/arrays in the copy _will_ affect the original, and vice versa.
+
+Here are three common ways to create a shallow copy of an array:
+
+1.  **Using the Spread Operator (`...`)**
+
+    - **Syntax:** `[...originalArray]`
+    - **Description:** This is an ES6 feature that expands the elements of the `originalArray` into a new array literal.
+    - **Example:**
+
+      ```javascript
+      const originalArray = [1, 2, { id: 3 }];
+      const copyArray = [...originalArray];
+
+      console.log(copyArray); // [1, 2, { id: 3 }]
+      console.log(copyArray === originalArray); // false (new array object)
+
+      // Demonstrate shallow copy: modifying nested object affects both
+      copyArray[2].id = 99;
+      console.log(originalArray[2].id); // 99
+      ```
+
+2.  **Using `Array.prototype.slice()` without arguments**
+
+    - **Syntax:** `originalArray.slice()`
+    - **Description:** The `slice()` method, when called without any arguments, returns a new array containing all elements from the original array.
+    - **Example:**
+
+      ```javascript
+      const originalArray = [1, 2, { id: 3 }];
+      const copyArray = originalArray.slice();
+
+      console.log(copyArray); // [1, 2, { id: 3 }]
+      console.log(copyArray === originalArray); // false (new array object)
+
+      copyArray[2].id = 99;
+      console.log(originalArray[2].id); // 99
+      ```
+
+3.  **Using `Array.from()` (ES6+)**
+
+    - **Syntax:** `Array.from(originalArray)`
+    - **Description:** The `Array.from()` method creates a new, shallow-copied `Array` instance from an array-like or iterable object.
+    - **Example:**
+
+      ```javascript
+      const originalArray = [1, 2, { id: 3 }];
+      const copyArray = Array.from(originalArray);
+
+      console.log(copyArray); // [1, 2, { id: 3 }]
+      console.log(copyArray === originalArray); // false (new array object)
+
+      copyArray[2].id = 99;
+      console.log(originalArray[2].id); // 99
+      ```
+
+**Preferred Method(s) in Modern JavaScript and Why:**
+
+In modern JavaScript, **the Spread Operator (`...`) is generally the most preferred method** for creating shallow copies of arrays (and objects). `Array.prototype.slice()` without arguments is also a very common and perfectly valid alternative.
+
+**Reasons for preferring the Spread Operator (`...`):**
+
+1.  **Readability and Conciseness:** The `...` syntax is very intuitive and explicit about its intent: "take all elements from this array and put them into a new array." It's often considered the most concise and readable option.
+2.  **Versatility:** The spread operator is highly versatile. It can be used not only for copying but also for:
+    - Concatenating arrays: `[...arr1, ...arr2]`
+    - Adding elements to arrays: `[0, ...arr, 5]`
+    - Creating shallow copies of objects: `{...obj}`
+    - Passing array elements as individual arguments to a function: `myFunction(...arr)`
+      This consistency across different use cases makes it a powerful tool.
+3.  **Functional Programming Alignment:** It aligns well with functional programming principles, promoting immutable data structures by making it easy to create new arrays/objects rather than mutating existing ones.
+
+**Why `slice()` is still good:**
+
+- It's been around longer and is widely understood.
+- It's a very specific method for slicing arrays, which can be useful when you need a subset. When used without arguments, it effectively copies the whole array.
+
+**Why `Array.from()` is less common for simple copies:**
+
+- While it works, its primary use case is typically converting array-like objects (like `NodeList` from `document.querySelectorAll`) or iterables into true arrays. For simple array copying, `...` is generally more direct.
+
+**In summary:** For simple shallow copying of arrays, the **spread operator (`...`)** is the modern, readable, and versatile choice. `slice()` remains a strong alternative.
+
+---
+
+This concludes our section on **Common Built-in Objects and Methods**. This practical knowledge is foundational for daily coding tasks.
+
+Next, we'll move into **Error Handling**, a critical topic for building robust applications.
