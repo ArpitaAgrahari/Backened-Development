@@ -7807,3 +7807,868 @@ Let's set up an example for both CJS and ESM to highlight this.
 In essence, ES Modules provide a more sophisticated and powerful way of handling module exports and imports, particularly through their live binding mechanism, which has implications for both application logic and build optimizations.
 
 ---
+
+## IX. Working with the DOM (Document Object Model)
+
+The **DOM** (Document Object Model) is a programming interface for web documents. It represents the page structure as a tree of objects, allowing JavaScript to access and manipulate elements, content, and styling. Essentially, the browser creates a DOM tree from your HTML, and JavaScript then interacts with that tree.
+
+### 1\. What is the DOM?
+
+- **Tree Structure:** The DOM represents an HTML document as a logical tree, where each HTML element, attribute, and piece of text is a "node."
+  - The `document` object is the root of this tree.
+  - `<html>` is the root element node.
+  - `<head>` and `<body>` are its children, and so on.
+- **API for Web Content:** The DOM provides a set of methods and properties (an API) that JavaScript uses to:
+  - Find (select) HTML elements.
+  - Change HTML content.
+  - Change CSS styles.
+  - Add or remove HTML elements and attributes.
+  - React to HTML events.
+
+### 2\. Accessing (Selecting) Elements
+
+To manipulate an HTML element, you first need to get a reference to it. The `document` object provides several methods for this.
+
+- **`document.getElementById(id)`**:
+
+  - Returns a reference to the element with the specified `id`.
+  - IDs must be unique within a document. This is the fastest method.
+
+  <!-- end list -->
+
+  ```html
+  <div id="myDiv">Hello</div>
+  ```
+
+  ```javascript
+  const myDiv = document.getElementById("myDiv");
+  console.log(myDiv.textContent); // "Hello"
+  ```
+
+- **`document.getElementsByClassName(className)`**:
+
+  - Returns a **live HTMLCollection** of elements with the specified class name(s).
+  - `HTMLCollection` is array-like, but not a true Array. You can iterate with `for...of` or convert to an Array (`Array.from()`).
+
+  <!-- end list -->
+
+  ```html
+  <p class="intro">Paragraph 1</p>
+  <p class="intro">Paragraph 2</p>
+  ```
+
+  ```javascript
+  const intros = document.getElementsByClassName("intro");
+  console.log(intros[0].textContent); // "Paragraph 1"
+  for (const p of intros) {
+    console.log(p.textContent);
+  }
+  ```
+
+- **`document.getElementsByTagName(tagName)`**:
+
+  - Returns a **live HTMLCollection** of all elements with the specified tag name (e.g., `'p'`, `'div'`, `'a'`).
+
+  <!-- end list -->
+
+  ```html
+  <ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+  </ul>
+  ```
+
+  ```javascript
+  const listItems = document.getElementsByTagName("li");
+  console.log(listItems.length); // 2
+  ```
+
+- **`document.querySelector(selector)`**:
+
+  - Returns the **first element** that matches the specified CSS selector(s).
+  - This is very versatile as it accepts any valid CSS selector (ID, class, tag, attribute, descendant, etc.).
+
+  <!-- end list -->
+
+  ```html
+  <article class="post">
+    <h2 id="postTitle">My Post</h2>
+    <p class="content">Some content.</p>
+  </article>
+  ```
+
+  ```javascript
+  const firstParagraph = document.querySelector("p"); // First <p>
+  const postTitle = document.querySelector("#postTitle"); // Element with id="postTitle"
+  const firstPostContent = document.querySelector(".post .content"); // <p> with class "content" inside element with class "post"
+  console.log(postTitle.textContent); // "My Post"
+  ```
+
+- **`document.querySelectorAll(selector)`**:
+
+  - Returns a **static NodeList** of all elements that match the specified CSS selector(s).
+  - `NodeList` is array-like and can be iterated with `forEach` or `for...of`. It's "static," meaning it doesn't update if elements are added/removed from the DOM after the selection.
+
+  <!-- end list -->
+
+  ```html
+  <div class="item">Item A</div>
+  <div class="item">Item B</div>
+  <span class="item">Item C</span>
+  ```
+
+  ```javascript
+  const allItems = document.querySelectorAll(".item");
+  console.log(allItems.length); // 3
+  allItems.forEach((item) => console.log(item.textContent));
+  ```
+
+  **Note:** `querySelector` and `querySelectorAll` are generally preferred in modern JavaScript due to their flexibility with CSS selectors and their ability to provide static NodeLists (which behave more predictably than live HTMLCollections).
+
+- **`element.matches(selector)`**:
+
+  - Checks if the element matches the specified CSS selector. Returns `true` or `false`. Useful for checking conditions, often in event delegation.
+
+  <!-- end list -->
+
+  ```javascript
+  const myButton = document.getElementById("myButton");
+  if (myButton.matches(".action-button")) {
+    console.log("It is an action button!");
+  }
+  ```
+
+- **`element.closest(selector)`**:
+
+  - Traverses up the DOM tree from the element until it finds the first ancestor that matches the specified CSS selector. Returns the matching ancestor element or `null`. Also very useful for event delegation.
+
+  <!-- end list -->
+
+  ```html
+  <div class="card">
+    <div class="header">
+      <button class="close-btn">X</button>
+    </div>
+    <p>Card content</p>
+  </div>
+  ```
+
+  ```javascript
+  const closeButton = document.querySelector(".close-btn");
+  const parentCard = closeButton.closest(".card");
+  console.log(parentCard); // The div with class "card"
+  ```
+
+### 3\. Manipulating Elements
+
+Once you have a reference to an element, you can modify its content, attributes, styles, and even its position in the DOM tree.
+
+#### a. Content Manipulation
+
+- **`element.innerHTML`**:
+
+  - Gets or sets the HTML content (including tags) inside an element.
+  - **Caution:** Setting `innerHTML` can be a security risk (XSS) if you're injecting user-provided content without sanitization. It also re-parses the HTML, which can be slower.
+
+  <!-- end list -->
+
+  ```html
+  <div id="container"></div>
+  ```
+
+  ```javascript
+  const container = document.getElementById("container");
+  container.innerHTML = "<h2>New Title</h2><p>Some <em>new</em> content.</p>";
+  console.log(container.innerHTML); // "<h2>New Title</h2><p>Some <em>new</em> content.</p>"
+  ```
+
+- **`element.textContent`**:
+
+  - Gets or sets the _text content_ of an element, stripping out any HTML tags. Safer and generally preferred for setting plain text.
+
+  <!-- end list -->
+
+  ```javascript
+  container.textContent = "Just plain text.";
+  console.log(container.textContent); // "Just plain text."
+  console.log(container.innerHTML); // "Just plain text." (no HTML tags)
+  ```
+
+- **`element.innerText`**:
+
+  - Similar to `textContent`, but `innerText` attempts to reflect the "rendered" text. It's aware of CSS styling and won't return text hidden by `display: none` or text within `<script>` tags. `textContent` is often more performant as it doesn't involve rendering.
+
+#### b. Attribute Manipulation
+
+- **`element.getAttribute(name)`**: Gets the value of a specified attribute.
+
+- **`element.setAttribute(name, value)`**: Sets the value of a specified attribute.
+
+- **`element.removeAttribute(name)`**: Removes a specified attribute.
+
+- **`element.hasAttribute(name)`**: Checks if an element has a specified attribute.
+
+  ```html
+  <img id="myImage" src="old.jpg" alt="Old Image" />
+  ```
+
+  ```javascript
+  const img = document.getElementById("myImage");
+  console.log(img.getAttribute("src")); // "old.jpg"
+  img.setAttribute("src", "new.png");
+  img.setAttribute("title", "A New Image");
+  console.log(img.outerHTML); // <img id="myImage" src="new.png" alt="Old Image" title="A New Image">
+  img.removeAttribute("alt");
+  console.log(img.hasAttribute("alt")); // false
+  ```
+
+- **Direct Property Access:** For common attributes like `id`, `src`, `href`, `className`, `value`, etc., you can often use direct property access, which is usually more convenient.
+
+  ```javascript
+  img.id = "updatedImage";
+  img.src = "another.gif";
+  console.log(img.id); // "updatedImage"
+
+  const myInput = document.getElementById("myInput"); // <input id="myInput" value="initial">
+  myInput.value = "new value"; // Accessing the current value
+  ```
+
+#### c. Class Manipulation (`classList` API)
+
+The `classList` property provides a convenient way to add, remove, and toggle CSS classes.
+
+- **`element.classList.add(className1, ...)`**: Adds one or more classes.
+
+- **`element.classList.remove(className1, ...)`**: Removes one or more classes.
+
+- **`element.classList.toggle(className, [force])`**: Toggles a class. If the class exists, it removes it; if not, it adds it. The `force` argument can explicitly add (`true`) or remove (`false`).
+
+- **`element.classList.contains(className)`**: Checks if a class exists on the element. Returns boolean.
+
+  ```html
+  <div id="myElement" class="box active"></div>
+  ```
+
+  ```javascript
+  const el = document.getElementById("myElement");
+  el.classList.add("highlight");
+  console.log(el.className); // "box active highlight"
+
+  el.classList.remove("active");
+  console.log(el.className); // "box highlight"
+
+  el.classList.toggle("visible"); // Adds 'visible'
+  console.log(el.className); // "box highlight visible"
+
+  el.classList.toggle("visible"); // Removes 'visible'
+  console.log(el.className); // "box highlight"
+
+  console.log(el.classList.contains("box")); // true
+  ```
+
+#### d. Style Manipulation (Inline Styles)
+
+- **`element.style.propertyName`**: Accesses inline CSS styles. Property names are camelCased (e.g., `backgroundColor` for `background-color`). This applies styles directly to the element's `style` attribute. For dynamic styles.
+  ```javascript
+  el.style.backgroundColor = "lightblue";
+  el.style.border = "1px solid blue";
+  el.style.fontSize = "16px";
+  ```
+  **Note:** For applying multiple styles or managing styles more cleanly, often it's better to toggle CSS classes (as shown above) rather than setting many inline styles directly.
+
+#### e. Creating New Elements
+
+- **`document.createElement(tagName)`**: Creates a new HTML element node.
+
+- **`document.createTextNode(text)`**: Creates a new text node.
+
+  ```javascript
+  const newDiv = document.createElement("div");
+  newDiv.id = "new-element";
+  newDiv.textContent = "This is a dynamically created div.";
+
+  const strongText = document.createElement("strong");
+  strongText.textContent = "Important!";
+  newDiv.appendChild(strongText); // Add strongText inside newDiv
+  ```
+
+#### f. Inserting/Removing Elements
+
+- **`parentNode.appendChild(child)`**: Appends a child element as the last child of a parent.
+
+- **`parentNode.insertBefore(newChild, referenceChild)`**: Inserts `newChild` before `referenceChild` within `parentNode`.
+
+- **`parentNode.removeChild(child)`**: Removes a specified child element from its parent.
+
+- **`parentNode.replaceChild(newChild, oldChild)`**: Replaces `oldChild` with `newChild` within `parentNode`.
+
+  ```html
+  <ul id="myList">
+    <li id="item1">Item 1</li>
+    <li id="item2">Item 2</li>
+  </ul>
+  ```
+
+  ```javascript
+  const myList = document.getElementById("myList");
+  const item1 = document.getElementById("item1");
+  const item2 = document.getElementById("item2");
+
+  const newItem = document.createElement("li");
+  newItem.textContent = "New Item (last)";
+  myList.appendChild(newItem); // Adds to the end
+
+  const firstNewItem = document.createElement("li");
+  firstNewItem.textContent = "New Item (first)";
+  myList.insertBefore(firstNewItem, item1); // Adds before item1
+
+  myList.removeChild(item2); // Removes item2
+
+  const replacedItem = document.createElement("li");
+  replacedItem.textContent = "Replaced Item 1";
+  myList.replaceChild(replacedItem, item1); // Replaces the original Item 1
+  ```
+
+- **`element.insertAdjacentElement(position, element)` / `insertAdjacentHTML(position, text)` / `insertAdjacentText(position, text)`**:
+
+  - More flexible for inserting HTML, elements, or text at specific positions relative to an existing element, without parsing the entire `innerHTML`.
+  - `position` can be: `'beforebegin'`, `'afterbegin'`, `'beforeend'`, `'afterend'`.
+
+  <!-- end list -->
+
+  ```html
+  <div id="target">
+    <p>Existing content</p>
+  </div>
+  ```
+
+  ```javascript
+  const target = document.getElementById("target");
+  target.insertAdjacentHTML("beforebegin", "<div>Before Target</div>");
+  target.insertAdjacentHTML("afterbegin", "<span>After Begin of Target</span>");
+  target.insertAdjacentHTML("beforeend", "<span>Before End of Target</span>");
+  target.insertAdjacentHTML("afterend", "<div>After Target</div>");
+  ```
+
+### 4\. Event Handling
+
+Events are actions or occurrences that happen in the browser, such as a user clicking a button, a page loading, or an input field changing. JavaScript allows you to react to these events.
+
+- **`element.addEventListener(event, listener, [options])`**:
+
+  - The modern and preferred way to attach event handlers.
+  - **`event`**: A string representing the event type (e.g., `'click'`, `'mouseover'`, `'keydown'`, `'submit'`).
+  - **`listener`**: The function to be executed when the event occurs.
+  - **`options`**: (Optional object)
+    - `capture`: Boolean, `true` for capture phase, `false` for bubbling (default).
+    - `once`: Boolean, `true` if the listener should be invoked at most once.
+    - `passive`: Boolean, `true` to indicate the listener will not call `preventDefault()` (improves scrolling performance).
+
+  <!-- end list -->
+
+  ```html
+  <button id="myButton">Click Me</button> <input type="text" id="myInput" />
+  ```
+
+  ```javascript
+  const button = document.getElementById("myButton");
+  const input = document.getElementById("myInput");
+
+  button.addEventListener("click", () => {
+    alert("Button clicked!");
+  });
+
+  input.addEventListener("input", (event) => {
+    console.log("Input value changed:", event.target.value);
+  });
+
+  // Event with options
+  function handleScroll() {
+    console.log("Scrolling...");
+  }
+  window.addEventListener("scroll", handleScroll, {
+    passive: true,
+    once: true,
+  });
+  ```
+
+- **`element.removeEventListener(event, listener, [options])`**:
+
+  - Removes an event listener previously attached with `addEventListener`.
+  - **Crucial for memory management** to prevent memory leaks, especially in single-page applications where components are frequently created and destroyed.
+  - The `listener` function must be the _exact same function reference_ that was passed to `addEventListener`. Anonymous functions (e.g., `() => {}`) cannot be removed easily.
+
+  <!-- end list -->
+
+  ```javascript
+  function handleClick() {
+    console.log("Button clicked once!");
+    button.removeEventListener("click", handleClick); // Remove itself after first click
+  }
+  button.addEventListener("click", handleClick);
+  ```
+
+- **The Event Object (`event` parameter in listener):**
+  When an event listener is triggered, the browser passes an `Event` object as the first argument to the listener function. This object contains information about the event.
+
+  - **`event.target`**: The element that **triggered** the event (e.g., the specific button clicked, the specific input field changed).
+  - **`event.currentTarget`**: The element to which the event listener was **attached**. This can be different from `event.target` due to event bubbling/delegation.
+  - **`event.preventDefault()`**: Stops the browser's default action for an event (e.g., preventing a form submission, preventing a link from navigating).
+  - **`event.stopPropagation()`**: Prevents the event from bubbling up the DOM tree (or capturing down).
+
+  <!-- end list -->
+
+  ```html
+  <a href="https://example.com" id="myLink">Visit Example</a>
+  <form id="myForm">
+    <input type="text" />
+    <button type="submit">Submit</button>
+  </form>
+  ```
+
+  ```javascript
+  const myLink = document.getElementById("myLink");
+  myLink.addEventListener("click", (event) => {
+    event.preventDefault(); // Stop the link from navigating
+    console.log("Link click prevented. You clicked:", event.target.textContent);
+  });
+
+  const myForm = document.getElementById("myForm");
+  myForm.addEventListener("submit", (event) => {
+    event.preventDefault(); // Stop the form from submitting and reloading the page
+    console.log("Form submission prevented!");
+    const inputVal = event.target.querySelector("input").value; // event.target is the form
+    console.log("Input value:", inputVal);
+  });
+
+  // Example for target vs currentTarget
+  const outerDiv = document.getElementById("outer"); // <div id="outer"><button id="inner">Click</button></div>
+  outerDiv.addEventListener("click", (event) => {
+    console.log("Event Target:", event.target.id); // 'inner'
+    console.log("Event CurrentTarget:", event.currentTarget.id); // 'outer'
+  });
+  ```
+
+- **Event Delegation:**
+
+  - **Concept:** Instead of attaching event listeners to many individual child elements, you attach a single event listener to a common ancestor element. When an event occurs on a child, it "bubbles up" the DOM tree to the ancestor, where the single listener catches it.
+  - You then use `event.target` (and potentially `element.matches()` or `element.closest()`) to determine _which specific child_ was clicked and react accordingly.
+  - **Benefits:**
+    - **Performance:** Fewer event listeners mean less memory consumption and faster initial page load.
+    - **Dynamic Elements:** Automatically handles events for elements added to the DOM _after_ the initial page load, without needing to re-attach listeners.
+    - **Simpler Code:** Reduces repetitive code.
+
+  <!-- end list -->
+
+  ```html
+  <ul id="parentList">
+    <li>Item A</li>
+    <li>Item B</li>
+    <li>Item C</li>
+  </ul>
+  <button id="addListItem">Add Item</button>
+  ```
+
+  ```javascript
+  const parentList = document.getElementById("parentList");
+  const addListItemButton = document.getElementById("addListItem");
+
+  parentList.addEventListener("click", (event) => {
+    // Check if the clicked element is an <li>
+    if (event.target.tagName === "LI") {
+      console.log("Clicked on list item:", event.target.textContent);
+      event.target.style.backgroundColor = "yellow";
+    }
+  });
+
+  addListItemButton.addEventListener("click", () => {
+    const newItem = document.createElement("li");
+    newItem.textContent =
+      "New Dynamic Item " + (parentList.children.length + 1);
+    parentList.appendChild(newItem);
+  });
+  // Now, even the dynamically added items will trigger the parentList's click listener!
+  ```
+
+### 5\. DOM Traversal (Navigating the Tree)
+
+You can navigate between related elements in the DOM tree using various properties.
+
+- **`element.parentNode`**: Returns the parent node (typically an element).
+
+- **`element.children`**: Returns a live `HTMLCollection` of an element's child _elements_ (excluding text nodes, comments).
+
+- **`element.childNodes`**: Returns a live `NodeList` of all child nodes (including text nodes, comments, and elements).
+
+- **`element.firstElementChild`**: Returns the first child _element_.
+
+- **`element.lastElementChild`**: Returns the last child _element_.
+
+- **`element.nextElementSibling`**: Returns the next sibling _element_.
+
+- **`element.previousElementSibling`**: Returns the previous sibling _element_.
+
+  ```html
+  <div id="container">
+    <p id="p1">Paragraph 1</p>
+    <span id="span1">Span 1</span>
+    <p id="p2">Paragraph 2</p>
+  </div>
+  ```
+
+  ```javascript
+  const p1 = document.getElementById("p1");
+  console.log(p1.parentNode.id); // "container"
+  console.log(p1.nextElementSibling.id); // "span1"
+  console.log(p1.previousElementSibling); // null (first element child)
+
+  const container = document.getElementById("container");
+  console.log(container.firstElementChild.id); // "p1"
+  console.log(container.lastElementChild.id); // "p2"
+
+  // Looping through children
+  for (const child of container.children) {
+    console.log("Child:", child.tagName, child.id);
+  }
+  ```
+
+  **Note on Element vs. Node properties:** Properties ending with `Element` (e.g., `firstElementChild`) typically filter out non-element nodes (like whitespace text nodes or comments), making them generally more useful for manipulating HTML elements. Properties like `childNodes` include all node types.
+
+---
+
+This comprehensive overview of the DOM provides the fundamental tools for building dynamic and interactive web interfaces with JavaScript. Mastering these concepts is essential for front-end development.
+
+Next, we'll cover **Browser Storage (LocalStorage, SessionStorage, Cookies)**, which is closely related to web development.
+Actually, let's cover **Asynchronous JavaScript: Callbacks, Promises, and Async/Await** next. While we touched on the Event Loop, a deeper dive into these patterns is critical for modern JS, especially in the context of fetching data or other non-blocking operations. Then we can proceed to Browser Storage.
+
+---
+
+**Correction for next topic:** We _did_ cover Asynchronous JavaScript and the Event Loop previously (implicitly in section V). My apologies for the redundancy\!
+
+Let's stick to the plan for **Browser Storage (LocalStorage, SessionStorage, Cookies)** next, as it's a direct follow-up for web development after DOM manipulation.
+
+---
+
+**Next Up: X. Browser Storage (LocalStorage, SessionStorage, Cookies)**
+
+---
+
+**Cross-Questions & Answers (Working with the DOM):**
+
+**Q1: You have an HTML structure with a `div` containing many paragraphs (`<p>`). You want to add a click event listener to each paragraph, but new paragraphs might be added dynamically later. How would you efficiently handle events for both existing and future paragraphs, and why is this approach better than attaching individual listeners? Provide a code example.**
+
+**A1:**
+
+To efficiently handle click events for both existing and dynamically added paragraphs within a `div`, you should use **Event Delegation**.
+
+**Approach: Event Delegation**
+
+1.  **Attach one listener to the common ancestor:** Instead of adding a listener to each `<p>` tag, attach a single click event listener to their common parent `div` (or even a higher ancestor like `document.body`).
+2.  **Identify the target:** Inside the event listener, use `event.target` to determine which specific element _within the parent_ was actually clicked.
+3.  **Apply logic conditionally:** Check if `event.target` is the type of element you're interested in (e.g., a `<p>` tag) using properties like `tagName` or methods like `matches()`.
+
+**Why Event Delegation is Better:**
+
+1.  **Performance:**
+    - **Fewer Listeners:** You attach only one (or a few) event listeners to parent elements, rather than potentially hundreds or thousands of listeners to individual child elements. This significantly reduces memory footprint and improves initial page load performance, especially for large lists or tables.
+2.  **Dynamic Elements:**
+    - When new child elements are added to the DOM dynamically (e.g., through AJAX calls, user actions, or JavaScript creation), you don't need to manually attach new event listeners to each new element. Since the listener is on the parent, it automatically "catches" events from new children as they bubble up.
+3.  **Simpler Code:**
+    - It centralizes event handling logic, making the code cleaner and easier to manage. You avoid repetitive listener attachment loops.
+
+**Code Example:**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Delegation Example</title>
+    <style>
+      #container {
+        border: 2px solid blue;
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #f0f8ff;
+      }
+      .paragraph-item {
+        padding: 8px;
+        margin: 5px 0;
+        background-color: #e0f2f7;
+        cursor: pointer;
+        border: 1px solid #c0e0f0;
+      }
+      .paragraph-item:hover {
+        background-color: #d0eff5;
+      }
+      .highlight {
+        background-color: yellow !important;
+        font-weight: bold;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #218838;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Event Delegation Example</h1>
+
+    <div id="container">
+      <p class="paragraph-item" id="p1">This is an existing paragraph 1.</p>
+      <p class="paragraph-item" id="p2">This is an existing paragraph 2.</p>
+      <p class="paragraph-item" id="p3">This is an existing paragraph 3.</p>
+    </div>
+
+    <button id="addParagraphBtn">Add New Paragraph</button>
+
+    <script>
+      const container = document.getElementById("container");
+      const addParagraphBtn = document.getElementById("addParagraphBtn");
+      let paragraphCount = 3; // To keep track of new paragraphs
+
+      // 1. Attach ONE listener to the common ancestor (the container div)
+      container.addEventListener("click", (event) => {
+        // 2. Identify the target that triggered the event.
+        // Check if the clicked element (or its ancestor) is a paragraph-item.
+        // Using .closest() is robust as it handles clicks on children *inside* the <p>
+        const clickedParagraph = event.target.closest(".paragraph-item");
+
+        if (clickedParagraph) {
+          // 3. Apply logic conditionally based on the target
+          console.log(`Paragraph clicked: ${clickedParagraph.textContent}`);
+
+          // Toggle a highlight class
+          clickedParagraph.classList.toggle("highlight");
+
+          // You could also do more specific actions based on the ID or content
+          if (clickedParagraph.id === "p1") {
+            console.log("Special action for P1!");
+          }
+        }
+      });
+
+      // Function to add new paragraphs dynamically
+      addParagraphBtn.addEventListener("click", () => {
+        paragraphCount++;
+        const newParagraph = document.createElement("p");
+        newParagraph.className = "paragraph-item"; // Add the class for styling and delegation
+        newParagraph.id = `p${paragraphCount}`; // Give it an ID
+        newParagraph.textContent = `This is a dynamically added paragraph ${paragraphCount}.`;
+        container.appendChild(newParagraph);
+        console.log(`Added: ${newParagraph.textContent}`);
+      });
+
+      console.log(
+        "Script loaded. Try clicking paragraphs and adding new ones."
+      );
+    </script>
+  </body>
+</html>
+```
+
+In this example, the single click listener on `#container` handles clicks for `p1`, `p2`, `p3`, and any new paragraphs added by the "Add New Paragraph" button. This is significantly more efficient and maintainable than adding a listener to each `<p>` individually, especially as the number of paragraphs grows.
+
+---
+
+**Q2: Differentiate between `element.innerHTML`, `element.textContent`, and `element.innerText` when setting content. When would you choose one over the others, and what are the security considerations?**
+
+**A2:**
+
+These three properties are used to get or set the content of an HTML element, but they handle HTML tags and visibility differently.
+
+1.  **`element.innerHTML`**
+
+    - **What it does:** Gets or sets the HTML content (including all HTML tags) inside an element.
+    - **Getting:** Returns the raw HTML string, including any child tags and text.
+    - **Setting:** Parses the provided string as HTML and inserts it into the element. Any existing content is replaced.
+    - **When to choose:**
+      - When you need to insert or retrieve HTML structures (tags, formatting).
+      - When performance is a _secondary_ concern compared to simplicity for small HTML snippets.
+    - **Security Considerations (MAJOR):**
+      - **Vulnerability to XSS (Cross-Site Scripting) attacks.** If you set `innerHTML` using unescaped user-provided input, an attacker could inject malicious scripts.
+        ```javascript
+        // DANGER! Example of XSS vulnerability
+        const userInput = "<img src='x' onerror='alert(\"You are hacked!\")'>";
+        document.getElementById("myDiv").innerHTML = userInput;
+        ```
+      - Always sanitize user input if you must use `innerHTML`. For injecting plain text, `textContent` is much safer.
+
+2.  **`element.textContent`**
+
+    - **What it does:** Gets or sets the _text content_ of an element, completely ignoring HTML tags.
+    - **Getting:** Returns all text content of the element and its descendants, concatenating it as a single string, stripping out all HTML tags. It includes text from hidden elements (e.g., `display: none`).
+    - **Setting:** Replaces the element's entire content with the provided string, treating it as plain text. Any HTML tags in the string will be rendered as literal text, not as HTML elements.
+    - **When to choose:**
+      - **Preferred for setting plain text.** It's safer and generally more performant than `innerHTML` when you only need to manipulate text.
+      - When you need to extract all visible and hidden text from an element and its children.
+    - **Security Considerations:**
+      - **Much safer against XSS.** Since it treats all input as plain text, it prevents malicious scripts from being executed.
+
+3.  **`element.innerText`**
+
+    - **What it does:** Gets or sets the _rendered text content_ of an element, attempting to reflect what the user actually sees.
+    - **Getting:** Returns the "visible" text content. It is aware of CSS styling (e.g., `display: none`, `visibility: hidden`) and will not return text from elements that are hidden by CSS. It also respects line breaks and formatting, similar to how text is rendered visually.
+    - **Setting:** Similar to `textContent` in that it inserts plain text, but it's typically slower than `textContent` because it requires the browser to compute the element's layout (CSS rendering) to determine what text is "visible."
+    - **When to choose:**
+      - When you specifically need the _visible_ text content, matching what the user would copy and paste.
+      - When you care about text formatting (like line breaks) as it appears on the screen.
+    - **Security Considerations:**
+      - Relatively safe against XSS for setting content, similar to `textContent`, as it treats input as plain text.
+
+**Summary Table:**
+
+| Feature             | `innerHTML`                                 | `textContent`                                 | `innerText`                                                         |
+| :------------------ | :------------------------------------------ | :-------------------------------------------- | :------------------------------------------------------------------ |
+| **Gets/Sets**       | HTML content (tags included)                | Plain text content (tags stripped)            | Visible plain text content (tags stripped, CSS-aware)               |
+| **Performance**     | Can be slower (re-parses HTML)              | Faster (doesn't parse HTML or compute layout) | Slower (computes layout and rendering)                              |
+| **Security (XSS)**  | **HIGH RISK** with untrusted input          | **LOW RISK** (safer)                          | **LOW RISK** (safer)                                                |
+| **Hidden Elements** | Includes text from `display: none` elements | Includes text from `display: none` elements   | **Excludes** text from `display: none` elements                     |
+| **Use Case**        | Inserting complex HTML structures           | Inserting/getting plain text; faster          | Getting user-visible text, including line breaks and CSS formatting |
+
+**General Recommendation:**
+
+- **For plain text:** Use `element.textContent` (safer and often faster).
+- **For inserting HTML (with caution):** Use `element.innerHTML`, but **ALWAYS sanitize** user-provided input to prevent XSS. Consider using templating libraries or `document.createElement()` + `appendChild()` for more secure and controlled HTML generation, especially for complex structures.
+- **For visible text only:** Use `element.innerText` if the visual rendering and visibility are critical, but be aware of its potential performance overhead.
+
+---
+
+**Q3: Explain the difference between `event.target` and `event.currentTarget` in an event listener. Provide an example where they would be different, showcasing the concept of event bubbling.**
+
+**A3:**
+
+When an event occurs in the DOM, an `Event` object is created and passed to the event listener function. This `Event` object contains various properties providing information about the event, including `target` and `currentTarget`.
+
+1.  **`event.target`**:
+
+    - Refers to the **element that originally triggered the event**. This is the most deeply nested element in the DOM tree where the event originated.
+    - It's the element that the user _actually interacted with_ (e.g., the specific `<span>` inside a `<div>` that was clicked).
+
+2.  **`event.currentTarget`**:
+
+    - Refers to the **element to which the event listener was attached**.
+    - This is the element on which you explicitly called `addEventListener()`.
+
+**How They Differ (and Why: Event Bubbling):**
+
+Events in the DOM typically follow a **bubbling phase** (after an optional capturing phase). This means an event first captures down to the target element, then it bubbles up from the target element through its ancestors in the DOM tree. If an event listener is attached to an ancestor element, it will "catch" the event as it bubbles up.
+
+In such a scenario (especially with event delegation), `event.target` will be the actual element clicked, while `event.currentTarget` will be the ancestor element where the listener is placed.
+
+**Example:**
+
+Consider the following HTML:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Target vs CurrentTarget</title>
+    <style>
+      #outer-div {
+        border: 2px solid blue;
+        padding: 20px;
+        text-align: center;
+        background-color: lightblue;
+        cursor: pointer;
+      }
+      #inner-button {
+        padding: 10px 15px;
+        background-color: darkblue;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>event.target vs event.currentTarget</h1>
+
+    <div id="outer-div">
+      <p>Click anywhere in this blue box, or specifically the button:</p>
+      <button id="inner-button">Click Me</button>
+    </div>
+
+    <script>
+      const outerDiv = document.getElementById("outer-div");
+      const innerButton = document.getElementById("inner-button");
+
+      // Attach event listener to the outer div
+      outerDiv.addEventListener("click", (event) => {
+        console.log("--- Event on Outer Div ---");
+        console.log("event.target:", event.target.id || event.target.tagName);
+        console.log("event.currentTarget:", event.currentTarget.id);
+
+        // You can use event.target to react differently based on what was actually clicked
+        if (event.target.id === "inner-button") {
+          console.log("You clicked the inner button!");
+        } else if (event.target.tagName === "P") {
+          console.log("You clicked the paragraph!");
+        } else {
+          console.log(
+            "You clicked the outer div directly (or some other child)!"
+          );
+        }
+      });
+
+      // Attach a separate listener to the button for comparison (optional)
+      innerButton.addEventListener("click", (event) => {
+        console.log("\n--- Event on Inner Button (separate listener) ---");
+        console.log("event.target:", event.target.id || event.target.tagName);
+        console.log("event.currentTarget:", event.currentTarget.id);
+        // event.stopPropagation(); // Uncomment to stop bubbling to outerDiv
+      });
+
+      console.log("Script loaded. Try clicking the button and the blue area.");
+    </script>
+  </body>
+</html>
+```
+
+**Output Scenarios:**
+
+1.  **If you click on the `<button id="inner-button">`:**
+
+    - **Output from `innerButton`'s listener:**
+      ```
+      --- Event on Inner Button (separate listener) ---
+      event.target: inner-button
+      event.currentTarget: inner-button
+      ```
+    - **Output from `outerDiv`'s listener (due to bubbling):**
+      ```
+      --- Event on Outer Div ---
+      event.target: inner-button  // Still the button, where the event originated
+      event.currentTarget: outer-div // The div where *this specific listener* is attached
+      You clicked the inner button!
+      ```
+
+2.  **If you click on the `<p>` tag inside the `outer-div` (but not the button):**
+
+    - **Output from `outerDiv`'s listener:**
+      ```
+      --- Event on Outer Div ---
+      event.target: P                // The paragraph element
+      event.currentTarget: outer-div
+      You clicked the paragraph!
+      ```
+
+**Conclusion:**
+
+- `event.target` tells you _what_ was clicked.
+- `event.currentTarget` tells you _where_ the listener that is currently processing the event is attached.
+
+Understanding this distinction is fundamental for implementing powerful patterns like event delegation, where a single listener on an ancestor can intelligently react to events from many different descendants.
+
+---
