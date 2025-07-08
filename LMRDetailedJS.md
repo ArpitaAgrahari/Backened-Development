@@ -5875,3 +5875,337 @@ The `instanceof` operator is used to test whether an object has the `prototype` 
 In conclusion, `instanceof` is useful for checking an object's position in a known inheritance chain, especially with `class` syntax. However, be aware of its limitations with primitives and cross-realm objects, where `Object.prototype.toString.call()` is often a more reliable alternative. For general type checking, `typeof` and `Array.isArray()` serve their specific purposes.
 
 ---
+
+## V. Event Loop & Concurrency Model
+
+JavaScript is a **single-threaded** programming language. This means it has only one "call stack" and can execute only one piece of code at a time. So, how does it handle operations that take a long time, like fetching data from a server, without freezing the entire browser or Node.js application? The answer lies in its **concurrency model**, which relies on the **Event Loop**, **Web APIs (or Node.js APIs)**, and the **Callback (Task) Queue** and **Microtask Queue**.
+
+### 1\. The Call Stack
+
+The **Call Stack** is where synchronous JavaScript code gets executed. It's a LIFO (Last-In, First-Out) data structure that records where in the program we are. When a function is called, it's pushed onto the stack. When a function returns, it's popped off the stack.
+
+- **Blocking:** If a function takes a very long time to execute, it "blocks" the stack. Nothing else can happen until that function completes and is popped off. This is why long-running synchronous operations can freeze the UI.
+
+  ```javascript
+  function multiply(a, b) {
+    return a * b;
+  }
+
+  function calculate() {
+    let result = multiply(5, 10);
+    console.log(result);
+  }
+
+  calculate(); // Call Stack: [calculate] -> [multiply] -> [console.log]
+  console.log("Done!");
+  ```
+
+### 2\. Web APIs (Browser Environment) / C++ APIs (Node.js Environment)
+
+These are not part of the JavaScript engine itself but are provided by the **runtime environment** (the browser or Node.js). They handle asynchronous tasks in the background.
+
+- **Browser (Web APIs):** `setTimeout()`, `setInterval()`, `fetch()`, `XMLHttpRequest`, DOM events (`click`, `mousemove`), `FileReader`, `requestAnimationFrame`, etc.
+- **Node.js (C++ APIs):** File system operations (`fs.readFile`), network requests, database interactions, child processes.
+
+When an asynchronous function (like `setTimeout`) is called, it's pushed onto the Call Stack, which then passes the task to the respective Web API (or Node.js API). The Web API then handles the non-blocking I/O or timer operation in the background. The JavaScript Call Stack immediately becomes free to execute other code.
+
+### 3\. Callback (Task) Queue (aka Message Queue / MacroTask Queue)
+
+When a Web API (or Node.js API) finishes its asynchronous task, it doesn't immediately push the associated callback function back onto the Call Stack. Instead, it places the callback function into the **Callback (Task) Queue**. This queue is a FIFO (First-In, First-Out) data structure that holds functions waiting to be executed on the main thread.
+
+- **Examples of tasks that go into the Callback Queue:**
+  - `setTimeout()` and `setInterval()` callbacks.
+  - DOM event handlers (e.g., `click` listeners).
+  - I/O operations (like `fs.readFile` in Node.js).
+  - Network responses (`fetch`, `XMLHttpRequest` success/error handlers).
+
+### 4\. Microtask Queue (Higher Priority Queue)
+
+Introduced with Promises (ES6), the **Microtask Queue** is another queue for asynchronous callbacks, but it has **higher priority** than the Callback (Task) Queue.
+
+- **Examples of tasks that go into the Microtask Queue:**
+  - `Promise` callbacks (`.then()`, `.catch()`, `.finally()`).
+  - `queueMicrotask()` (a low-level API for scheduling microtasks).
+  - `MutationObserver` callbacks.
+
+### 5\. The Event Loop
+
+The **Event Loop** is the most crucial part that orchestrates everything. It's a constantly running process that monitors two things:
+
+1.  **The Call Stack:** Is it empty?
+2.  **The Queues:** Are there any pending callbacks in the Microtask Queue or Callback (Task) Queue?
+
+**Here's the sequence of operations the Event Loop follows in each "tick" or iteration:**
+
+1.  **Execute Synchronous Code:** The Event Loop continuously checks if the Call Stack is empty. If there's synchronous code, it gets executed first.
+2.  **Process Microtasks:** Once the Call Stack is empty, the Event Loop prioritizes the **Microtask Queue**. It will drain (execute all) microtasks from the Microtask Queue until it's empty. Each microtask executed might add more microtasks to the queue, and those new microtasks will also be processed _before_ moving to the next step.
+3.  **Process One Macrotask (from Callback Queue):** After the Call Stack is empty and the Microtask Queue is completely empty, the Event Loop takes **one (and only one)** task from the **Callback (Task) Queue** and pushes it onto the Call Stack for execution.
+4.  **Repeat:** The Event Loop then goes back to step 1 (checking the Call Stack, then microtasks, then the next macrotask).
+
+**Illustrative Example: `setTimeout(0)` and Promises**
+
+```javascript
+console.log("1. Start"); // Sync
+
+setTimeout(() => {
+  console.log("4. setTimeout callback (Macrotask)"); // Macrotask Queue
+}, 0);
+
+Promise.resolve()
+  .then(() => {
+    console.log("3. Promise resolved (Microtask 1)"); // Microtask Queue
+  })
+  .then(() => {
+    console.log("5. Promise resolved (Microtask 2)"); // Microtask Queue (added by previous .then)
+  });
+
+console.log("2. End"); // Sync
+```
+
+**Execution Order Breakdown:**
+
+1.  `console.log('1. Start');` // Pushed to Call Stack, executed. **Output: 1. Start**
+2.  `setTimeout(() => {...}, 0);` // Pushed to Call Stack. Passed to Web API. Callback `() => {console.log('4. setTimeout callback')}` is scheduled to be put into **Callback (Task) Queue** after 0ms (minimum delay, not exact).
+3.  `Promise.resolve().then(() => {...});` // `Promise.resolve()` immediately resolves. The `.then()` callback `() => {console.log('3. Promise resolved')}` is placed into the **Microtask Queue**.
+4.  `console.log('2. End');` // Pushed to Call Stack, executed. **Output: 2. End**
+5.  **Call Stack is now empty.**
+6.  **Event Loop checks Microtask Queue.** It finds `() => {console.log('3. Promise resolved')}`. Pushes it to Call Stack, executes. **Output: 3. Promise resolved (Microtask 1)**.
+7.  The execution of Microtask 1 finished. It returned a Promise, which immediately resolved, queuing the next `.then()` callback `() => {console.log('5. Promise resolved (Microtask 2)')}` into the **Microtask Queue**.
+8.  **Call Stack is still empty.**
+9.  **Event Loop checks Microtask Queue again.** It's not empty\! It finds `() => {console.log('5. Promise resolved (Microtask 2)')}`. Pushes it to Call Stack, executes. **Output: 5. Promise resolved (Microtask 2)**.
+10. **Call Stack is empty. Microtask Queue is empty.**
+11. **Event Loop checks Callback (Task) Queue.** It finds `() => {console.log('4. setTimeout callback')}`. Pushes it to Call Stack, executes. **Output: 4. setTimeout callback (Macrotask)**.
+12. All queues empty, Call Stack empty. Program finishes.
+
+**Final Output Order:**
+
+```
+1. Start
+2. End
+3. Promise resolved (Microtask 1)
+5. Promise resolved (Microtask 2)
+4. setTimeout callback (Macrotask)
+```
+
+This example clearly demonstrates the priority of microtasks over macrotasks, and how synchronous code always runs first.
+
+### Key Concepts Recap:
+
+- **Single Thread:** JavaScript processes code sequentially.
+- **Non-blocking I/O:** Achieved by offloading tasks to Web APIs (or Node.js APIs).
+- **Callback Queues:** Hold functions waiting for their turn to execute on the Call Stack.
+- **Event Loop:** The continuous supervisor, ensuring the Call Stack is always prioritized, then Microtasks, then one Macrotask.
+
+Understanding the Event Loop is vital for debugging asynchronous code, predicting execution order, and writing efficient, non-blocking applications.
+
+---
+
+**Cross-Questions & Answers (Event Loop & Concurrency Model):**
+
+**Q1: Describe the main components of JavaScript's concurrency model. How do they interact to enable asynchronous operations in a single-threaded environment?**
+
+**A1:**
+
+JavaScript's concurrency model, in a single-threaded environment, relies on the cooperation of four main components: the **Call Stack**, **Web APIs (or Node.js APIs)**, the **Callback (Task) Queue (or Macrotask Queue)**, and the **Event Loop**.
+
+Here's how they interact:
+
+1.  **The Call Stack:**
+
+    - This is the primary execution thread where all **synchronous JavaScript code** runs. It's a Last-In, First-Out (LIFO) stack.
+    - When a function is called, it's pushed onto the stack. When it returns, it's popped off.
+    - **Interaction:** All initial JavaScript code execution starts here. If the Call Stack is busy, no other JavaScript code (including asynchronous callbacks) can run.
+
+2.  **Web APIs (Browser Environment) / C++ APIs (Node.js Environment):**
+
+    - These are capabilities provided by the **runtime environment** (browser or Node.js), _not_ by the JavaScript engine itself. They are typically implemented in other languages (like C++).
+    - They handle **asynchronous tasks** in the background, offloading them from the main JavaScript thread. Examples include `setTimeout`, `fetch` requests, DOM events, file I/O, etc.
+    - **Interaction:** When JavaScript code calls an asynchronous function (e.g., `setTimeout(callback, delay)`), the function itself is put onto the Call Stack and then immediately passed to the relevant Web API. The Web API starts its background operation (e.g., a timer, a network request). The Call Stack then becomes free immediately, allowing synchronous code to continue.
+
+3.  **Callback (Task) Queue / Macrotask Queue (and Microtask Queue):**
+
+    - These are First-In, First-Out (FIFO) queues where asynchronous callbacks wait after their corresponding Web API tasks are completed.
+    - **Callback (Task) Queue (Lower Priority):** Holds callbacks from `setTimeout`, `setInterval`, I/O operations, UI events (clicks, etc.).
+    - **Microtask Queue (Higher Priority):** Holds callbacks from `Promises` (`.then()`, `.catch()`, `.finally()`), `queueMicrotask()`, and `MutationObserver`.
+    - **Interaction:** Once a Web API task finishes (e.g., `setTimeout` delay expires, `fetch` request returns data), it places the associated callback function into the appropriate queue (Microtask or Task). The callbacks are now ready to be executed by the JavaScript engine, but they must wait for the Event Loop.
+
+4.  **The Event Loop:**
+
+    - This is a continuously running process that acts as the orchestrator for the entire concurrency model.
+    - **Interaction:** The Event Loop constantly monitors two things:
+      - **Is the Call Stack empty?** If it's not empty, the Event Loop waits.
+      - **Are there any tasks in the queues?**
+    - **The Cycle:**
+      1.  Once the Call Stack is empty (all synchronous code has finished executing), the Event Loop first checks the **Microtask Queue**.
+      2.  It processes and drains _all_ microtasks from the Microtask Queue, pushing them onto the Call Stack one by one. If a microtask itself queues new microtasks, those are also processed in the same "tick" before moving on.
+      3.  After the Microtask Queue is completely empty, the Event Loop then takes **one (and only one)** task from the **Callback (Task) Queue** and pushes it onto the Call Stack.
+      4.  This cycle repeats, continuously checking the Call Stack, then microtasks, then one macrotask, ensuring that the single JavaScript thread remains responsive while handling long-running operations.
+
+In summary, JavaScript leverages external APIs and a clever queuing/looping mechanism to manage seemingly concurrent tasks without blocking its single execution thread, maintaining a fluid user experience.
+
+---
+
+**Q2: Explain the difference in priority between the Microtask Queue and the Callback (Task) Queue. Provide an example that clearly demonstrates this priority difference in execution order.**
+
+**A2:**
+
+The key difference between the **Microtask Queue** (also known as Job Queue) and the **Callback (Task) Queue** (also known as Macrotask Queue or Message Queue) lies in their **priority during the Event Loop's processing cycle**.
+
+- **Microtask Queue:**
+
+  - **Priority:** **Higher priority.**
+  - **Processing:** The Event Loop will completely **drain (execute all)** tasks in the Microtask Queue _before_ moving to the Callback (Task) Queue. This happens after the Call Stack is empty and before picking up the next macrotask.
+  - **Sources:** Primarily `Promise` callbacks (`.then()`, `.catch()`, `.finally()`), `queueMicrotask()`, and `MutationObserver` callbacks.
+  - **Behavior:** If a microtask itself queues another microtask, that new microtask will also be executed within the _same event loop tick_ before any macrotasks are processed.
+
+- **Callback (Task) Queue:**
+
+  - **Priority:** **Lower priority.**
+  - **Processing:** The Event Loop will pick **one (and only one)** task from the Callback (Task) Queue per event loop cycle, after the Call Stack is empty and the Microtask Queue is completely empty.
+  - **Sources:** `setTimeout()`, `setInterval()`, I/O operations (file reads, network requests), UI events (`click`, `load`).
+
+**Example Demonstrating Priority:**
+
+```javascript
+console.log("1. Synchronous Code Start");
+
+setTimeout(() => {
+  console.log("4. setTimeout callback (Macrotask)");
+}, 0); // Scheduled with 0ms delay
+
+Promise.resolve()
+  .then(() => {
+    console.log("3. Promise.then() callback (Microtask 1)");
+  })
+  .then(() => {
+    console.log("5. Another Promise.then() callback (Microtask 2)");
+  });
+
+console.log("2. Synchronous Code End");
+```
+
+**Execution Order Explained:**
+
+1.  `console.log('1. Synchronous Code Start');` is executed.
+
+    - **Output:** `1. Synchronous Code Start`
+    - _Call Stack: Empty_
+
+2.  `setTimeout(() => { ... }, 0);` is encountered. The callback function is sent to the Web API. After 0ms, it's placed into the **Callback (Task) Queue**.
+
+    - _Call Stack: Empty_
+    - _Callback (Task) Queue: [setTimeout callback]_
+    - _Microtask Queue: Empty_
+
+3.  `Promise.resolve().then(() => { ... }).then(() => { ... });` is encountered.
+
+    - `Promise.resolve()` immediately resolves the promise.
+    - The first `.then()` callback (`'3. Promise.then() callback (Microtask 1)'`) is immediately placed into the **Microtask Queue**.
+    - _Call Stack: Empty_
+    - _Callback (Task) Queue: [setTimeout callback]_
+    - _Microtask Queue: [Microtask 1]_
+
+4.  `console.log('2. Synchronous Code End');` is executed.
+
+    - **Output:** `2. Synchronous Code End`
+    - _Call Stack: Empty_
+
+5.  **Event Loop Tick Starts:** The Call Stack is now empty. The Event Loop begins its work.
+
+    - **Prioritize Microtasks:** It first checks the Microtask Queue. It finds 'Microtask 1'.
+    - 'Microtask 1' is pushed onto the Call Stack and executed.
+      - **Output:** `3. Promise.then() callback (Microtask 1)`
+    - _During the execution of Microtask 1_, the `return` (implicit `undefined`) of the first `.then()` causes the next `.then()` to schedule its callback (`'5. Another Promise.then() callback (Microtask 2)'`) into the **Microtask Queue**.
+      - _Call Stack: Empty_
+      - _Callback (Task) Queue: [setTimeout callback]_
+      - _Microtask Queue: [Microtask 2]_ (Added while Microtask 1 was running)
+    - The Event Loop re-checks the Microtask Queue. It's _not empty_\! It finds 'Microtask 2'.
+    - 'Microtask 2' is pushed onto the Call Stack and executed.
+      - **Output:** `5. Another Promise.then() callback (Microtask 2)`
+    - _Call Stack: Empty_
+    - _Microtask Queue: Empty_ (Now fully drained)
+
+6.  **Process One Macrotask:** Since the Call Stack and Microtask Queue are now empty, the Event Loop moves to the Callback (Task) Queue. It takes the _first_ task (the `setTimeout` callback).
+
+    - The `setTimeout` callback is pushed onto the Call Stack and executed.
+      - **Output:** `4. setTimeout callback (Macrotask)`
+    - _Call Stack: Empty_
+    - _Callback (Task) Queue: Empty_
+
+**Final Output Order:**
+
+```
+1. Synchronous Code Start
+2. Synchronous Code End
+3. Promise.then() callback (Microtask 1)
+5. Another Promise.then() callback (Microtask 2)
+4. setTimeout callback (Macrotask)
+```
+
+This clearly shows that all microtasks associated with an event loop cycle are executed _before_ any macrotasks from the Callback (Task) Queue are processed, even if the macrotask was queued first. This priority ensures that Promises and related operations are handled as quickly as possible.
+
+---
+
+**Q3: Why is `setTimeout(fn, 0)` not guaranteed to execute immediately after the current synchronous code finishes? How does this relate to the Event Loop?**
+
+**A3:**
+
+`setTimeout(fn, 0)` is **not guaranteed to execute immediately** after the current synchronous code finishes because of the way the JavaScript Event Loop prioritizes tasks. While setting the delay to `0` milliseconds tells the browser/Node.js to execute the callback "as soon as possible," "as soon as possible" doesn't mean _immediately after the current line of code_. It means "as soon as the Call Stack is empty _and_ any pending microtasks are processed."
+
+Here's the breakdown of why:
+
+1.  **Synchronous Code Priority:** The JavaScript engine always prioritizes the execution of all currently running synchronous code on the Call Stack. When `setTimeout(fn, 0)` is encountered, its callback (`fn`) is _scheduled_ to be placed in the Callback (Task) Queue by the Web API after its delay (0ms in this case). However, the rest of the synchronous code in the current script continues to run immediately.
+
+2.  **Event Loop's Cycle:** The Event Loop operates in a continuous cycle:
+
+    - It executes all code currently on the **Call Stack**.
+    - Once the Call Stack is empty, it then **drains the entire Microtask Queue** (which contains Promise callbacks).
+    - **Only after both the Call Stack and the Microtask Queue are empty** does the Event Loop pick up the _next single task_ from the **Callback (Task) Queue** and push it onto the Call Stack.
+
+**Scenario and Example:**
+
+Consider this sequence:
+
+```javascript
+console.log("1. Start synchronous code"); // Sync
+
+setTimeout(() => {
+  console.log("4. setTimeout(0) callback (Macrotask)"); // Task Queue
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("3. Promise callback (Microtask)"); // Microtask Queue
+});
+
+console.log("2. End synchronous code"); // Sync
+```
+
+**Execution Flow (as explained in Q2):**
+
+1.  `console.log("1. Start synchronous code");` runs.
+2.  `setTimeout(...)` is scheduled. Its callback goes into the **Callback (Task) Queue**.
+3.  `Promise.resolve().then(...)` is scheduled. Its callback goes into the **Microtask Queue**.
+4.  `console.log("2. End synchronous code");` runs.
+5.  At this point, all synchronous code is done, and the Call Stack is empty.
+6.  The Event Loop now checks the **Microtask Queue first**. It finds and executes the `Promise` callback.
+7.  Only _after_ the Microtask Queue is completely empty does the Event Loop move to the **Callback (Task) Queue** and execute the `setTimeout` callback.
+
+**Actual Output:**
+
+```
+1. Start synchronous code
+2. End synchronous code
+3. Promise callback (Microtask)
+4. setTimeout(0) callback (Macrotask)
+```
+
+**Conclusion:**
+
+`setTimeout(fn, 0)` essentially says, "put this function at the very back of the line of all _macrotasks_." However, it still has to wait for:
+
+- All currently executing synchronous code to complete.
+- All microtasks that were queued _before or during_ the current synchronous code's execution (including microtasks generated by those microtasks) to complete.
+
+Therefore, `setTimeout(0)` guarantees that the callback will be executed asynchronously, but not _immediately_. It's placed into the macrotask queue, which has lower priority than the microtask queue, ensuring that the immediate synchronous and microtask work finishes first. This mechanism is crucial for ensuring responsiveness and predictable behavior in JavaScript applications.
+
+---
