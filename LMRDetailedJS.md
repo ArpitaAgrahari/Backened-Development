@@ -4292,3 +4292,1013 @@ For modern JavaScript development, **`async/await` is generally the preferred ap
 These `Promise` combinators offer powerful ways to orchestrate complex asynchronous workflows, making your code more resilient and efficient.
 
 ---
+
+## III. ES6+ Features (Modern JavaScript)
+
+This section covers the most impactful additions from ES6 onwards, which you'll encounter in virtually all modern JavaScript projects.
+
+### 1\. `let` and `const` (Revisit)
+
+We've already discussed `let` and `const` extensively in the "Scope & Hoisting" section. To summarize their importance:
+
+- **`let`**:
+
+  - **Block-scoped**: Variables are confined to the block (`{}`) where they are defined.
+  - **Can be reassigned**: Its value can be changed after declaration.
+  - **Cannot be redeclared** within the same scope.
+  - **Temporal Dead Zone (TDZ)**: Cannot be accessed before declaration.
+
+- **`const`**:
+
+  - **Block-scoped**: Similar to `let`.
+  - **Cannot be reassigned**: Once initialized, its reference cannot be changed. This means it must be initialized at declaration.
+  - **Cannot be redeclared**.
+  - **Temporal Dead Zone (TDZ)**: Cannot be accessed before declaration.
+  - **Important Note**: For objects and arrays, `const` prevents reassignment of the _reference_, but it does **not** prevent mutation of the object's properties or array's elements.
+
+**Summary/Best Practice**: Prefer `const` by default. Only use `let` if you know the variable needs to be reassigned. Avoid `var`.
+
+```javascript
+// const example
+const PI = 3.14159;
+// PI = 3.14; // TypeError: Assignment to constant variable.
+
+const user = { name: "Alice", age: 30 };
+user.age = 31; // Allowed: mutating the object, not reassigning the reference
+console.log(user); // { name: 'Alice', age: 31 }
+
+// user = { name: "Bob" }; // TypeError: Assignment to constant variable.
+
+// let example
+let counter = 0;
+counter = 1; // Allowed: reassignment
+// let counter = 2; // SyntaxError: 'counter' has already been declared
+
+if (true) {
+  let blockVar = "I'm in a block";
+  console.log(blockVar);
+}
+// console.log(blockVar); // ReferenceError: blockVar is not defined (block-scoped)
+```
+
+---
+
+### 2\. Arrow Functions
+
+Again, we've touched upon arrow functions when discussing `this`. They provide a more concise syntax for writing function expressions and have a different behavior regarding `this`.
+
+- **Concise Syntax**: Shorter than traditional function expressions.
+- **No `this` Binding**: They do not have their own `this`. They inherit `this` from the enclosing lexical (parent) scope. This solves common `this` binding issues in callbacks.
+- **No `arguments` Object**: They do not have their own `arguments` object. You can use the rest parameter (`...args`) instead.
+- **Cannot be used as Constructors**: They cannot be invoked with `new`.
+- **No `super`**: Cannot be used for `super` calls.
+- **No `prototype` property**:
+
+**Syntax Variations:**
+
+- **Single parameter, single expression**: No parentheses for param, no curly braces for body, implicit `return`.
+  ```javascript
+  const double = (num) => num * 2;
+  console.log(double(5)); // 10
+  ```
+- **Multiple parameters / No parameters**: Parentheses required for params.
+
+  ```javascript
+  const add = (a, b) => a + b;
+  console.log(add(2, 3)); // 5
+
+  const sayHello = () => console.log("Hello!");
+  sayHello(); // Hello!
+  ```
+
+- **Multiple statements / Object literal return**: Curly braces required, explicit `return` for multiple statements or object literals (to avoid confusion with block).
+
+  ```javascript
+  const calculateArea = (length, width) => {
+    const area = length * width;
+    return `Area: ${area}`;
+  };
+  console.log(calculateArea(10, 5)); // Area: 50
+
+  const createUser = (name, age) => ({ name: name, age: age }); // Parentheses around object literal
+  console.log(createUser("Charlie", 25)); // { name: 'Charlie', age: 25 }
+  ```
+
+**`this` behavior (recap):**
+
+```javascript
+const person = {
+  name: "David",
+  // Traditional function: 'this' refers to the 'person' object
+  greetMethod: function () {
+    console.log(`Hello, I'm ${this.name}`);
+  },
+  // Arrow function: 'this' inherits from the global scope (Window/undefined)
+  // because the 'person' object itself does not create a new lexical scope for `this`.
+  // It captures `this` from where `person` is defined.
+  greetArrow: () => {
+    console.log(`Hello, I'm ${this.name}`);
+  },
+  // Common correct use: Arrow function inside a method to preserve 'this'
+  startTimer: function () {
+    setTimeout(() => {
+      // 'this' here is lexically inherited from `startTimer`'s `this` (which is `person`)
+      console.log(`Timer for ${this.name} finished!`);
+    }, 1000);
+  },
+};
+
+person.greetMethod(); // Hello, I'm David
+person.greetArrow(); // Hello, I'm undefined (or similar, referring to global)
+person.startTimer(); // (after 1s) Timer for David finished!
+```
+
+---
+
+### 3\. Template Literals (Template Strings)
+
+Template literals provide a way to create strings that allow for embedded expressions, multi-line strings, and "tagged" templates. They are enclosed by backticks (`` ` ``).
+
+- **Multi-line Strings**: No need for `\n`.
+- **String Interpolation**: Embed expressions directly using `${expression}`.
+- **Tagged Templates**: More advanced use cases, where a function can process the template literal.
+
+**Example:**
+
+```javascript
+const name = "Eve";
+const age = 28;
+
+// Multi-line string
+const multiLine = `Hello,
+My name is ${name}.
+I am ${age} years old.`;
+console.log(multiLine);
+/* Output:
+Hello,
+My name is Eve.
+I am 28 years old.
+*/
+
+// Expression interpolation
+const price = 10.5;
+const quantity = 3;
+const total = `The total cost is $${(price * quantity).toFixed(2)}.`;
+console.log(total); // The total cost is $31.50.
+```
+
+---
+
+### 4\. Destructuring (Array & Object)
+
+Destructuring assignment is a powerful feature that allows you to unpack values from arrays or properties from objects into distinct variables. It offers a cleaner and more efficient way to extract data.
+
+#### Array Destructuring
+
+Extracts values from an array by matching positions.
+
+```javascript
+const colors = ["red", "green", "blue"];
+
+// Basic destructuring
+const [firstColor, secondColor, thirdColor] = colors;
+console.log(firstColor); // red
+console.log(secondColor); // green
+
+// Skipping elements
+const [, , lastColor] = colors;
+console.log(lastColor); // blue
+
+// Rest parameter with array destructuring
+const [primary, ...restColors] = colors;
+console.log(primary); // red
+console.log(restColors); // ['green', 'blue']
+
+// Swapping variables (without temp variable)
+let a = 1;
+let b = 2;
+[a, b] = [b, a];
+console.log(a); // 2
+console.log(b); // 1
+```
+
+#### Object Destructuring
+
+Extracts properties from an object by matching property names.
+
+```javascript
+const person = {
+  firstName: "Frank",
+  lastName: "Smith",
+  country: "USA",
+  job: "Developer",
+};
+
+// Basic destructuring
+const { firstName, lastName } = person;
+console.log(firstName); // Frank
+console.log(lastName); // Smith
+
+// Assigning to new variable names (aliasing)
+const { country: nationality, job: profession } = person;
+console.log(nationality); // USA
+console.log(profession); // Developer
+
+// Default values (if property doesn't exist)
+const { city = "Unknown", firstName: fName } = person;
+console.log(city); // Unknown (because 'city' is not in 'person')
+console.log(fName); // Frank
+
+// Rest parameter with object destructuring
+const { firstName: nameOfPerson, ...otherDetails } = person;
+console.log(nameOfPerson); // Frank
+console.log(otherDetails); // { lastName: 'Smith', country: 'USA', job: 'Developer' }
+
+// Destructuring in function parameters
+function printUserDetails({ firstName, country, job = "Unemployed" }) {
+  console.log(`${firstName} is from ${country} and works as a ${job}.`);
+}
+
+printUserDetails(person); // Frank is from USA and works as a Developer.
+printUserDetails({ firstName: "Grace", country: "Canada" }); // Grace is from Canada and works as a Unemployed.
+```
+
+---
+
+### 5\. Spread and Rest Operators (`...`)
+
+The three dots (`...`) serve two distinct but related purposes: the **spread operator** and the **rest parameter**.
+
+#### Spread Operator (`...`)
+
+Expands an iterable (like an array, string, or object) into its individual elements. It's used when you want to _expand_ items.
+
+- **Expanding Arrays**:
+
+  ```javascript
+  const arr1 = [1, 2, 3];
+  const arr2 = [4, 5, 6];
+
+  const combinedArr = [...arr1, ...arr2]; // Combines arrays
+  console.log(combinedArr); // [1, 2, 3, 4, 5, 6]
+
+  const arrCopy = [...arr1]; // Creates a shallow copy of an array
+  console.log(arrCopy); // [1, 2, 3]
+  console.log(arrCopy === arr1); // false (different array in memory)
+
+  // Adding elements to an array
+  const newArr = [0, ...arr1, 4];
+  console.log(newArr); // [0, 1, 2, 3, 4]
+  ```
+
+- **Expanding Objects (Object Spread Properties - ES2018)**:
+
+  ```javascript
+  const obj1 = { a: 1, b: 2 };
+  const obj2 = { c: 3, d: 4 };
+
+  const combinedObj = { ...obj1, ...obj2 }; // Combines objects
+  console.log(combinedObj); // { a: 1, b: 2, c: 3, d: 4 }
+
+  const objCopy = { ...obj1 }; // Creates a shallow copy of an object
+  console.log(objCopy); // { a: 1, b: 2 }
+  console.log(objCopy === obj1); // false
+
+  // Overwriting properties (later properties win)
+  const objWithOverride = { ...obj1, b: 20, e: 5 };
+  console.log(objWithOverride); // { a: 1, b: 20, e: 5 }
+  ```
+
+- **Passing arguments to functions**:
+  ```javascript
+  function sum(a, b, c) {
+    return a + b + c;
+  }
+  const numbers = [1, 2, 3];
+  console.log(sum(...numbers)); // 6 (equivalent to sum(1, 2, 3))
+  ```
+
+#### Rest Parameter (`...`)
+
+Collects an indefinite number of arguments into an array. It's used when you want to _collect_ items.
+
+- **In function parameters**:
+
+  ```javascript
+  function logArguments(firstArg, ...remainingArgs) {
+    console.log("First argument:", firstArg);
+    console.log("Remaining arguments (as an array):", remainingArgs);
+  }
+
+  logArguments("hello", 1, 2, 3, "world");
+  // Output:
+  // First argument: hello
+  // Remaining arguments (as an array): [1, 2, 3, 'world']
+
+  logArguments("only one");
+  // Output:
+  // First argument: only one
+  // Remaining arguments (as an array): []
+  ```
+
+- **In destructuring**: (As shown in destructuring section)
+
+  ```javascript
+  const [a, b, ...restOfArray] = [1, 2, 3, 4, 5];
+  console.log(restOfArray); // [3, 4, 5]
+
+  const { name, ...restOfObject } = { name: "Ivan", age: 40, city: "Pune" };
+  console.log(restOfObject); // { age: 40, city: 'Pune' }
+  ```
+
+---
+
+### 6\. Default Parameters
+
+Allows function parameters to be initialized with a default value if no value is provided (or if `undefined` is passed) when the function is called.
+
+**Example:**
+
+```javascript
+function greet(name = "Guest", greeting = "Hello") {
+  console.log(`${greeting}, ${name}!`);
+}
+
+greet(); // Output: Hello, Guest!
+greet("Jane"); // Output: Hello, Jane!
+greet("Mark", "Hi"); // Output: Hi, Mark!
+greet(undefined, "Hola"); // Output: Hola, Guest! (undefined triggers default)
+greet(null, "Hola"); // Output: Hola, null! (null is a value, not undefined)
+```
+
+---
+
+### 7\. Enhanced Object Literals (Property Shorthand, Method Shorthand, Computed Property Names)
+
+ES6 made working with object literals much more convenient.
+
+- **Property Shorthand**: If a variable name is the same as the desired property name, you can just list the variable.
+
+  ```javascript
+  const firstName = "John";
+  const age = 30;
+
+  // Old way:
+  // const user = { firstName: firstName, age: age };
+
+  // New way (shorthand):
+  const user = { firstName, age };
+  console.log(user); // { firstName: 'John', age: 30 }
+  ```
+
+- **Method Shorthand**: Shorter syntax for defining methods inside object literals.
+
+  ```javascript
+  const calculator = {
+    value: 0,
+    // Old way:
+    // add: function(num) { this.value += num; },
+
+    // New way (shorthand):
+    add(num) {
+      this.value += num;
+    },
+    subtract(num) {
+      this.value -= num;
+    },
+  };
+
+  calculator.add(5);
+  console.log(calculator.value); // 5
+  ```
+
+- **Computed Property Names**: Use an expression in square brackets `[]` to determine a property name dynamically.
+
+  ```javascript
+  const key = "dynamicKey";
+  const id = 123;
+
+  const myObject = {
+    [key + "Prefix"]: "Some value",
+    [`user_${id}`]: "User data",
+  };
+  console.log(myObject); // { dynamicKeyPrefix: 'Some value', user_123: 'User data' }
+  ```
+
+---
+
+### 8\. Classes (Syntactic Sugar for Prototypes)
+
+Classes in ES6 provide a cleaner, more object-oriented syntax for creating constructor functions and managing inheritance. **It's important to understand that JavaScript classes are still prototypal inheritance under the hood, not truly class-based like Java or C\#.** They are "syntactic sugar" over existing prototype-based inheritance.
+
+- **Class Declaration**:
+
+  ```javascript
+  class Animal {
+    constructor(name) {
+      this.name = name;
+    }
+
+    speak() {
+      console.log(`${this.name} makes a sound.`);
+    }
+
+    // Getter
+    get animalName() {
+      return this.name;
+    }
+
+    // Setter
+    set animalName(newName) {
+      if (newName.length > 0) {
+        this.name = newName;
+      } else {
+        console.log("Name cannot be empty.");
+      }
+    }
+
+    // Static method (belongs to the class itself, not instances)
+    static identify() {
+      console.log("This is an Animal class.");
+    }
+  }
+
+  const myAnimal = new Animal("Lion");
+  myAnimal.speak(); // Lion makes a sound.
+  console.log(myAnimal.animalName); // Lion
+  myAnimal.animalName = "Tiger";
+  myAnimal.speak(); // Tiger makes a sound.
+  Animal.identify(); // This is an Animal class.
+  // myAnimal.identify(); // TypeError: myAnimal.identify is not a function
+  ```
+
+- **Inheritance (`extends` and `super`)**:
+
+  - `extends`: Used to create a subclass.
+  - `super()`: Calls the parent class's constructor. Must be called in the subclass constructor before `this` is used.
+  - `super.method()`: Calls a method from the parent class.
+
+  <!-- end list -->
+
+  ```javascript
+  class Dog extends Animal {
+    constructor(name, breed) {
+      super(name); // Call the parent (Animal) constructor
+      this.breed = breed;
+    }
+
+    speak() {
+      console.log(`${this.name} barks!`); // Override parent method
+    }
+
+    fetch() {
+      console.log(`${this.name} is fetching the ball.`);
+    }
+  }
+
+  const myDog = new Dog("Buddy", "Golden Retriever");
+  myDog.speak(); // Buddy barks! (overridden)
+  myDog.fetch(); // Buddy is fetching the ball.
+  console.log(myDog.name); // Buddy
+  console.log(myDog.breed); // Golden Retriever
+  ```
+
+**Class fields (ES2022):** (Important for modern React/other frameworks)
+
+- Public class fields: Declare properties directly in the class body.
+- Private class fields (`#` prefix): True private properties, not accessible from outside the class instance.
+
+<!-- end list -->
+
+```javascript
+class Person {
+  name = "Default"; // Public class field
+  #secret = "My secret data"; // Private class field (starts with #)
+
+  constructor(name) {
+    this.name = name;
+  }
+
+  getSecret() {
+    return this.#secret; // Can access private field from within the class
+  }
+
+  // Public method that logs a private field
+  revealSecret() {
+    console.log(`My secret is: ${this.#secret}`);
+  }
+}
+
+const p = new Person("Alice");
+console.log(p.name); // Alice
+// console.log(p.#secret); // SyntaxError: Private field '#secret' must be declared in an enclosing class
+console.log(p.getSecret()); // My secret data
+p.revealSecret(); // My secret is: My secret data
+```
+
+---
+
+### 9\. Modules (Import/Export)
+
+ES6 introduced a standardized module system for JavaScript, which is crucial for organizing large applications into smaller, reusable pieces. Modules have their own scope, preventing global namespace pollution.
+
+- **`export`**: Used to export functions, classes, variables, etc., from a module.
+- **`import`**: Used to import them into another file.
+
+**Two types of exports/imports:**
+
+1.  **Named Exports/Imports**:
+
+    - Export multiple specific values.
+    - Import using their exact names.
+
+    `utils.js`:
+
+    ```javascript
+    export const PI = 3.14;
+    export function add(a, b) {
+      return a + b;
+    }
+    export class MyClass {
+      /* ... */
+    }
+    ```
+
+    `main.js`:
+
+    ```javascript
+    import { PI, add } from "./utils.js"; // Must use exact names
+    // import { PI as MathPI } from './utils.js'; // Can rename on import
+
+    console.log(PI); // 3.14
+    console.log(add(1, 2)); // 3
+    ```
+
+2.  **Default Export/Import**:
+
+    - Export a single "main" entity from a module.
+    - Import with any name you choose. There can only be **one** default export per module.
+
+    `myModule.js`:
+
+    ```javascript
+    const myFunction = (data) => `Processed: ${data}`;
+    export default myFunction; // Exporting myFunction as the default
+    ```
+
+    (Or directly: `export default function(data) { ... }`)
+    (Or directly: `export default class MyDefaultClass { ... }`)
+
+    `app.js`:
+
+    ```javascript
+    import processData from "./myModule.js"; // Can import as any name (e.g., 'processData')
+    // import anythingYouWant from './myModule.js'; // This also works
+
+    console.log(processData("Hello")); // Processed: Hello
+    ```
+
+**Important Notes on Modules:**
+
+- **Strict Mode by Default**: Code inside modules runs in strict mode automatically.
+- **Top-level `this`**: `this` at the top level of a module is `undefined`.
+- **Hoisting**: `import` declarations are hoisted, but the module is fetched and executed _before_ your script runs.
+- **Browser Usage**: Requires `<script type="module">` in HTML, or bundlers like Webpack/Rollup/Vite.
+- **Node.js Usage**: Traditionally used CommonJS (`require`/`module.exports`). Modern Node.js supports ES Modules (`.mjs` extension or `type: "module"` in `package.json`).
+
+---
+
+### 10\. `Map` and `Set`
+
+ES6 introduced new built-in data structures that provide more efficient and flexible ways to store and retrieve collections of data compared to plain objects and arrays for certain use cases.
+
+#### `Map`
+
+A `Map` is a collection of key-value pairs where the keys can be _any data type_ (including objects, functions, or `null`), unlike plain objects where keys must be strings or Symbols. It maintains the order of insertion.
+
+- **Creation**: `new Map()`
+- **Methods**:
+  - `set(key, value)`: Adds or updates a key-value pair. Returns the Map.
+  - `get(key)`: Retrieves the value associated with the key. Returns `undefined` if key not found.
+  - `has(key)`: Checks if a key exists. Returns boolean.
+  - `delete(key)`: Removes a key-value pair. Returns `true` if successful, `false` otherwise.
+  - `clear()`: Removes all key-value pairs.
+  - `size`: Property returning the number of elements.
+  - `forEach(callbackFn)`: Iterates over key-value pairs.
+  - `keys()`, `values()`, `entries()`: Return iterators.
+
+**Example:**
+
+```javascript
+const myMap = new Map();
+
+// Setting values
+myMap.set("name", "Alice");
+myMap.set(1, "One");
+myMap.set(true, "Boolean Key");
+const someObject = { id: 101 };
+myMap.set(someObject, "Value for object key");
+
+console.log(myMap.get("name")); // Alice
+console.log(myMap.get(1)); // One
+console.log(myMap.has(true)); // true
+console.log(myMap.get(someObject)); // Value for object key
+
+console.log(myMap.size); // 4
+
+// Iteration
+myMap.forEach((value, key) => {
+  console.log(`${key} = ${value}`);
+});
+// Output:
+// name = Alice
+// 1 = One
+// true = Boolean Key
+// [object Object] = Value for object key
+
+myMap.delete(1);
+console.log(myMap.size); // 3
+myMap.clear();
+console.log(myMap.size); // 0
+```
+
+**Use Cases for `Map`:**
+
+- When you need keys to be non-strings (objects, functions, etc.).
+- When you need to maintain insertion order of key-value pairs.
+- When you frequently add/remove key-value pairs and need better performance than converting an object to an array of entries.
+
+#### `Set`
+
+A `Set` is a collection of unique values. It can store any data type, and each value can only occur once in a `Set`. It also maintains the order of insertion.
+
+- **Creation**: `new Set()` (optionally with an iterable like an array)
+- **Methods**:
+  - `add(value)`: Adds a value. Returns the Set. (Duplicates are ignored).
+  - `has(value)`: Checks if a value exists. Returns boolean.
+  - `delete(value)`: Removes a value. Returns `true` if successful, `false` otherwise.
+  - `clear()`: Removes all values.
+  - `size`: Property returning the number of elements.
+  - `forEach(callbackFn)`: Iterates over values.
+  - `keys()`, `values()`, `entries()`: Return iterators (for Set, `keys()` and `values()` are the same).
+
+**Example:**
+
+```javascript
+const mySet = new Set();
+
+// Adding values
+mySet.add(1);
+mySet.add("hello");
+mySet.add({ id: 1 }); // Objects are unique by reference
+mySet.add(1); // This duplicate will be ignored
+
+console.log(mySet.size); // 3
+
+console.log(mySet.has("hello")); // true
+console.log(mySet.has(2)); // false
+
+// Iteration
+for (const item of mySet) {
+  console.log(item);
+}
+// Output:
+// 1
+// hello
+// { id: 1 }
+
+mySet.delete("hello");
+console.log(mySet.size); // 2
+
+// Convert Set to Array
+const uniqueArray = [...mySet];
+console.log(uniqueArray); // [1, { id: 1 }]
+
+// Initialize with array
+const numbers = [1, 2, 2, 3, 4, 4, 5];
+const uniqueNumbers = new Set(numbers);
+console.log([...uniqueNumbers]); // [1, 2, 3, 4, 5] (easy way to get unique elements from an array)
+```
+
+**Use Cases for `Set`:**
+
+- Removing duplicate values from an array.
+- Checking for the presence of an item in a collection quickly.
+- Managing a list of unique items (e.g., active users, tags).
+
+---
+
+This covers the most significant ES6+ features that have become standard. Mastering these will enable you to write modern, clean, and efficient JavaScript.
+
+Now, let's go through some cross-questions to solidify your understanding.
+
+---
+
+**Cross-Questions & Answers (ES6+ Features):**
+
+**Q1: Explain the key differences between `var`, `let`, and `const` in terms of scope, hoisting, and reassignability. When would you prefer `const` over `let` and vice-versa?**
+
+**A1:** (This is a revisit, but crucial to reinforce)
+
+| Feature            | `var`                                   | `let`                                     | `const`                                        |
+| :----------------- | :-------------------------------------- | :---------------------------------------- | :--------------------------------------------- |
+| **Scope**          | Function-scoped or Global-scoped        | Block-scoped (`{}`)                       | Block-scoped (`{}`)                            |
+| **Hoisting**       | Hoisted and initialized to `undefined`. | Hoisted, but in Temporal Dead Zone (TDZ). | Hoisted, but in Temporal Dead Zone (TDZ).      |
+| **Reassignable**   | Yes                                     | Yes                                       | No (cannot be reassigned after initial value). |
+| **Redeclarable**   | Yes                                     | No (in the same scope)                    | No (in the same scope)                         |
+| **Initialization** | Optional (defaults to `undefined`)      | Optional (defaults to `undefined`)        | Mandatory (must be initialized at declaration) |
+
+**Key Differences:**
+
+- **Scope:** `var`'s function-scope often leads to unexpected variable leakage from blocks (like `if` statements or `for` loops), while `let` and `const`'s block-scope confines variables to the nearest curly braces, making their accessibility more predictable and reducing bugs.
+- **Hoisting:** `var` variables are initialized to `undefined` during hoisting, which can lead to "silent failures" if accessed before their declaration. `let` and `const` are also hoisted but remain in the Temporal Dead Zone (TDZ) until their declaration line is executed. Attempting to access them in the TDZ results in a `ReferenceError`, which is a "fail-fast" mechanism that helps debug issues early.
+- **Reassignability/Redeclaration:** `var` allows both reassignment and redeclaration, increasing the risk of accidental overwrites and naming conflicts in larger codebases. `let` allows reassignment but prevents redeclaration, while `const` prevents both reassignment and redeclaration, providing a strong signal about the variable's immutability (of its reference).
+
+**When to prefer `const` over `let` and vice-versa:**
+
+- **Prefer `const` by Default:**
+
+  - Use `const` for any variable whose reference you do not intend to reassign after its initial declaration. This includes:
+    - Imported modules (e.g., `const React = require('react');`)
+    - Configuration values (e.g., `const API_KEY = '...';`)
+    - Functions that are assigned to variables (e.g., `const myFunction = () => {};`)
+    - Objects or arrays whose _contents_ might change, but the variable itself will always point to the _same object/array instance_ (e.g., `const user = { name: 'Alice' }; user.name = 'Bob';` is fine).
+  - **Reasoning:** Using `const` signals to other developers (and your future self) that the variable's reference should remain constant, improving code clarity and helping catch unintentional reassignments as errors.
+
+- **Use `let` When Reassignment is Necessary:**
+
+  - Use `let` only when you explicitly know that the variable's value needs to be reassigned later in its scope. This typically includes:
+    - Counters in loops (e.g., `for (let i = 0; ...)`)
+    - Variables that hold state that genuinely changes (e.g., `let totalCount = 0;`)
+    - Variables that are conditionally assigned (e.g., `let result; if (condition) { result = ... } else { result = ... }`).
+  - **Reasoning:** `let` clearly communicates that the variable's value might change, while still providing the benefits of block-scoping and TDZ over `var`.
+
+**Summary:** In modern JavaScript, the best practice is to **avoid `var` entirely**. Start with `const`, and only switch to `let` if you genuinely need to reassign the variable.
+
+---
+
+**Q2: How do arrow functions differ from traditional function expressions (`function() {}`)? Focus on their syntax, `this` binding, and typical use cases.**
+
+**A2:** Arrow functions (`=>`) introduced in ES6 offer a more concise syntax and a crucial difference in `this` binding compared to traditional function expressions.
+
+**Key Differences:**
+
+1.  **Syntax:**
+
+    - **Traditional:** More verbose, requires `function` keyword.
+      ```javascript
+      const oldFunction = function (a, b) {
+        return a + b;
+      };
+      ```
+    - **Arrow:** Concise.
+      - `param => expression` (implicit return for single expression)
+      - `(param1, param2) => { /* multiple statements */ return value; }` (explicit return)
+      - `() => { /* no params */ }`
+      - `param => ({ key: value })` (for returning object literal, needs parentheses)
+      <!-- end list -->
+      ```javascript
+      const newFunction = (a, b) => a + b; // Implicit return
+      const complexFunction = (x, y) => {
+        const sum = x + y;
+        return `Result: ${sum}`;
+      };
+      ```
+
+2.  **`this` Binding (The Most Important Difference):**
+
+    - **Traditional:** Has its own `this` binding. The value of `this` is determined **dynamically at runtime** based on how the function is called (implicit, explicit, `new`, or default/global binding). This is often a source of confusion and bugs in callbacks.
+      ```javascript
+      const obj = {
+        name: "Traditional",
+        greet: function () {
+          setTimeout(function () {
+            // 'this' here will be global/window or undefined (strict)
+            console.log(this.name); // Logs undefined or window.name
+          }, 100);
+        },
+      };
+      obj.greet();
+      ```
+    - **Arrow:** **Does NOT have its own `this` binding.** Instead, `this` is **lexically scoped**. It inherits `this` from its _enclosing lexical context_ (the `this` value of the closest non-arrow parent function or global scope where the arrow function is defined). This binding is fixed at the time of creation and cannot be changed by `call()`, `apply()`, or `bind()`.
+      ```javascript
+      const obj = {
+        name: "Arrow",
+        greet: function () {
+          // Traditional function to provide a lexical 'this'
+          setTimeout(() => {
+            // Arrow function inherits 'this' from `greet`
+            console.log(this.name); // Logs "Arrow"
+          }, 100);
+        },
+      };
+      obj.greet();
+      ```
+
+3.  **`arguments` Object:**
+
+    - **Traditional:** Has its own `arguments` object, which is an array-like object containing all arguments passed to the function.
+    - **Arrow:** Does NOT have its own `arguments` object. If you try to access `arguments` inside an arrow function, it will refer to the `arguments` object of the closest non-arrow parent function (if one exists), or a `ReferenceError` in strict mode if no such parent. Use the **rest parameter (`...args`)** instead, which provides a true array of arguments.
+
+      ```javascript
+      function traditionalFunc() {
+        console.log(arguments);
+      }
+      traditionalFunc(1, 2, 3); // Output: [Arguments] { '0': 1, '1': 2, '2': 3 }
+
+      const arrowFunc = (...args) => console.log(args); // Use rest parameter
+      arrowFunc(1, 2, 3); // Output: [1, 2, 3]
+      ```
+
+4.  **Constructor (`new`) Capability:**
+
+    - **Traditional:** Can be used as a constructor with the `new` keyword to create new object instances. They have a `prototype` property.
+    - **Arrow:** Cannot be used as constructors. Using `new` with an arrow function will throw a `TypeError`. They do not have a `prototype` property.
+
+5.  **`super` Keyword:**
+
+    - **Traditional:** Can use `super` for method calls within object literals or class methods to access parent methods/constructors.
+    - **Arrow:** Does not have its own `super` binding. It inherits `super` from its nearest enclosing non-arrow function (if applicable).
+
+**Typical Use Cases:**
+
+- **Arrow Functions:**
+  - **Callbacks:** Ideal for array methods (`map`, `filter`, `forEach`, `reduce`), `setTimeout`/`setInterval`, and event listeners, where you want to preserve the `this` context from the surrounding scope.
+  - **Concise one-liner functions:** When a function body is just a single expression.
+- **Traditional Functions:**
+  - **Object methods:** When you want `this` to refer to the object itself (though shorthand methods are fine).
+  - **Constructors:** When creating functions intended to be used with the `new` keyword to build objects.
+  - **Functions that need the `arguments` object.**
+  - When dynamically binding `this` is desired (using `call`, `apply`, `bind`).
+
+In modern JavaScript, arrow functions are widely preferred for their conciseness and predictable `this` behavior, especially in functional programming paradigms and within class methods.
+
+---
+
+**Q3: Describe what destructuring assignment, the spread operator, and the rest parameter are. Provide examples of how each can be used to write more concise and readable JavaScript code.**
+
+**A3:** These three ES6+ features (`...` has dual meaning) significantly improve code conciseness, readability, and data manipulation.
+
+1.  **Destructuring Assignment:**
+
+    - **What it is:** A special syntax that allows you to "unpack" values from arrays or properties from objects into distinct variables. It reflects the structure of the data you're pulling from.
+
+    - **Purpose:** To extract multiple values/properties at once in a clear, readable way, avoiding repetitive access like `obj.prop1`, `obj.prop2` or `arr[0]`, `arr[1]`.
+
+    - **Array Destructuring Example:**
+
+      ```javascript
+      const coordinates = [100, 200, 50];
+      // Old way:
+      // const x = coordinates[0];
+      // const y = coordinates[1];
+      // const z = coordinates[2];
+
+      // New way:
+      const [x, y, z] = coordinates;
+      console.log(`X: ${x}, Y: ${y}, Z: ${z}`); // X: 100, Y: 200, Z: 50
+
+      // Use case: Swapping variables easily
+      let first = "apple";
+      let second = "banana";
+      [first, second] = [second, first];
+      console.log(`First: ${first}, Second: ${second}`); // First: banana, Second: apple
+      ```
+
+    - **Object Destructuring Example:**
+
+      ```javascript
+      const userProfile = {
+        id: 1,
+        name: "Alice",
+        email: "alice@example.com",
+        settings: { theme: "dark", notifications: true },
+      };
+
+      // Old way:
+      // const name = userProfile.name;
+      // const email = userProfile.email;
+
+      // New way:
+      const {
+        name,
+        email,
+        id: userId,
+        settings: { theme },
+      } = userProfile;
+      console.log(
+        `User: ${name} (${userId}), Email: ${email}, Theme: ${theme}`
+      );
+      // User: Alice (1), Email: alice@example.com, Theme: dark
+
+      // Use case: Extracting properties in function parameters
+      function displayUser({ name, email, settings }) {
+        console.log(
+          `Displaying ${name}, email: ${email}, theme: ${settings.theme}`
+        );
+      }
+      displayUser(userProfile);
+      ```
+
+2.  **Spread Operator (`...`)**
+
+    - **What it is:** When used in array literals, object literals, or function calls, it "expands" an iterable (like an array, string, or object) into its individual elements.
+
+    - **Purpose:** To create new arrays/objects, combine them, or pass multiple arguments to a function without explicitly listing them.
+
+    - **Array Spread Example:**
+
+      ```javascript
+      const arrA = [1, 2];
+      const arrB = [3, 4];
+      const arrC = [0, ...arrA, ...arrB, 5]; // Concatenate and add elements
+      console.log(arrC); // [0, 1, 2, 3, 4, 5]
+
+      const shallowCopy = [...arrC]; // Create a shallow copy
+      console.log(shallowCopy); // [0, 1, 2, 3, 4, 5]
+      console.log(shallowCopy === arrC); // false
+      ```
+
+    - **Object Spread Example (ES2018):**
+
+      ```javascript
+      const defaultSettings = {
+        theme: "light",
+        fontSize: 16,
+        notifications: true,
+      };
+      const userSettings = { fontSize: 14, notifications: false };
+
+      // Combine and override properties
+      const mergedSettings = {
+        ...defaultSettings,
+        ...userSettings,
+        language: "en",
+      };
+      console.log(mergedSettings);
+      // { theme: 'light', fontSize: 14, notifications: false, language: 'en' }
+      ```
+
+    - **Function Call Spread Example:**
+
+      ```javascript
+      function sumAll(a, b, c) {
+        return a + b + c;
+      }
+      const numbers = [7, 8, 9];
+      console.log(sumAll(...numbers)); // Passes 7, 8, 9 as individual arguments => 24
+      ```
+
+3.  **Rest Parameter (`...`)**
+
+    - **What it is:** When used in a function's parameter list or in destructuring, it "collects" an indefinite number of arguments into a single array. It must be the _last_ parameter.
+
+    - **Purpose:** To handle functions that can accept a variable number of arguments, or to capture the "rest" of the elements during destructuring.
+
+    - **Function Rest Parameter Example:**
+
+      ```javascript
+      function logDetails(type, ...items) {
+        // 'items' will be an array
+        console.log(`${type}:`);
+        items.forEach((item) => console.log(`- ${item}`));
+      }
+
+      logDetails("Fruits", "apple", "banana", "cherry");
+      // Output:
+      // Fruits:
+      // - apple
+      // - banana
+      // - cherry
+
+      logDetails("Numbers", 1, 2);
+      // Output:
+      // Numbers:
+      // - 1
+      // - 2
+      ```
+
+    - **Destructuring Rest Parameter Example:**
+
+      ```javascript
+      const [first, second, ...remaining] = [10, 20, 30, 40, 50];
+      console.log(first); // 10
+      console.log(second); // 20
+      console.log(remaining); // [30, 40, 50] (as an array)
+
+      const { userName, ...otherInfo } = {
+        userName: "Bob",
+        age: 40,
+        city: "London",
+      };
+      console.log(userName); // Bob
+      console.log(otherInfo); // { age: 40, city: 'London' }
+      ```
+
+In summary, destructuring, spread, and rest operators are indispensable tools in modern JavaScript for writing more declarative, flexible, and concise code, especially when manipulating arrays and objects.
+
+---
+
+This concludes our in-depth look at **ES6+ Features**. These are fundamental to working with modern JavaScript frameworks and libraries.
+
+Next, we'll delve into **Classes & Prototypes**, which is crucial for understanding JavaScript's object-oriented nature.
