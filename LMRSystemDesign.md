@@ -366,3 +366,259 @@ This topic helps in understanding how to effectively manage traffic and data dis
 - It is used where **traffic needs to be equally divided** among these dynamic nodes.
 - Primary use cases include **Load Balancing** and **Horizontal Sharding**.
 - It directly addresses the limitations of traditional `mod` hashing when the number of nodes is not fixed, preventing massive rebalancing efforts.
+
+## Lecture 8:
+
+### Back-Of-The-Envelope Estimation: Interview Notes
+
+This topic is crucial for System Design Interviews as it helps in making informed decisions about system architecture.
+
+---
+
+**1. What is Back-Of-The-Envelope Estimation?**
+
+- **Purpose**: BOTEE is used to **drive decisions for system design** based on quantitative numbers.
+- **Need**:
+  - It helps answer critical questions from interviewers such as: "Do you really need a load balancer?", "How many servers will you need?", "What should be the capacity?", "Do you need a cache, and if so, what size storage?".
+  - Failing to answer these questions, even with a correct design, can give the impression that you started designing without considering system constraints.
+  - It prevents **over-provisioning** or under-provisioning resources, ensuring efficient use.
+- **Definition**: It's a method to come up with **rough numbers or "T-shirt size" estimations** (e.g., Small, Medium, Large). These are high-level estimations, not exact or accurate figures that match real-world systems like Facebook.
+
+---
+
+**2. Key Considerations for Back-Of-The-Envelope Estimation**
+
+- **Nature of Numbers**: Always remember these are **rough estimations**, not precise figures. They are for driving design decisions, not for perfect accuracy.
+- **Time Management**: **Do not spend much time** on BOTEE in an interview; ideally, **less than 10 minutes**. Interviewers typically expect a scalable design regardless of the exact numbers, so the estimation's primary role is to show you can think quantitatively.
+- **Simplification of Assumptions**:
+  - Keep assumption values **simple and easy to compute**.
+  - Use multiples of 10 (e.g., 10 million, 100 million, 1,000, 500). Avoid complex numbers (e.g., 27.75 million, 435).
+
+---
+
+**3. Essential Cheat Sheet and Formulas**
+
+- **Multiples of Three Zeros (for Traffic & Storage)**:
+  - 3 zeros (000) = Kilo (e.g., 1,000)
+  - 6 zeros (000,000) = Million
+  - 9 zeros (000,000,000) = Billion (and also Gigabyte for storage calculations)
+  - 12 zeros = Trillion (and also Terabyte for storage calculations)
+  - 15 zeros = Quadrillion (and also Petabyte for storage calculations)
+- **Storage Units (Hierarchy)**: Kilobyte (KB) < Megabyte (MB) < Gigabyte (GB) < Terabyte (TB) < Petabyte (PB).
+- **Assumed Data Sizes (General)**:
+  - **Character**: 2 bytes (assuming Unicode, as ASCII is 1 byte).
+  - **Long/Double**: 8 bytes.
+  - **Average Image Size**: 300 KB.
+- **Storage Calculation Formula (Cheat Sheet)**:
+  - `X million users * Y MB = (X * Y) TB`
+    - (Million = 6 zeros, MB = 6 zeros, combined = 12 zeros, which is TB)
+  - Example: `5 million users * 2 KB = 10 GB`
+    - (Million = 6 zeros, KB = 3 zeros, combined = 9 zeros, which is GB)
+
+---
+
+**4. What to Compute in BOTEE**
+
+- Generally, you should compute the following three crucial resources:
+  - **Number of Servers** needed.
+  - **RAM** (memory) requirements.
+  - **Storage Capacity**.
+  - (Other factors can be computed, but these are often the most important).
+
+---
+
+**5. Step-by-Step Facebook Estimation Example**
+This section illustrates the application of BOTEE principles:
+
+- **A. Traffic Estimation**:
+
+  - **Total Users (Assumption)**: 1 Billion.
+  - **Daily Active Users (DAU)**: 25% of total users = 250 Million users.
+  - **Queries per User (Assumption)**: 5 read operations + 2 write operations = 7 queries per daily active user.
+  - **Seconds in a Day (Rounded)**: 86,400 seconds, rounded up to **100,000 (1 Lakh) seconds** for ease of calculation.
+  - **Calculated Traffic (Queries Per Second)**:
+    - (250 Million DAU \* 7 queries/user) / 100,000 seconds = **18,000 (18K) queries per second**.
+
+- **B. Storage Estimation**:
+
+  - **Assumptions for Daily Content**:
+    - Every daily active user makes **2 posts** per day, each **250 characters** long.
+    - **10% of daily active users** upload **1 image** per day.
+    - Image size is **300 KB** (from cheat sheet).
+  - **Daily Post Storage Calculation**:
+    - Size of 1 post: 250 characters \* 2 bytes/character = 500 bytes.
+    - Size of 2 posts: 500 bytes \* 2 = 1,000 bytes = **1 KB**.
+    - Total daily post storage: 250 Million DAU \* 1 KB/user = **250 GB per day**.
+  - **Daily Image Storage Calculation**:
+    - Number of users uploading images: 10% of 250 Million DAU = **25 Million users**.
+    - Total daily image storage: 25 Million users _ 1 image/user _ 300 KB/image = 7,500 GB, rounded to **8 TB per day**.
+  - **Total Storage for 5 Years (Assumption)**:
+    - 5 years = 1,825 days, rounded to **2,000 days** for calculation.
+    - Total post storage (5 years): 2,000 days \* 250 GB/day = **500 TB**.
+    - Total image storage (5 years): 2,000 days \* 8 TB/day = **16 PB**.
+
+- **C. RAM Estimation (for Caching)**:
+
+  - **Assumption**: Cache the last **5 posts** for each user.
+  - **Memory per User for Cache**:
+    - 1 post = 500 bytes.
+    - 5 posts = 5 \* 500 bytes = 2,500 bytes, rounded to **3 KB**.
+  - **Total RAM Needed**: 250 Million DAU \* 3 KB/user = **750 GB**.
+  - **Number of Caching Machines (Example)**: If one machine holds 75 GB of RAM, then 750 GB / 75 GB/machine = **10 machines** for caching nodes.
+  - **Latency Estimation (Impression)**: You can state an assumption for latency, e.g., 95% of requests served within 500 milliseconds, to show awareness of performance.
+
+- **D. Application Server Estimation**:
+  - **Current Traffic**: 18K queries per second.
+  - **Server Processing Capacity (Assumptions)**:
+    - One server has 50 threads.
+    - One request takes 500 milliseconds (0.5 seconds) to serve.
+    - In 1 second, one thread can serve 2 requests (1 second / 0.5 seconds/request).
+    - One server (with 50 threads) can serve: 50 threads \* 2 requests/thread = **100 requests per second**.
+  - **Total Application Servers Needed**: 18,000 QPS / 100 QPS/server = **180 application servers**.
+
+---
+
+**6. Trade-off Discussion (CAP Theorem)**
+
+- After presenting the estimations, discuss the **CAP Theorem**.
+- **CAP Theorem**: States that a distributed data store can only guarantee two out of three properties at any given time:
+  - **Consistency (C)**: All clients see the same data at the same time.
+  - **Availability (A)**: Every request receives a response, without guarantee of it being the latest version.
+  - **Partition Tolerance (P)**: The system continues to operate despite network failures (partitions) between nodes.
+- **Facebook Example Trade-off**: The example suggests choosing **Availability (A) and Partition Tolerance (P)**, and dropping Consistency (C).
+  - **Why A & P for Facebook**:
+    - **Partition Tolerance**: Essential for a system like Facebook, which operates across distributed nodes (e.g., database nodes in different regions). The system must remain functional even if there are network breakages or failures between these nodes.
+    - **Availability**: Crucial for a social media platform; users expect the system to be up and serving requests even if some nodes are down.
+  - **Dropping Consistency**: Implies that eventual consistency is acceptable. For instance, if you make a post, it might take a short while to appear for all friends across all regions. This is a common trade-off for high-availability, globally distributed systems.
+- **Importance**: Discussing this demonstrates your awareness of fundamental distributed system concepts.
+
+---
+
+**7. General Advice**
+
+- **Always ask the interviewer** if they require a Back-Of-The-Envelope estimation for the given design problem.
+- Remember that these numbers are **just estimations** and will differ from real-world figures. The process demonstrates your ability to think systematically and quantitatively.
+
+## Lecture 10: SQL vsNOSQL
+
+### SQL vs. NoSQL: Interview Notes
+
+This topic is critical for High-Level Design (HLD) rounds in interviews, as choosing the correct database is a fundamental architectural decision that requires strong reasoning. Simply stating "we can use anything" or failing to justify your choice can be detrimental.
+
+---
+
+**1. Understanding the Scope**
+
+- The primary goal is to understand **when to use SQL and when to use NoSQL**.
+- This discussion provides a basic understanding of where to apply each, rather than an in-depth tutorial on SQL or NoSQL specifics.
+
+---
+
+**2. Key Categories for Comparison**
+To differentiate between SQL and NoSQL, we will analyse them across four crucial categories:
+
+- **Structure**
+- **Nature**
+- **Scalability**
+- **Property**
+
+---
+
+**3. SQL (Relational Databases)**
+
+**A. Structure**
+
+- **Definition**: SQL stands for **Structured Query Language** and is used to query **Relational Database Management Systems (RDBMS)**.
+- **Data Organisation**: Data is stored in a **structured form** using **tables**, which consist of **rows and columns**.
+- **Relationships**: There are **relations between multiple tables** (e.g., parent-child relationships).
+- **Schema**: SQL databases enforce a **predetermined schema**. This means you must define the table name, column names, data types (e.g., string, integer), and their lengths **before you can insert any data or run queries**.
+
+**B. Nature**
+
+- **Data Concentration**: SQL databases typically have a **concentrated or centralised nature**. For a particular entity (e.g., an employee), their **whole data across all related tables will generally reside within a single server**.
+- **Data Integrity Focus**: This centralised approach helps in maintaining data integrity across related information.
+
+**C. Scalability**
+
+- **Preferred Scaling**: SQL databases are **more intuitively and effectively scaled vertically**.
+- **Vertical Scaling**: This involves **increasing the resources of a single server**, such as upgrading its RAM size or storage capacity.
+- **Horizontal Scaling (Sharding)**: While horizontal scaling (distributing data across multiple servers, or sharding) is possible, it is **not as well supported or intuitive for SQL** compared to NoSQL. Sharding can involve distributing partial data (e.g., specific columns or tables) across different servers, but this often adds complexity in SQL.
+
+**D. Property**
+
+- **ACID Properties**: SQL databases strictly adhere to **ACID properties**, which ensure data integrity and consistency during transactions:
+  - **Atomicity (A)**: All or nothing. A transaction is treated as a single, indivisible unit; either all of its operations are completed successfully, or none are.
+  - **Consistency (C)**: Ensures that data remains in a valid state after a transaction. Rules and constraints are followed to maintain data integrity.
+  - **Isolation (I)**: Concurrent transactions do not interfere with each other. Each transaction appears to execute in isolation.
+  - **Durability (D)**: Once a transaction is committed, the changes are permanent and survive system failures.
+- **Crux of ACID**: ACID properties collectively ensure that **data integrity is maintained** and that data is **fully consistent**.
+
+---
+
+**4. NoSQL (Non-Relational Databases)**
+
+**A. Structure**
+
+- **Definition**: NoSQL is often referred to as **"Not Only SQL"**. It handles **unstructured data**.
+- **Flexible Schema**: NoSQL databases do not require a predetermined schema, offering much greater flexibility.
+- **Four Main Types of NoSQL Databases**:
+  - **Key-Value DB**: The simplest type. Data is stored as a **key-value pair**.
+    - The **value is typically opaque**, meaning you **cannot query or search based on the value's content**; you can only query or search based on the key.
+    - **Example**: DynamoDB. Very fast for key-based lookups.
+  - **Document DB**: Stores data in **documents**, often in formats like **JSON or XML**.
+    - Unlike Key-Value DBs, **you can query or search on both the key and the content within the value (document)**.
+    - **Example**: MongoDB.
+  - **Column-wise DB**: Data is stored with a key and a **list of column-value pairs**.
+    - The **number of columns can be dynamic** for different keys, meaning one record might have more columns than another.
+  - **Graph DB**: Data is stored as **nodes and edges**, where **edges explicitly show relationships** between nodes.
+    - **Very fast for finding direct relationships**, as it avoids full table scans required in SQL for similar queries.
+    - **Use Cases**: Commonly used in social networking (e.g., finding friends of friends) and recommendation engines.
+
+**B. Nature**
+
+- **Distributed**: NoSQL databases are **distributed in nature**. Data can be **stored across multiple nodes (servers)**, with different pieces of data residing in different nodes. This is distinct from SQL's more concentrated approach.
+
+**C. Scalability**
+
+- **Preferred Scaling**: NoSQL databases are designed for **horizontal scaling**.
+- **Horizontal Scaling**: This involves **adding more nodes or servers** to distribute the data and workload. As data grows, you can easily add more nodes to store additional user data, allowing for massive scalability.
+
+**D. Property**
+
+- **BASE Properties**: NoSQL databases typically follow **BASE properties** rather than ACID:
+  - **Basically Available (BA)**: NoSQL databases are **highly available**. Due to their distributed nature and data replication across multiple nodes, the system can remain operational even if some nodes fail.
+  - **Safe State (S)**: The state of data can **change even without user interaction**. This refers to the internal synchronisation mechanisms where distributed nodes update themselves to maintain consistency (e.g., through vector clocks).
+  - **Eventual Consistency (E)**: If you query data, you **might initially receive a stale copy**. However, if you retry the query after some time, you will eventually receive the latest data as the distributed nodes synchronise their copies.
+- **Trade-off**: NoSQL sacrifices strict immediate consistency for **higher availability and partition tolerance**, making eventual consistency acceptable for large, distributed systems.
+
+---
+
+**5. When to Choose SQL vs. NoSQL (Decision Factors)**
+
+The choice between SQL and NoSQL depends on the specific requirements of your application. Here are the key factors to consider:
+
+**A. Query Flexibility**
+
+- **SQL**: Choose SQL if you require **flexible and complex query functionality**, such as multi-table joins, which might change over time based on business needs.
+- **NoSQL**: Opt for NoSQL if you need **very basic query searches** or if you **know in advance exactly which columns/keys you will query** and these search patterns are unlikely to change.
+
+**B. Relational Nature of Data**
+
+- **SQL**: Prefer SQL when your **data is highly relational**, meaning there are many dependencies, hierarchies, and tight relationships (e.g., parent-child) between different data entities.
+- **NoSQL**: Use NoSQL when your **data is not in a highly relational form** or is not too tightly dependent on other entities. It's suitable for storing data where relationships are minimal or can be managed within a single document/entry.
+
+**C. Data Integrity and Consistency Requirements**
+
+- **SQL**: **Crucial for applications where data integrity and strong consistency are paramount**, and you **cannot afford to lose a single transaction or experience any inconsistency**.
+  - **Example**: Financial institutions **must use SQL** due to the absolute need for consistency.
+- **NoSQL**: Suitable when you can **afford some inconsistency** (due to eventual consistency) and where losing one or two transactions among millions or billions of dynamic data records has **minimal impact**.
+
+**D. Availability and Performance Needs**
+
+- **NoSQL**: Go for NoSQL if you require **high availability** (the system must always be up and serving requests) and **high performance in search queries**, even if it means accepting **some inconsistency**.
+  - NoSQL's distributed nature makes it highly available and its optimised data storage (e.g., direct node access in key-value stores) makes searching very fast.
+- **SQL**: While SQL can achieve high performance, its inherent structure and scaling model (vertical) can make achieving the same level of global availability and dynamic horizontal scaling for massive data volumes more challenging compared to NoSQL.
+
+---
+
+**In summary, these factors – query capability, data relationality, consistency needs, and availability/performance requirements – are the determinants for choosing the appropriate database for your system design.**
