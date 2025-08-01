@@ -1,4 +1,4 @@
-_Lecture 1: Network Protocols _
+- **Lecture 1: Network Protocols**
 
 - **Network Protocols**:
 
@@ -60,6 +60,7 @@ _Lecture 1: Network Protocols _
     - Ideal for **live streaming and video/voice calling**, where some data loss or out-of-order delivery is acceptable for the sake of speed (e.g., it's better to miss a frame in a video call than to have a significant delay).
 
 - **Key Use Cases Summary**:
+
   - **HTTP/HTTPS**: Standard web browsing, accessing web pages securely.
   - **WebSocket**: Designing **messaging applications** (like WhatsApp) where bidirectional communication (server pushing messages to client) is required.
   - **WebRTC**: Building **live streaming or video calling** applications (like Google Meet) due to its P2P nature and reliance on UDP for speed.
@@ -68,7 +69,7 @@ _Lecture 1: Network Protocols _
   - **TCP**: Use when **reliability, order, and guaranteed delivery** of data are paramount (e.g., file downloads, web browsing data).
   - **UDP**: Use when **speed and low latency** are more important than absolute reliability and order, especially in real-time applications where a slight loss of data is preferable to delay (e.g., live video/audio streaming, online gaming).
 
-* Lecture 2: CAP Theorem \*
+- **Lecture 2: CAP Theorem**
 
 ### CAP Theorem: Interview Notes
 
