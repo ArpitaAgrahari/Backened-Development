@@ -272,3 +272,97 @@ This discussion focuses on key microservices design patterns, particularly impor
 - The **Strangler** and **Saga** patterns are emphasized as **critically important** for anyone working with microservices.
 - Understanding **CQRS** is also essential for handling data querying challenges in distributed systems.
 - These patterns address fundamental challenges when moving from monolithic to microservices architectures, particularly concerning migration, data consistency, and querying across distributed data stores.
+
+## Lecture 6: Consistent Hashing
+
+### Consistent Hashing: Interview Notes
+
+This topic helps in understanding how to effectively manage traffic and data distribution in dynamic system environments.
+
+---
+
+**1. Introduction to Hashing (General Concept)**
+
+- **Purpose**: Hashing involves a **hash function** that takes an **arbitrary length key** (e.g., a name like "Shrayansh") as input and converts it into a **fixed-length output value** (a hash value or hash number).
+- **Mod Hashing (Simple Hashing Technique)**:
+  - A common technique where the hash value is taken modulo the **fixed size** of a hash table or the number of servers/nodes.
+  - **Example**: If the hash function outputs '90' and the hash table size is '6', then `90 % 6 = 0`. The value will be stored at index '0'.
+  - This ensures that any data is stored within the specific fixed size of the table.
+
+---
+
+**2. The Problem with Traditional Hashing (Why Consistent Hashing is Needed)**
+
+- Traditional hashing (especially mod hashing) works perfectly when the **size (number of nodes/servers) is fixed**.
+- **The Core Problem**: When the **size of the system is not fixed** (i.e., servers or database nodes are added or removed dynamically), traditional hashing **fails**.
+
+  - **Modulo Change**: If a new server is added (e.g., from 3 servers to 4), the modulo operation changes (e.g., `mod 3` becomes `mod 4`).
+  - **Consequence**: The same key will now hash to a **different server/node** than before.
+    - **Example**: "Shrayansh" previously mapped to Node 1 with `mod 3`, but with `mod 4`, it might now map to Node 2.
+  - **Data Inconsistency/Unavailability**: If the data for "Shrayansh" is still on Node 1, but new requests are being routed to Node 2, the data will not be found, leading to issues.
+  - **Massive Rebalancing**: To fix this, **rebalancing** is required, meaning **millions of database entries or keys** might need to be moved from their original servers to new ones. This is highly inefficient and resource-intensive.
+
+- **Real-World Scenarios Where This Problem Arises**:
+  - **Load Balancers for Application Servers**: Load balancers distribute incoming requests across multiple application servers (e.g., App Server 1, App Server 2, App Server 3). If a server is added or removed, the distribution logic breaks, leading to unequal load or unavailability.
+  - **Horizontal Sharding (Database Sharding)**: Dividing a large database into multiple smaller databases (shards). If new database nodes are added or old ones removed, rebalancing becomes a huge task for millions of rows.
+  - In both cases, the goal is to **equally distribute traffic/data** among servers, but normal hashing cannot handle **dynamic server environments**.
+
+---
+
+**3. Consistent Hashing: The Solution**
+
+- **Purpose**: Consistent Hashing is designed to **minimise the rebalancing** required when nodes (servers, database shards) are added or removed from a distributed system.
+- **Goal of Rebalancing**: It aims to rebalance only a small fraction of the total keys, ideally around `1/N` percent of the total number of keys, where 'N' is the number of nodes.
+
+---
+
+**4. How Consistent Hashing Works**
+
+- **1. The Virtual Ring**:
+  - A **virtual ring** (or hash ring) is created, typically a fixed-size range (e.g., 0 to 11, then wrapping back to 0).
+- **2. Mapping Servers to the Ring**:
+  - Each **server (or node)** in the system is hashed using a consistent hash function and **placed at specific positions** on this virtual ring. These positions are determined by the hash value of the server's ID or name.
+  - **Example**: Server 1 might hash to position 2, Server 2 to position 8, and Server 3 to position 11 on a 0-11 ring.
+- **3. Mapping Keys (Data/Requests) to the Ring**:
+  - Each **incoming key (data item or request)** is also hashed and placed at its corresponding position on the same virtual ring.
+  - **Example**: Key K1 might hash to position 0, K2 to 1, K3 to 3, etc..
+- **4. Routing Logic (Clockwise Movement)**:
+  - To determine which server is responsible for a particular key, you move **clockwise** around the ring **from the key's position** until you encounter the **first server**.
+  - That server is responsible for handling that key.
+  - **Example**: If Key K1 is at position 0, and Server 1 is at position 2, Server 2 at 8, Server 3 at 11:
+    - Moving clockwise from K1 (position 0), the first server encountered is Server 1 (position 2). So, Server 1 handles K1.
+    - If Key K5 is at position 7, moving clockwise, the first server encountered is Server 2 (position 8). So, Server 2 handles K5.
+
+---
+
+**5. Benefits of Consistent Hashing (Solving the Problem)**
+
+- **Adding a Server**:
+  - When a new server (e.g., S4) is added to the ring, it occupies a new position.
+  - Only the keys that were previously assigned to the server _immediately clockwise_ to the new server's position will now be reassigned to the new server.
+  - The vast majority of keys remain assigned to their original servers, thus **minimizing rebalancing**.
+- **Deleting a Server**:
+  - When a server is removed (e.g., S1), all the keys it was previously handling are now reassigned to the **next server in the clockwise direction** on the ring.
+  - Again, this means only a limited number of keys are affected and need to be rebalanced, not the entire dataset.
+
+---
+
+**6. Disadvantage and Its Solution (Virtual Nodes / Replicas)**
+
+- **Disadvantage (Uneven Distribution)**:
+  - In a simple Consistent Hashing setup, if the servers are not **uniformly distributed** (i.e., they are clustered together on the ring), it can lead to **unequal load distribution**.
+  - **Example**: If Server 1, Server 2, and Server 3 are placed very close together on one side of the ring, while the rest is empty, then all keys will map to Server 1 (by clockwise movement), leading to Server 1 being overloaded. This defeats the purpose of load balancing.
+- **Solution: Virtual Objects (Virtual Nodes / Replicas)**:
+  - To counteract uneven distribution, each **physical server** is represented by **multiple "virtual nodes" or "replicas"** on the ring.
+  - **How it works**: Instead of just hashing Server 1 once, you hash "Server1-A", "Server1-B", "Server1-C", etc., placing multiple points for the same physical server randomly across the ring.
+  - **Benefit**: This increases the number of "server points" on the ring, leading to a **more uniform distribution** of keys among the actual physical servers.
+  - **Number of Replicas**: The number of replicas for each server should be sufficient to achieve the desired `1/N` rebalancing percentage and a good distribution.
+
+---
+
+**7. Key Takeaways for Interview**
+
+- Consistent Hashing is crucial when dealing with **dynamic nodes** (servers that can increase or decrease) in distributed systems.
+- It is used where **traffic needs to be equally divided** among these dynamic nodes.
+- Primary use cases include **Load Balancing** and **Horizontal Sharding**.
+- It directly addresses the limitations of traditional `mod` hashing when the number of nodes is not fixed, preventing massive rebalancing efforts.
