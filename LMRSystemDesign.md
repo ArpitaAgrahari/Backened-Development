@@ -622,3 +622,704 @@ The choice between SQL and NoSQL depends on the specific requirements of your ap
 ---
 
 **In summary, these factors – query capability, data relationality, consistency needs, and availability/performance requirements – are the determinants for choosing the appropriate database for your system design.**
+
+## Lecture 12:
+
+### Rate Limiter System Design: Interview Notes
+
+This is a **very important interview question** that engineers frequently face.
+
+---
+
+**1. Understanding the Problem (Why Rate Limiting?)**
+
+- **Problem**: Attackers send **unwanted, thousands or even lakhs of requests per second** to a server.
+- **Server Limitations**: Servers have **limited resources** such as RAM and disk space.
+- **Impact of Attack**: Excessive requests consume all server resources, causing the **server to go down**.
+- **Genuine User Impact**: When the server is down, **genuine user requests are declined**.
+- **Solution**: To prevent this Distributed Denial of Service (DDoS) attack and ensure service availability for genuine users, we implement a **Rate Limiter**.
+- **Engineer's Role**: As an engineer, you need to know **how to limit the rate on APIs**.
+
+---
+
+**2. Key Rate Limiting Algorithms**
+
+Understanding the underlying algorithms is crucial for designing a rate limiter. There are five key algorithms:
+
+- **Token Bucket**
+- **Leaking Bucket**
+- **Fixed Window Counter**
+- **Sliding Window Log**
+- **Sliding Window Counter**
+
+#### 2.1. Token Bucket Algorithm
+
+- **Concept**: Imagines a **bucket** with a **fixed capacity** to hold **tokens**.
+- **Components**:
+  - **Bucket**: Has a maximum capacity (e.g., 4 tokens).
+  - **Tokens**: Represent available requests.
+  - **Refiller**: A worker that **adds tokens to the bucket at a configured rate** (e.g., 2 tokens per minute).
+    - If the bucket is full, excess tokens overflow and are lost.
+- **Configuration**: The bucket capacity and refiller rate are **dynamically configurable values**.
+  - Examples: "3 tokens per minute for user per API".
+- **Request Processing Flow**:
+  1.  When a request arrives, it first **checks if a token is present** in the bucket.
+  2.  **If a token is present**: The request **consumes one token**, and the request is processed.
+  3.  **If no token is present (bucket is empty)**: The request is **declined**.
+- **Implementation**: Can be easily implemented using a **counter**.
+  - The counter represents the number of available tokens. When a request comes, the counter is reduced. If the counter is zero, the request is denied.
+  - The refiller logic updates the counter periodically.
+- **HTTP Response Code**: When a request is declined due to rate limiting, the **HTTP code returned is 429**.
+
+#### 2.2. Leaking Bucket Algorithm
+
+- **Concept**: Simulates a bucket with a hole at the bottom, where requests leak out at a **constant rate**.
+- **Components**:
+  - **Bucket/Queue**: Has a **fixed capacity**.
+  - **Incoming Requests**: Can be irregular (sometimes more, sometimes less).
+  - **Outgoing Requests**: Processed at a **constant, fixed rate**.
+- **Implementation**: Typically implemented using a **Queue**.
+- **Request Processing Flow**:
+  1.  Incoming requests are added to the queue.
+  2.  The system checks if the queue has capacity.
+  3.  **If capacity available**: Request is added to the queue and processed at the constant rate.
+  4.  **If no capacity**: The request will be **denied/overflowed**.
+- **Disadvantage**: The primary disadvantage is the **constant processing rate**.
+  - It **doesn't adapt to variable traffic patterns** (e.g., an Amazon Prime service having less traffic during the day compared to evening/night).
+  - This can lead to new requests being held in the queue (or denied) even when the system could potentially handle more, simply because the processing rate is fixed.
+  - This algorithm is only suitable if the application specifically requires a constant rate for processing.
+
+#### 2.3. Fixed Window Counter Algorithm
+
+- **Concept**: Divides time into **fixed-size windows** (e.g., 5 minutes). Each window has a **counter**.
+- **Configuration**: The window size and the maximum allowed requests (counter limit) are configurable.
+- **Request Processing Flow**:
+  1.  When a request comes, the counter for the current fixed window is checked.
+  2.  **If the counter is below the limit**: The counter is decremented (or incremented, depending on implementation), and the request is processed.
+  3.  **If the counter reaches the limit**: Further requests within that window are denied.
+  4.  When a new window starts, the counter is reset.
+- **Major Disadvantage**: This algorithm suffers from a **"burst" problem at the edge of windows**, leading to **double the allowed requests**.
+  - **Example**: If the limit is 3 requests per 5 minutes.
+    - If 3 requests come at 4:59 in Window A.
+    - And another 3 requests come at 5:01 in Window B.
+    - Within a very short timeframe (e.g., 2 minutes from 4:59 to 5:01), 6 requests (double the allowed 3) are processed. This can overload the system.
+
+#### 2.4. Sliding Window Log Algorithm
+
+- **Concept**: This algorithm **solves the "edge case" problem** of the Fixed Window Counter.
+- **Key Feature**: There is **no fixed time frame**; the window "slides".
+- **Implementation**: It uses a **log** (not a counter) to store the **timestamp** of each incoming request.
+- **Request Processing Flow**:
+  1.  When a request arrives, its **timestamp is recorded** in the log.
+  2.  The system then **counts all requests in the log whose timestamps fall within the current sliding window** (e.g., last 1 minute).
+  3.  **If the count is less than the limit**: The request is processed, and its timestamp is added to the log.
+  4.  **If the count reaches the limit**: The request is declined.
+  5.  To maintain the sliding window, **old timestamps outside the window are removed** from the log (e.g., by keeping the log sorted by time and removing entries older than 1 minute).
+- **Disadvantage**: Even if a request is denied, its timestamp is still stored in the log. This means it **takes a lot of space** because it stores all timestamps, potentially for millions of requests.
+
+#### 2.5. Sliding Window Counter Algorithm
+
+- **Concept**: This algorithm combines the best of both worlds: it **solves the edge case problem** of Fixed Window Counter (like Sliding Window Log) and is **very intuitive and easy to implement** (like Fixed Window Counter).
+- **Goal**: To accurately find the **number of requests present within a particular sliding window** (e.g., 1 minute).
+- **Implementation**: It uses a combination of counters from the current fixed window and a calculation from the previous fixed window.
+  - **Example (1-minute rule, max 5 requests)**:
+    - Divide time into fixed 1-minute intervals (e.g., from 0-60s, 60-120s).
+    - Maintain a counter for the _current_ fixed window (e.g., requests from 60-120s).
+    - To find total requests in the _sliding window_ (e.g., the last 60 seconds from the current time), you add:
+      - Requests in the **current fixed window**.
+      - A **proportional number of requests from the previous fixed window** that _overlap_ with the current sliding window.
+      - **Formula for overlapping requests**: `(Requests in previous window / total previous window interval) * Overlapping time`.
+      - **Example**: If 6 requests came in the previous 60-second window, and 10 seconds of that window overlap with the current sliding window: `(6 / 60) * 10 = 1 request` from the previous window.
+    - Then, `Current_Window_Requests + Overlapping_Previous_Window_Requests` is compared to the limit.
+- **Benefit**: This approach provides a **more accurate request count** over a sliding window without storing every timestamp, thus addressing the disadvantages of both Fixed Window Counter (edge case) and Sliding Window Log (space consumption).
+
+---
+
+**3. High-Level Design (HLD) of a Rate Limiter**
+
+#### 3.1. Components and Flow
+
+- **API Gateway**: The Rate Limiter is typically hosted as part of an **API Gateway**.
+- **Client**: Sends requests.
+- **Rate Limiter Module**:
+  - Resides at the API Gateway.
+  - **Receives requests from the client**.
+  - **Accesses Configuration**: Needs to know the rate limiting rules (e.g., 3 requests per minute). These rules are **configured dynamically** and are usually **loaded into a cache** when the application starts, as they don't change frequently.
+  - **Applies Algorithm**: Based on the configured rules and chosen algorithm, it determines if the request should be processed.
+  - **Decision**:
+    - **If within limit**: The request is allowed and **sent to the backend server**. The Rate Limiter may update its internal counter/state.
+    - **If limit exceeded**: The request is **denied**, and an **HTTP 429 (Too Many Requests)** status code is returned to the client.
+- **Backend Server**: Processes the allowed requests.
+
+#### 3.2. Distributed Rate Limiting and Atomicity
+
+- **Problem**: For **distributed rate limiting** (when clients can go to different Rate Limiter instances/servers).
+- **Solution**: A **centralised data store** is required.
+  - **Example**: **Redis** is a common choice for this centralised store.
+- **Challenge: Atomicity**: When using a centralised store like Redis for counters (e.g., for Token Bucket), how do you **maintain atomicity** if multiple parallel requests from different clients hit the Rate Limiter at the same time and try to update the counter simultaneously?
+- **Answer**: There are **existing solutions to bring atomicity to Redis**.
+  - While these solutions might introduce a **slight latency**, they are generally usable and avoid the need to develop a custom atomicity solution.
+
+This comprehensive overview covers the problem, algorithms, and high-level design of a Rate Limiter, making it suitable for an interview discussion.
+
+Here are comprehensive notes on Idempotency Handling, designed for interview preparation, drawing directly from the provided sources. These notes cover definitions, problems, and a detailed approach to solving them, without skipping any important points or concepts.
+
+---
+
+### Idempotency Handling: Interview Notes
+
+This is a **very important question** and has been recently asked in top product companies.
+
+#### 1. Differentiating Idempotency vs. Concurrency
+
+It's crucial not to confuse these two concepts.
+
+- **Concurrency**:
+
+  - Deals with **multiple users or processes trying to access/modify a _single shared resource_ simultaneously**.
+  - **Example**: Many people trying to book the **same movie seat** on a BookMyShow app.
+  - **Goal**: To manage simultaneous access to prevent data corruption or incorrect state.
+
+- **Idempotency**:
+  - Deals with **handling _duplicate requests_ from a client**.
+  - **Definition**: It enables a client to **safely retry an operation many times without worrying about the side effects** of that operation.
+  - **Example**: Adding an item to a shopping cart. If a request to add an item is sent multiple times due to retries, it should **only result in one item being added** to the cart in the database. The system guarantees that even with multiple identical requests, the database will only have **one record** for that specific operation.
+  - **Capability**: This capability is provided by an **Idempotency Handler**.
+
+#### 2. Idempotency Nature of HTTP Methods
+
+By default, not all HTTP methods are idempotent.
+
+- **GET Requests**:
+
+  - Are **idempotent by nature**.
+  - Making duplicate GET requests will **not cause any side effects on the database**; they will simply return the existing data.
+  - **No specific handling is required** for GET requests regarding idempotency.
+
+- **PUT Requests**:
+
+  - Are **idempotent by nature**.
+  - If you update a resource (e.g., change a name from 'DJ' to 'Shreyas') and send the PUT request multiple times, it will **not cause any side effects** (the name will remain 'Shreyas' after the first successful update).
+  - **No specific handling is required** for PUT requests regarding idempotency.
+
+- **DELETE Requests**:
+
+  - Are **idempotent by nature**.
+  - Similar to GET and PUT, sending duplicate DELETE requests will **not have additional side effects** after the first successful deletion.
+  - **No specific handling is required** for DELETE requests regarding idempotency.
+
+- **POST Requests**:
+  - Are **NOT idempotent by nature**.
+  - This is the primary reason why we need to **explicitly implement idempotency for POST APIs**.
+  - **Problem**: If a POST request creates a new resource (e.g., a payment transaction or adding an item to a cart), and a duplicate POST request comes in, it will **create _another_ new resource or duplicate payment**, which is undesirable and incorrect for such operations.
+
+#### 3. Scenarios Leading to Duplicate POST Requests (Side Effects)
+
+Duplicate POST requests can arise in two main ways, both requiring handling.
+
+- **Sequential Duplication**:
+
+  - **Scenario**: A client makes a POST request (e.g., "add item to cart"). The server starts processing the request. However, the **client experiences a timeout** and does not receive a response. The server, despite the client timeout, **successfully processes the request** and completes the operation. Since the client timed out, it assumes the request failed and **retries the same request sequentially**, leading to a duplicate.
+  - **Problem**: Without idempotency, this sequential retry would lead to a duplicate resource creation (e.g., item added twice).
+
+- **Parallel Duplication**:
+  - **Scenario**: A client makes a POST request. At the **same time**, another identical POST request for the same operation comes in. This can happen if the client application somehow triggers two requests simultaneously (e.g., user double-clicks rapidly, or different browser tabs/processes send the same request). In a distributed system, these parallel requests might even hit **different server instances**.
+  - **Problem**: Without idempotency, both parallel requests might be processed, leading to **two resources being created** when only one should be.
+
+#### 4. The Approach for Idempotency Handling (Solution)
+
+The core solution involves a unique `Idempotency-Key` and a robust server-side flow.
+
+- **Key Component: Idempotency-Key**
+
+  - This is a **Universal Unique ID (UUID)** generated by the **client**.
+  - It is sent by the client in the **request header**.
+  - For **each _different_ operation**, a new, unique `Idempotency-Key` should be generated.
+  - For **retries of the _same_ operation**, the **same `Idempotency-Key` must be reused**.
+  - The `Idempotency-Key` can be generated using libraries for UUIDs, and can optionally include the operation type or a timestamp for enhanced uniqueness, depending on the client's needs.
+
+- **Client-Server Agreement**:
+
+  1.  The **client is responsible for generating the `Idempotency-Key`**.
+  2.  The client must generate a **unique key for each distinct operation**.
+
+- **Detailed Request Flow (Server-Side Logic)**:
+
+  1.  **Client Initiates POST Request**: The client application sends a POST request with the `Idempotency-Key` set in its header.
+
+  2.  **Server Receives Request and Validates Key**:
+
+      - Upon receiving the request, the server's first step is to **validate if the `Idempotency-Key` is present in the request header**.
+      - **If `Idempotency-Key` is NOT present**: The server returns an **HTTP 400 (Bad Request)** response, indicating a validation error.
+      - **If `Idempotency-Key` IS present**: The server proceeds to the next step.
+
+  3.  **Server Reads Idempotency-Key State from Database (DB)**:
+
+      - The server attempts to read the `Idempotency-Key` from a persistent data store (e.g., a database or a shared cache like Redis). This store holds the status of previous operations tied to idempotency keys.
+
+  4.  **Handling an Original Request (Key NOT Present in DB)**:
+
+      - **If the `Idempotency-Key` is NOT found in the DB**: This signifies an **original, fresh request**.
+      - The server **creates a new entry** for this `Idempotency-Key` in the DB.
+      - The status of this key is immediately set to **'CREATED'** (or 'ACQUIRED' / 'CLAIMED'), indicating that processing for this key has begun.
+      - The server then **performs the actual operation** (e.g., adding an item to the cart, processing a payment).
+      - **Upon successful completion of the operation**:
+        - The server **updates the status of the `Idempotency-Key` to 'CONSUMED'**.
+        - The resource is created (e.g., item added, payment processed).
+        - The server returns **HTTP 201 (Created)** to the client.
+
+  5.  **Handling a Duplicate Request (Key IS Present in DB)**:
+
+      - **If the `Idempotency-Key` IS found in the DB**: This signifies a **duplicate request**. The server then checks the **status** associated with this key.
+
+      - **Scenario A: Status is 'CONSUMED'**:
+
+        - This means the **original request for this `Idempotency-Key` was already successfully completed**, and the resource was created.
+        - The server returns **HTTP 200 (OK)** to the client. This informs the client that the operation they are requesting has already been processed successfully, without creating a new duplicate resource.
+
+      - **Scenario B: Status is 'CREATED' (or 'PROCESSING')**:
+        - This means the **original request is still currently being processed** by the server and has not yet completed.
+        - The server returns **HTTP 409 (Conflict)**. This indicates a conflict because another request with the same key is in progress. The client should be advised to wait and retry later. This handles the sequential "client timeout, server still processing" problem effectively.
+
+#### 5. Handling Parallel Duplicate Requests: The Critical Section
+
+The above flow primarily addresses sequential duplicates. To handle **parallel duplicate requests**, a crucial modification is needed.
+
+- **The Problem**: If two identical requests come in parallel, both might simultaneously attempt to read the `Idempotency-Key` from the DB. Since it's not initially present, **both could try to create the entry and proceed to perform the actual operation**, resulting in two duplicate resources being created.
+
+- **The Solution: Mutual Exclusion (Critical Section)**:
+
+  - The section of code where the server **reads the `Idempotency-Key` from the DB, creates it if not present, and updates its status** (Steps 3, 4, and 5 in the flow above) is a **critical section**.
+  - To prevent race conditions and ensure only one request/thread can execute this section at a time, **mutual exclusion mechanisms** must be applied.
+  - **Common mechanisms**: **Mutexes, Semaphores, or other synchronisation primitives** (e.g., locks).
+
+- **How it works with Mutual Exclusion**:
+  1.  When two parallel requests (e.g., Request 1 and Request 2) arrive, only **one (e.g., Request 1) will acquire the lock** and enter the critical section.
+  2.  Request 1 proceeds: it checks the DB, finds no `Idempotency-Key`, creates it with 'CREATED' status, performs the operation, updates the key status to 'CONSUMED', and then releases the lock.
+  3.  Now, Request 2 (which was waiting) acquires the lock and enters the critical section.
+  4.  Request 2 checks the DB, finds the `Idempotency-Key` **is now present**, and its status is **'CONSUMED'**.
+  5.  Therefore, Request 2 will return **HTTP 200** to the client, indicating the operation was already successful.
+  - This ensures that even with parallel duplicates, **only one actual operation is performed**.
+
+#### 6. Handling Distributed Servers/Clusters
+
+- **Problem**: If an `Idempotency-Key` request goes to one server, and its duplicate goes to a different server in a distributed cluster, how is synchronisation maintained, especially if they are backed by different databases or clusters?
+- **Solution**: Use a **shared, centralised Cache** (e.g., Redis) to store and manage the `Idempotency-Key` and its status.
+- **Advantage of Cache**: Cache synchronisation is **much faster (milliseconds)** compared to database synchronisation (which could be in minutes for consistency across multiple DBs). This ensures fast and consistent state management for idempotency across all server instances.
+
+---
+
+Here are comprehensive notes on High Availability and Resilience System design, specifically covering Active-Passive and Active-Active architectures, drawn directly from the provided source transcripts. These notes are structured for interview preparation, ensuring all important points are covered and cited.
+
+---
+
+### High Availability & Resilience System Design: Interview Notes
+
+This is a **very important interview question** in high-level design. It is often asked in various forms, but the core objective is to design an architecture that is resilient and highly available.
+
+#### 1. Core Concepts and Interview Question Variations
+
+The overarching goal is to **design a High Availability Architecture**. This question can be phrased in several ways:
+
+- Design **High Availability Architecture**.
+- Design **Data Resilience Architecture**.
+  - **Resiliency** means the capability to recover from failure.
+- Design architecture to achieve **99.999% availability (Five Nines)**.
+  - Achieving "Five Nines" availability is a crucial goal for companies.
+- Design an architecture to **avoid Single Point of Failure (SPOF)**.
+- Explain the difference between **Active-Passive vs. Active-Active Architecture**.
+
+Ultimately, the agenda is to design an architecture that is 99.999% available, capable of recovering from failures, and has no single point of failure.
+
+#### 2. Basic Single Node Architecture and Its Problems
+
+Let's first understand the limitations of a basic single-node setup before diving into high availability solutions.
+
+- **Architecture Description**:
+
+  - A **Client** (e.g., mobile, laptop, desktop) sends a request.
+  - The request first goes to a **Load Balancer** layer.
+  - The Load Balancer passes the request to an **Application layer** (e.g., Microservices: Application X, Y, Z, potentially with multiple nodes).
+  - The Application layer connects to a **Primary DB** (database layer).
+  - The DB stores the data.
+
+- **Problems with Single Node Architecture**:
+  - **Single Point of Failure (SPOF)**: If the **Primary DB goes down**, the **whole application becomes down**.
+  - **Lack of High Availability**: It does **not provide 99.999% availability** because a single DB failure brings down the system.
+  - **No Data Resiliency**: Once a failure occurs, the system **cannot recover on its own** until the issue is manually resolved, which could take hours or days.
+  - **Both read and write requests will fail** if the DB is down.
+
+#### 3. Multi-Node Architectures: Solutions to Single Node Problems
+
+To address the issues of single-node architecture, multi-node setups are introduced. There are two main types:
+
+1.  **Active-Passive Architecture**.
+2.  **Active-Active Architecture**.
+
+#### 4. Active-Passive Architecture
+
+This model resolves the SPOF issue by introducing redundancy, but with certain limitations.
+
+- **Setup Description**:
+
+  - Every company typically has at least **two Data Centers** (e.g., Data Center 1 in Mumbai, Data Center 2 in Pune).
+  - **Client** requests go through a **Load Balancer**, which can route to either Data Center 1 or Data Center 2.
+  - Both Data Centers have **similar configurations** of Application layers (e.g., App X, Y, Z microservices).
+  - Each Data Center has its own DB.
+  - **Key Concept**: Out of these data centers, **only ONE can be Primary** (also called **Live DB** or **Read-Write DB**).
+  - The other data center(s) are treated as **Replicas** or **Disaster Recovery (DR) Data Centers**, and their DBs are considered **Replicas**.
+
+- **Request Flow in Active-Passive**:
+
+  - **Write/POST Requests**: Any write request, regardless of which data center it initially hits, **must be directed to the Primary DB**.
+    - If a write request comes to the DR Data Center, its application layer will **route the request to the Primary DB**.
+  - **Read Requests**:
+    - Read requests hitting the Primary Data Center are served by the **Primary DB**.
+    - Read requests hitting the DR Data Center (replica) **can be served by the Read-Only DB** in that data center. (This is a possible improvisation to utilize resources better for reads).
+  - **Synchronization**: A **one-directional sync-up** occurs from the Primary DB to the Replicas.
+
+- **Reason for Single Primary for Writes**:
+
+  - Traditional relational databases like **Oracle, MySQL, and PostgreSQL are NOT multi-master**.
+  - This means they can **only write to one Primary DB** or Live DB at any given time.
+
+- **Achieving Data Resilience and Avoiding SPOF**:
+
+  - If the **Primary DB goes down**:
+    - The system can **switch the traffic** from the failed primary Data Center to the Disaster Recovery Data Center.
+    - The **DR Data Center's DB is then promoted to Primary** (Read-Write/Live DB).
+    - Once the original primary DB is recovered, it can be made a replica or read-only DB.
+  - This ensures that even with a DB failure, the system can still take traffic, thus avoiding a single point of failure and providing data resilience.
+
+- **Disadvantages of Active-Passive Architecture**:
+  - **Latency Add-on**: If a request (especially a write) goes to the DR Data Center, it then has to travel to the Primary DB, potentially in a different geographical location (e.g., Pune to Mumbai). This adds **latency** (e.g., 1 second vs. 2 seconds).
+  - **Downtime during Switchover**: When the primary DB fails, there's a **gap or delay** (e.g., 10-15 minutes) for the application to route traffic to the replica and promote it to primary. During this time, **all write requests (and potentially other traffic) will fail**.
+  - **Resource Under-utilization**: The replica DB is mostly idle for writes or only used for reads, meaning **resources are not fully utilized**.
+  - **Scalability for Write-Heavy Applications**: If the application has too many write operations, the **single primary DB becomes a bottleneck** and the active-passive setup **will not scale much**.
+
+#### 5. Active-Active Architecture
+
+This model aims for better resource utilization and performance by having multiple active write masters.
+
+- **Setup Description**:
+
+  - Client requests go through a Load Balancer, which can route to Data Center 1 (e.g., Mumbai) or Data Center 2 (e.g., Pune).
+  - Both Data Centers have their own Application layers.
+  - **Key Concept**: Both Data Centers are connected to their own DBs, and **BOTH of these DBs are designated as Primary or Live DBs**.
+  - **Requirement**: This architecture requires databases that **support multi-master capabilities**, such as **Cassandra and most NoSQL DBs**. Traditional RDBMs (Oracle, MySQL, Postgres) do not support this.
+  - **Synchronization**: There is **bi-directional sync-up** between the two primary DBs. In active-passive, it was one-directional.
+
+- **Request Flow in Active-Active**:
+
+  - Any request (read or write) that comes to Data Center 1 will be handled by **its own Primary DB**.
+  - Similarly, any request (read or write) that comes to Data Center 2 will be handled by **its own Primary DB**.
+  - This allows full utilization of DB resources across all data centers.
+
+- **Advantages of Active-Active Architecture**:
+
+  - **Full Resource Utilization**: Both data centers and their DBs are actively processing reads and writes, leading to **better resource utilization**.
+  - **Higher Throughput**: The system can **handle more traffic** because both data centers can take care of both reads and writes simultaneously.
+  - **Better for Write-Heavy Applications**: Unlike active-passive, this scales well for applications with many write operations as the load is distributed.
+  - **Lower Latency (Potentially)**: Requests are typically served by the local data center's DB, potentially reducing cross-region latency compared to active-passive.
+
+- **Disadvantages and Complexities of Active-Active Architecture**:
+  - **Synchronization Complexity**: The **most significant challenge** is maintaining synchronization between multiple active primary DBs.
+  - **Conflict Resolution**: If the **same row is updated at the same time in different data centers**, it leads to conflicts during replication. Resolving these conflicts (e.g., last-write-wins, custom logic) is complex.
+  - **Read-After-Write Consistency**: There's a possibility that a write happens in one data center (e.g., Data Center 1), but a read happens simultaneously in another data center (e.g., Data Center 2) **before the sync-up occurs**. This can lead to clients reading stale data. Maintaining consistency across distributed writes is a major concern.
+
+---
+
+### Distributed Messaging Queue: Kafka & RabbitMQ – Interview Notes
+
+This is a **very important topic** in high-level system design, especially from an interview perspective, as interviewers can ask many in-depth follow-up questions.
+
+#### 1. What is a Messaging Queue and Why is it Needed?
+
+- **Definition**: A messaging queue is a system where a **producer produces a message**, this message goes into a **queue**, and from that queue, a **consumer reads and processes the message**.
+
+  - It acts as an intermediary between producers and consumers.
+
+- **Advantages / Why it is Needed**:
+  1.  **Asynchronous Nature**:
+      - **Reduces Latency**: Instead of a producer (e.g., e-commerce application) synchronously waiting for a heavy task (e.g., sending notification mail) to complete, it can simply send a message to a queue and immediately return to the user. The notification sending can happen in the background, asynchronously.
+      - **Example**: After a user buys a product in an e-commerce application, a message "send notification to this user" is put into a queue. A separate "send notification application" consumes this message and sends the mail/message, without the user waiting.
+  2.  **Retry Capability**:
+      - If a consumer fails to process a message (e.g., the "send notification application" server is down), the message can be **put back into the queue for retry**. This ensures messages are eventually processed.
+  3.  **Pace Matching / Decoupling**:
+      - **Addresses Producer-Consumer Speed Mismatch**: Producers might generate messages at a much faster pace than a consumer can process.
+      - **Solution**: Producers put messages into the queue at their fast pace, and the consumer consumes them from the queue at its own, slower, sustainable pace. The queue acts as a buffer.
+      - **Example 1**: Multiple applications (e-commerce, inventory management, XYZ) sending messages (e.g., mail notifications) at high rates (10, 20, 30 messages/second) to a single "send notification application" that can only process 15 messages/second. A message queue allows all producers to send messages without being blocked, and the consumer processes them at its capacity.
+      - **Example 2**: Cab service where each cab sends its GPS location every 10 seconds. The sheer volume of data (car ID, current location) from many cars needs a queue because the consumer application (e.g., for creating a dashboard) cannot consume such frequent, high volumes of data directly.
+
+#### 2. Messaging Types: Point-to-Point vs. Pub/Sub
+
+- **Point-to-Point Messaging**:
+
+  - **Concept**: When a message is put into a queue, it can **only be consumed or processed once by a single consumer**.
+  - **Mechanism**: If Consumer 1 processes a message, it is not available for Consumer 2. The design ensures a single message is consumed only once, even if multiple consumers are present.
+
+- **Publish-Subscribe (Pub/Sub) Messaging**:
+
+  - **Concept**: A publisher broadcasts a message to **multiple queues** (or topics), and a **same message can be processed by multiple consumers**.
+  - **Mechanism**:
+    - A publisher sends a message.
+    - Based on internal logic (often called an **Exchange**), the message is broadcast to all relevant queues.
+    - Each queue can then be consumed by its own consumer(s).
+  - **Example**: Message 'A' comes in, the system broadcasts it to Queue 1 and Queue 2. Consumer 1 consumes 'A' from Queue 1, and Consumer 2 consumes 'A' from Queue 2.
+
+- **Choice**: The selection between Point-to-Point and Pub/Sub depends on the specific business need.
+
+#### 3. How Messaging Queue Works: Kafka (In-depth)
+
+Kafka is a very popular and important distributed messaging queue from an interview perspective.
+
+- **Key Components of Kafka**:
+
+  1.  **Producer (Publisher)**
+  2.  **Consumer**
+  3.  **Consumer Group**
+  4.  **Topic**
+  5.  **Partition**
+  6.  **Offset**
+  7.  **Broker (Kafka Server)**
+  8.  **Cluster**
+  9.  **Zookeeper**
+
+- **Kafka Architecture Overview**:
+
+  - **Producer** talks to a **Broker**.
+  - A **Broker** is a Kafka server.
+  - A Broker hosts **Topics**. A topic has a name and can have many topics (X, Y, Z).
+  - Inside a **Topic**, there are multiple **Partitions** (e.g., Partition 0, Partition 1, Partition 2).
+  - Inside a **Partition**, messages are stored with an **Offset**, which is like an index (0, 1, 2...). Different partitions can have different lengths.
+  - **Consumers read from Partitions** (as the ultimate data is stored here).
+  - Each **Consumer is part of one Consumer Group**. A consumer group can have many consumers (Consumer 1, Consumer 2). There can be multiple consumer groups (Consumer Group 1, Consumer Group 2).
+  - A **group of Brokers is called a Cluster**. Each broker typically runs on a different machine (Node 1, Node 2, etc.).
+  - **Zookeeper helps Brokers interact with each other** and tracks which topic/partition resides in which broker, facilitating internal communication and discovery.
+
+- **Detailed Component Interaction and Flow**:
+
+  - **Message Format**: When a producer sends a message, it typically has four parts:
+
+    - **Key**: (e.g., string or ID like `car ID`) - **Not mandatory**.
+    - **Value**: The actual message content.
+    - **Partition**: (Specific partition ID) - **Not mandatory**.
+    - **Topic**: (Topic name) - **Mandatory**; indicates where the message should be published.
+
+  - **Partitioning Logic (How a message chooses a Partition)**: For a given topic (e.g., Topic A with 3 partitions: P0, P1, P2):
+
+    1.  **If Key is present**: It computes a **hash of the Key** and pushes the data into the partition corresponding to that hash.
+    2.  **If Key is empty but Partition is specified**: It directly puts the message into the specified partition.
+    3.  **If both Key and Partition are empty**: It uses a **round-robin fashion** to choose the partition (Message 1 to P0, Message 2 to P1, Message 3 to P2, Message 4 back to P0, and so on).
+
+  - **Offset and Committed Offset (Crucial for Reliability)**:
+
+    - **Offset**: The index of a message within a partition.
+    - **Committed Offset**: Zookeeper keeps track of the "committed offset" for each consumer within a consumer group for a specific topic and partition. This means the **index till which the consumer has successfully read/processed messages**.
+    - **Purpose**: If a committed offset is 3, it means messages up to index 3 are successfully read, and messages from index 4 onwards are unread. This is critical for recovery.
+
+  - **Consumer Group Behaviour (Handling Consumer Failure)**:
+
+    - **Purpose**: Consumer groups allow for **parallel processing of partitions** and provide **fault tolerance**.
+    - **Within a Consumer Group**: Different consumers within the _same_ consumer group read _different_ partitions of a topic. For example, if Topic A has Partition 0 and Partition 1, Consumer 1 (in Group 1) might read P0, and Consumer 2 (in Group 1) might read P1. A single partition is not shared by multiple consumers within the _same_ group.
+    - **Across Consumer Groups**: Consumers from _different_ consumer groups _can_ read the same partition. For example, Consumer 1 from Group 1 can read P0, and Consumer 1 from Group 2 can _also_ read P0.
+    - **Consumer Failure Handling**: If a consumer (e.g., Consumer 1 processing P0) goes down:
+      - Kafka will pick another free consumer from the _same_ consumer group (e.g., Consumer 2).
+      - It checks the last committed offset of the failed consumer (e.g., 3).
+      - The new consumer (Consumer 2) will then start reading from the **next unread offset** (e.g., 4). This ensures no messages are lost and processing resumes from where it left off.
+
+  - **Broker, Cluster, and Zookeeper (Distributed System Foundation)**:
+
+    - **Broker**: A single Kafka server instance.
+    - **Cluster**: A group of multiple Kafka brokers, each typically running on a different machine. This distributes the load and provides scalability.
+    - **Zookeeper**: A distributed coordination service. Its role is to help brokers interact with each other, maintaining metadata about which topic and partition resides on which broker. It enables internal communication and discovery within the Kafka cluster.
+
+  - **Data Durability and Resilience in Kafka (Leader and Followers)**:
+    - **Replication**: To prevent data loss if a broker or partition goes down, partitions have **replicas**.
+    - **Leader and Followers**: For each partition, one broker hosts the **Leader** partition, and other brokers host its **Follower** (replica) partitions.
+    - **Read/Write Operations**: All **read and write operations always happen through the Leader**.
+    - **Synchronization**: Followers continuously **sync up with the Leader**, replicating all new messages to their own queues.
+    - **Leader Failure**: If a Leader partition (or its broker) goes down, one of its **Followers automatically takes over and becomes the new Leader**. This ensures high availability and data resilience.
+
+- **Handling Specific Failure Scenarios in Kafka**:
+
+  - **Q Size Limit Reached**: Kafka scales by having **multiple brokers** (different machines), allowing for more partitions and thus higher capacity beyond a single machine's limit.
+  - **Q (Leader/Broker) Goes Down**: If a partition's Leader goes down, the **Follower (replica) takes over** as the new leader, and no messages are lost because followers are synced.
+  - **Consumer Goes Down**: As explained above, another consumer from the **same consumer group takes over** and resumes processing from the last committed offset of the failed consumer.
+  - **Consumer Not Able to Process Message (Buggy Message)**:
+    - If a consumer picks up a message but fails to process it (e.g., it's a "buggy message"):
+      - The consumer's **committed offset is NOT increased**.
+      - The message will be **retried** a configurable number of times (e.g., 3 retries). The system will keep sending the same message until the retry limit is hit.
+      - If the retry limit is crossed, the message is then **moved to a "failure queue" or "dead letter queue" (DLQ)**.
+      - Once moved to the DLQ, the committed offset for the original partition is advanced, and the consumer moves on to new messages.
+      - Messages in the DLQ can later be manually inspected, fixed, and re-introduced to the system.
+
+#### 4. Kafka vs. RabbitMQ: Core Difference (Pull vs. Push)
+
+- **Kafka**: Uses a **pull-based approach**. Consumers actively **poll** the queue/partition asking "Do you have any new data? Do you have any new message?".
+- **RabbitMQ**: Uses a **push-based approach**. The queue **pushes** messages to consumers as soon as new data arrives.
+
+#### 5. How Messaging Queue Works: RabbitMQ (Overview)
+
+RabbitMQ has a slightly different architecture and concepts compared to Kafka.
+
+- **RabbitMQ Architecture Components**:
+
+  - **Producer**: Sends messages.
+  - **Exchange**: Receives messages from producers and routes them to queues.
+  - **Binding / Routing Key**: Defines the rules by which an Exchange routes messages to specific queues.
+  - **Queue**: Stores messages.
+  - **Consumer**: Reads messages from queues.
+
+- **Exchange Types (How messages are routed)**:
+
+  1.  **Fan Out Exchange**:
+      - **Concept**: When a message arrives at a fan-out exchange, it is **broadcast to _all_ queues that are associated/bound with that exchange**.
+      - **Use Case**: Simple broadcasting to multiple subscribers.
+  2.  **Direct Exchange**:
+      - **Concept**: A message is routed to a queue only if its **message key exactly matches the routing key** defined in the binding between the exchange and the queue.
+      - **Use Case**: Point-to-point routing based on exact matches.
+  3.  **Topic Exchange**:
+      - **Concept**: Uses **wildcards** in the routing keys for more flexible matching.
+      - **Mechanism**: If a message key matches a pattern (e.g., `star.one.two.three` where `star` is a wildcard) defined in the binding, it is routed to that queue. Wildcards are not allowed in Direct Exchanges.
+
+- **Handling Unprocessed Messages in RabbitMQ**:
+  - **No Offset Concept**: Unlike Kafka, RabbitMQ does **not have an "offset" concept** to track message consumption.
+  - **Recue Mechanism**: If a consumer fails to process a message, it can **re-queue the message to the back of the queue**.
+  - **Retries**: Similar to Kafka, it can try multiple re-queues/retries.
+  - **Dead Letter Queue (DLQ)**: If retries are exhausted, the message can be moved to a **dead letter queue**.
+
+### **Transcript Notes: Proxy Servers and Related Concepts**
+
+---
+
+** Introduction to Proxy Servers**
+
+- **What is a Proxy Server?**
+  - A proxy server sits **between a client and a server**.
+  - It acts as an **intermediate** between these two.
+  - **All requests pass through the proxy**; the client and server do not communicate directly with each other.
+  - **Analogy**: A child (client) wants a chocolate from a shop (server) and asks its mom (proxy). The mom takes the request on behalf of the child, goes to the shop, gets the chocolate, and gives it back to the child. Here, the mom acts as the proxy.
+  - A proxy can handle requests from **more than one client** (e.g., a mom with two children taking requests from both).
+
+---
+
+** Types of Proxy Servers: Forward vs. Reverse**
+
+- Proxy servers have different types: **Forward Proxy** and **Reverse Proxy**.
+- They primarily differ in their **direction of communication**.
+
+- **Forward Proxy (or Simple Proxy)**
+  - Often, when someone says "proxy," they are referring to a forward proxy.
+  - **How it works**: It sits within a **closed network** (e.g., intranet, group of personal computers).
+  - Clients within this network talk to the forward proxy.
+  - The forward proxy then communicates with the internet (outside world) to reach a specific server.
+  - The server responds to the proxy, and the proxy returns the response to the client.
+  - **Key function**: It **hides the client network** from the outside world.
+
+---
+
+** Forward Proxy: Hiding Clients and Advantages**
+
+- **Hiding Client IP Address**:
+
+  - When a client (e.g., with IP 172.1.0.1) makes a request, the **forward proxy sends its own IP address** (e.g., 192.3.0.1) to the outside server.
+  - The server only knows the proxy's IP address and is unaware of the actual client's IP address.
+  - This means the **forward proxy hides the client from the outside world**.
+
+- **Advantages of Forward Proxy**:
+  - **Anonymity**: Provides **anonymity to internal networks**. The client's IP address and location are hidden from external servers, meaning the server doesn't know where the request truly originated.
+  - **Grouping of Requests**: Can **club similar requests** from multiple clients (e.g., several clients requesting "google.com") and send just one consolidated request to the outside world. This enhances efficiency.
+  - **Access Restricted Data/Content**: Can **bypass geographical or country-specific content restrictions**. By routing through a proxy in a different location (e.g., UK/US), it can appear as if the request originates from that location, allowing access to otherwise blocked content.
+
+---
+
+** Forward Proxy: Security and Caching**
+
+- **Advantages of Forward Proxy (continued)**:
+  - **Security**: Allows you to **add security controls** and rules. For example, if all client requests pass through the forward proxy, you can define what content or websites clients are allowed or not allowed to access (e.g., blocking social media sites like Facebook). The proxy can stop responses or throw errors based on these rules.
+  - **Caching**: A significant advantage. The forward proxy can **cache static content**.
+    - When a client requests content for the first time, the proxy checks its cache.
+    - If not found, it retrieves the content from the external server, **stores it in its own cache**, and then returns it to the client.
+    - For subsequent requests for the same content by any client, the proxy serves it **directly from its cache** without going to the outside server, thereby speeding up access and reducing external load.
+
+---
+
+** Forward Proxy Disadvantage and Reverse Proxy Introduction**
+
+- **Disadvantage of Forward Proxy**:
+
+  - **Works at the Application Level**: This means that for multiple applications, you might need to **set up a separate proxy for each application**. It operates on the application layer, unlike some other technologies that work at the packet level.
+
+- **Reverse Proxy**:
+  - **Direction**: Differs from forward proxy mainly in direction.
+  - While forward proxy protects and brings anonymity to clients, **reverse proxy protects servers**.
+  - **How it works**: Sits between the **internet (incoming requests)** and your internal servers (e.g., server one, server two, etc.).
+  - Requests from the internet are **not allowed to directly access the servers**; they must first go through the reverse proxy.
+  - The reverse proxy then takes responsibility for sending the request to the appropriate server.
+
+---
+
+** Reverse Proxy: Security, CDN, and Caching**
+
+- **Advantages of Reverse Proxy**:
+  - **Security**: Hides the **server's actual IP address** from the outside world. External entities only know the reverse proxy's IP.
+  - **DDOS Attack Mitigation**: In case of a Distributed Denial of Service (DDOS) attack, the attacker can only target the reverse proxy, **not the original server**. Reverse proxies are often equipped with significant resources and technology to handle such attacks.
+  - **Example: CDN (Content Delivery Network)**: A CDN is a well-known type of reverse proxy.
+    - If your original server is in Singapore and clients are globally dispersed (e.g., Paris, US, India), you can set up CDNs (reverse proxies) in locations closer to your users.
+    - Local users' requests go to their local CDN. This brings the content closer to the user.
+  - **Caching**: Similar to forward proxies, reverse proxies (like CDNs) **maintain a cache**.
+    - If a local user's request for data is not in the local CDN's cache, it will go to the original server.
+    - Once retrieved, it will be stored in the local CDN's cache for future requests.
+
+---
+
+** Reverse Proxy: Latency and Load Balancing**
+
+- **Advantages of Reverse Proxy (continued)**:
+  - **Latency Reduction**: By placing reverse proxies (like CDNs) physically **closer to users' locations** and leveraging caching, they significantly help in **reducing latency** for content delivery.
+  - **Load Balancer Capability**: A major advantage. A reverse proxy sits in front of multiple servers and can **distribute incoming requests** among them (e.g., sending some requests to server one, others to server two, etc.). This helps in **load balancing** traffic efficiently across available servers.
+  - **CDN is a popular example of a reverse proxy**.
+
+---
+
+** Proxy vs. VPN**
+
+- **Proxy**:
+  - Acts as a bypass and helps with **anonymity** by hiding IP addresses.
+  - Can perform **caching** and **logging**.
+  - **Key limitation**: It **cannot encrypt or decrypt data**. It primarily does IP address masking.
+- **VPN (Virtual Private Network)**:
+  - Much more comprehensive than a proxy.
+  - Creates a **secure VPN tunnel** between the client (via a VPN client) and a VPN server over the internet.
+  - **Encrypts all data** before it travels through the VPN tunnel. This means even if an attacker intercepts the data, it will be encrypted and unreadable.
+  - The VPN server then **decrypts the data** before sending it to the original server.
+  - **Major Difference**: VPN performs **encryption and decryption of data** and creates a **safe, encrypted tunnel** for data transfer, functionalities which a proxy does not provide.
+
+---
+
+** Reverse Proxy vs. Load Balancer**
+
+- **Reverse Proxy**:
+  - **Can act as a load balancer**.
+  - Possesses **additional capabilities** beyond load balancing, such as: **anonymity** (hiding server IPs), **caching**, and **logging**.
+  - Can be useful even if you have **only one server** for its caching, anonymity, or logging benefits.
+- **Load Balancer**:
+  - **Cannot act as a proxy**. It does not offer the broader capabilities of a proxy like anonymity or caching.
+  - Is **only necessary when there are multiple servers** to distribute requests among. If there's only one server, a dedicated load balancer isn't needed.
+  - Load balancing is just one specific capability that a reverse proxy can perform.
+
+---
+
+** Proxy vs. Firewall**
+
+- **Firewall**:
+  - Works by defining rules through "holes" to control what data can pass to the outside internet.
+  - Performs **packet scanning**: It inspects packet headers, port numbers, source, and destination IP addresses to decide whether to allow or block traffic.
+  - Operates primarily at the **packet level** (e.g., Network Layer).
+- **Proxy**:
+  - Works at the **Application Level**. This means it has access to the actual **data content** itself, not just packet metadata like IP addresses or port numbers.
+  - Requires **setup for each application**.
+  - Traditionally, proxies focused on providing **IP address anonymity**.
+  - **Modern "proxy firewalls"**: These are advanced proxies that can also perform **blocking of data based on rules**, similar to a traditional firewall. However, they do so at the **application layer**, which is the major distinguishing factor.
+  - **Key Difference**: Firewalls operate at the packet level by inspecting headers, while proxies operate at the application level, allowing for deeper inspection and rules based on data content.
