@@ -1,4 +1,4 @@
-- **Lecture 1: Network Protocols**
+## Lecture 1: Network Protocols
 
 - **Network Protocols**:
 
@@ -69,7 +69,7 @@
   - **TCP**: Use when **reliability, order, and guaranteed delivery** of data are paramount (e.g., file downloads, web browsing data).
   - **UDP**: Use when **speed and low latency** are more important than absolute reliability and order, especially in real-time applications where a slight loss of data is preferable to delay (e.g., live video/audio streaming, online gaming).
 
-- **Lecture 2: CAP Theorem**
+## Lecture 2: CAP Theorem
 
 ### CAP Theorem: Interview Notes
 
@@ -148,3 +148,127 @@ Since C-A-P is not possible, you must choose one of the following pairs:
 - Therefore, in real-world distributed system design, the choice almost always comes down to selecting between **AP** (Availability and Partition Tolerance, sacrificing Consistency) or **CP** (Consistency and Partition Tolerance, sacrificing Availability).
 - **Common Interview Question**: "What would you drop in a distributed system, Consistency or Availability, given Partition Tolerance?"
   - The answer will depend on the specific requirements of the system, but the core choice is always between C and A, as P is assumed to be required.
+
+## Lecture 4: SAGA Pattern
+
+### SAGA Pattern
+
+This discussion focuses on key microservices design patterns, particularly important for system design interviews, building upon concepts like Decomposition Pattern (from Part 1, not provided in sources).
+
+**1. Overview of Discussed Patterns**
+
+- Three core patterns are covered: **Strangler Pattern**, **Saga Pattern**, and **CQRS (Command Query Responsibility Segregation)**.
+- **Strangler Pattern** and **Saga Pattern** are highlighted as "very, very, very important" for microservices.
+- An interview question related to Saga will be discussed.
+
+---
+
+**2. Strangler Pattern**
+
+- **Purpose**: Used for **refactoring a monolithic service into microservices**. It helps manage the transition from a large, existing monolith to smaller, independent microservices.
+- **How it Works (Incremental Migration)**:
+  - A **controller (or API Gateway)** is introduced, acting as a traffic director.
+  - Initially, **all incoming API traffic** is directed to the existing **monolith**.
+  - When a new microservice is developed for a specific "flow" or feature, a **small percentage of traffic (e.g., 10%)** for that flow is gradually redirected to the new microservice. The remaining traffic still goes to the monolith.
+  - **Safety Mechanism**: If the newly deployed microservice **fails** or encounters issues, the controller can immediately redirect **100% of the traffic back to the monolith (0% to microservice)**. This ensures system stability.
+  - As confidence in the microservice grows (after bug fixes and testing), the percentage of traffic routed to it is **slowly increased**.
+  - The term "strangler" refers to this process of gradually **"strangling" the monolith** by diverting its traffic feature by feature, until its usage diminishes.
+  - Eventually, as more and more features are migrated, the monolith's traffic will decrease (e.g., from 100 transactions to 90, then 50, then 0), allowing it to be **eventually deleted**.
+- **Benefit**: Enables **gradual, controlled migration** without requiring a "big bang" rewrite or taking the entire system offline. It's a highly recommended approach for converting existing monolithic applications.
+
+---
+
+**3. Data Management in Microservices**
+
+- There are two primary approaches for data management in a microservices architecture:
+
+  1.  **Database for each individual service**.
+  2.  **Shared Database**.
+
+- **Why Shared Database is NOT Recommended (and why "Database for each individual service" is preferred)**:
+
+  - **Scaling Challenges**: If services share a single database, scaling one service (e.g., an "Order" service with millions of orders) requires scaling the entire database, even if other services (e.g., "Inventory" with fewer products) don't need that level of scaling. This leads to **inefficient resource allocation**.
+  - **Dependency Issues and Slow Development**: If multiple services share tables in a common database, modifying a table (e.g., deleting a column) requires checking **all dependencies** across _all_ services using that table. This slows down development and makes changes risky. It's **not scalable** for independent teams.
+  - **Ease (but limited) of Shared DB**: Its only advantages are easier **joining of queries** across tables and simpler maintenance of **transactional ACID properties** within a single database. However, these are outweighed by the scaling and dependency issues.
+
+- **"Database for each individual service" (The Recommended Approach)**:
+  - **Architecture**: Each microservice has its **own dedicated database**.
+  - **Key Principle**: **No service can directly query another service's database**. If Service A needs data from Service B's database, it must **invoke Service B's API** to request the data.
+  - **Benefits**:
+    - **Technology Freedom**: Each service can choose the **best database technology** (e.g., relational DB, NoSQL, MongoDB, PostgreSQL) that suits its specific needs, independently of other services.
+    - **Independent Maintenance & Development**: Services can modify their own database schemas without impacting or needing to consult other services, fostering **autonomy for development teams**.
+    - **Independent Scaling**: If a particular service experiences high traffic, only its dedicated database needs to be scaled, allowing for **efficient and targeted scaling**.
+  - **New Challenges (which Saga and CQRS address)**:
+    - **Distributed Transactions**: How to maintain **ACID transactional properties** when a single logical operation spans multiple, independent databases? This is solved by the **Saga Pattern**.
+    - **Cross-Service Queries/Joins**: How to perform queries that require joining data from multiple, separate databases? This is solved by **CQRS**.
+
+---
+
+**4. Saga Pattern**
+
+- **Problem Solved**: Addresses the challenge of maintaining **transactional consistency (ACID properties)** across **multiple, independent databases** in a distributed system.
+- **Scenario Example (Illustrating the Problem)**:
+  - Consider an "Place an Order" transaction involving an **Order DB**, **Inventory DB**, and **Payment DB**.
+  - If the Order DB is updated and Inventory DB is updated successfully, but the **Payment fails**.
+  - In a monolithic system with a single database, a full rollback would occur. However, with independent databases, the Order and Inventory updates are "committed" locally. How do you "undo" these committed local transactions if a later step fails?.
+- **Definition**: A Saga is a **sequence of local transactions**. Each local transaction updates a database and publishes an event.
+- **How it Works (Compensation Events)**:
+  - Each service involved in a distributed transaction executes its **local transaction** on its own database.
+  - Upon successful completion of its local transaction, the service **publishes an event** (e.g., "OrderCreatedEvent", "InventoryUpdatedEvent").
+  - Other services listen to these events. If an event indicates success, they proceed with their own local transaction.
+  - **If any local transaction fails** at any point in the sequence (e.g., Payment service fails to process payment):
+    - The failing service publishes a **"compensation event"** (or failure event).
+    - The services that successfully completed their _prior_ local transactions listen to this compensation event.
+    - Upon receiving the compensation event, these prior services execute **"compensation transactions"** (rollback operations) on their own local databases to undo the effects of their previous successful operations.
+    - This effectively rolls back the entire distributed transaction by compensating each successful step.
+- **Two Types of Saga Implementations**:
+
+  1.  **Choreography Saga**:
+      - **Decentralized approach**: No central orchestrator.
+      - Services listen to events directly from other services (often via an event bus or message queue) and react to them.
+      - **Drawback**: Can lead to **circular dependencies** or **cyclical dependencies** between services, making the flow harder to understand and manage.
+  2.  **Orchestration Saga**:
+      - **Centralized approach**: Introduces a **dedicated orchestrator component**.
+      - The orchestrator manages the entire sequence of operations, calling each service in order.
+      - It waits for a response from one service before calling the next.
+      - **Advantage**: Eliminates circular dependencies as the orchestrator dictates the flow.
+      - **Failure Handling**: If any service fails, the orchestrator is responsible for initiating the **rollback process** by instructing the previously successful services to perform their compensation transactions.
+
+- **Interview Question Example (Payment System)**:
+  - **Scenario**: Person A pays Person B ₹10.
+  - **Microservices involved**: A **Balance Service** (manages account balances) and a **Payment Service** (records payment history).
+  - **Problem**:
+    - User requests `makePayment(A, B, 10)`.
+    - Balance service successfully **deducts ₹10 from A's account** (e.g., from ₹100 to ₹90) and updates its database.
+    - Payment service attempts to **record the payment but fails** (e.g., due to a network issue, external service failure).
+    - Result: Person A's balance is reduced, but there's no record of the payment in the Payment Service, leading to data inconsistency.
+  - **Saga Solution**:
+    - Upon failure, the Payment Service publishes a **failure event**.
+    - The Balance Service listens to this failure event for that specific transaction.
+    - The Balance Service then performs a **compensation transaction**, adding the ₹10 back to Person A's balance (restoring it to ₹100).
+  - **Conclusion**: Saga is crucial for ensuring atomicity and consistency in such **distributed transactions**, resolving the problem of partial updates across multiple databases.
+
+---
+
+**5. CQRS (Command Query Responsibility Segregation)**
+
+- **Problem Solved**: Addresses the difficulty of performing **complex queries or joins across multiple, independent databases** in a "Database for each individual service" architecture.
+- **Definition**: CQRS separates the responsibilities of **Commands** (data modification operations) from **Queries** (data retrieval operations).
+  - **Commands**: Operations like **Create, Update, and Delete**.
+  - **Queries**: Operations like **Select**.
+- **How it Works**:
+  - **Command Model**: All **Create, Update, and Delete** operations are performed on the **individual service databases** (each service writes to its own dedicated DB).
+  - **Query Model (View Database)**: A **separate, dedicated "View DB"** (or "common history view") is created specifically for **read operations**. This View DB can be structured to facilitate complex joins and aggregations of data from multiple source services.
+- **Challenge**: How does the View DB stay synchronized and updated with changes happening in the individual service databases?.
+- **Update Mechanisms for the View DB**:
+  - **Event-Driven**: When a Command (Create, Update, or Delete) occurs in a source service's database, that service **publishes an event**. The View DB listens to these events and performs the corresponding updates to keep its data consistent.
+  - **Batch Processes/Regular Procedures**: Alternatively, batch jobs or scheduled procedures can periodically track changes in the source databases and update the View DB.
+- **Benefit**: Allows for **optimized read models** that are separate from write models, enabling better performance for queries and supporting complex analytical needs without impacting the operational databases. It also allows read models to be highly denormalized for efficient querying, while write models can remain normalized for transactional integrity.
+
+---
+
+**6. Overall Importance**
+
+- The **Strangler** and **Saga** patterns are emphasized as **critically important** for anyone working with microservices.
+- Understanding **CQRS** is also essential for handling data querying challenges in distributed systems.
+- These patterns address fundamental challenges when moving from monolithic to microservices architectures, particularly concerning migration, data consistency, and querying across distributed data stores.
