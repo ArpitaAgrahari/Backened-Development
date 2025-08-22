@@ -59,7 +59,7 @@
 
 // export default App
 import './App.css'
-import Form from './components/form'
+import Form from './components/Form'
 
 export default function App() {
   return (
