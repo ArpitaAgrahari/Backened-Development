@@ -6,7 +6,6 @@ import Tabs from './component/tabs';
 import ThemeToggle from './component/Theme';
 
 export default function App() {
-  // --- Data for the components ---
   const Slides = [
     "https://placehold.co/800x400/3498db/ffffff?text=Slide+1",
     "https://placehold.co/800x400/e74c3c/ffffff?text=Slide+2",
@@ -28,7 +27,6 @@ export default function App() {
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen font-sans transition-colors duration-300">
-      {/* This modal will appear automatically */}
       <Popover 
         title="Welcome to Our Interactive UI Guide!"
         message="This modal appeared automatically after 10 seconds. Explore the components below."
