@@ -1,4 +1,4 @@
-### **Project Management: Core Concepts & Methodologies **
+### **Project Management: Core Concepts & Methodologies - Notes**
 
 **I. Defining Key Terms**
 
