@@ -1743,7 +1743,672 @@ PRACTICE QUESTIONS:
      - D) The number of resources allocated
 
 118. **For a project with 3 stakeholders, how many communication channels can be expected?**
+
      - A) 1
      - B) 2
      - C) 3
      - D) 6
+
+119. Which project management methodology is also known as the predictive model?
+
+     - A) Agile
+     - B) Waterfall
+     - C) Scrum
+     - D) Kanban
+
+120. In the predictive project management model, which of the following stages comes first?
+
+     - A) Executing
+     - B) Monitoring
+     - C) Planning
+     - D) Closing
+
+121. What is a key characteristic of Agile project management?
+
+     - A) It follows a linear path.
+     - B) It welcomes changes to the project.
+     - C) It has well-defined milestones.
+     - D) It does not allow for frequent delivery.
+
+122. In Agile project management, what is the role of the project manager commonly referred to as?
+
+     - A) Project Coordinator
+     - B) Scrum Master
+     - C) Team Leader
+     - D) Project Director
+
+123. What tool is often used in Agile project management to visualize work in progress?
+
+     - A) Gantt Chart
+     - B) Kanban Board
+     - C) PERT Chart
+     - D) Flowchart
+
+124. What is the first process in project schedule management?
+
+     - A) Develop Schedule
+     - B) Plan Schedule Management
+     - C) Sequence Activities
+     - D) Monitor and Control Schedule
+
+125. Which document is created during the plan schedule management process?
+
+     - A) Activity List
+     - B) Schedule Management Plan
+     - C) Work Breakdown Structure
+     - D) Project Charter
+
+126. What is a critical path in project management?
+
+     - A) The longest time the project takes to be completed
+     - B) The shortest time the project takes to be completed
+     - C) A list of all project activities
+     - D) A report on project risks
+
+127. During the planning process, how can project managers estimate the duration of activities?
+
+     - A) By guessing
+     - B) By using historical information or consulting experts
+     - C) By randomly selecting numbers
+     - D) By asking stakeholders for their opinions
+
+128. What is the main output of the project schedule management knowledge area?
+
+     - A) Activity List
+     - B) Schedule Management Plan
+     - C) Project Scope Statement
+     - D) Risk Management Plan
+
+129. What is the primary purpose of defining project activities in schedule management?
+
+     - A) To create a budget for the project
+     - B) To break down project components into specific activities
+     - C) To assign team members to tasks
+     - D) To evaluate project risks
+
+130. Which of the following is NOT an output of the activity definition process?
+
+     - A) Activity list
+     - B) Activity attributes
+     - C) Project milestones
+     - D) Project budget
+
+131. What does the term "dependency" refer to in project management?
+
+     - A) A task that can be completed independently
+     - B) A situation where one activity relies on the completion of another
+     - C) A method of estimating project costs
+     - D) A milestone in the project timeline
+
+132. In the context of a work breakdown structure (WBS), what are work packages?
+
+     - A) The final deliverables of the project
+     - B) Individual activities that need to be completed
+     - C) Smaller projects within a larger project
+     - D) The overall project scope
+
+133. Which of the following is an example of a project milestone?
+
+     - A) Completing the project budget
+     - B) Successfully testing the starboard engine
+     - C) Ordering the ship's engines
+     - D) Installing the ship's engines
+
+134. What is the primary purpose of network diagramming in project management?
+
+     - A) To create a budget for the project
+     - B) To determine the most efficient sequence for project activities
+     - C) To assign team members to tasks
+     - D) To evaluate project risks
+
+135. Which type of dependency requires one activity to be completed before another can start?
+
+     - A) Discretionary dependency
+     - B) External dependency
+     - C) Mandatory dependency
+     - D) Internal dependency
+
+136. In the context of project activities, what does a "finish to finish" dependency mean?
+
+     - A) One activity must start before another can finish
+     - B) Both activities must be completed at the same time
+     - C) One activity must finish before another can start
+     - D) Both activities can be done simultaneously
+
+137. Which of the following is an example of an external dependency?
+
+     - A) A painter must finish the kitchen before starting the bedroom
+     - B) A wall must be built before it can be painted
+     - C) The paint supplier must deliver paint before painting can begin
+     - D) Preparing the dirt must be done before planting seeds
+
+138. What does the critical path in project management represent?
+
+     - A) The longest path through the project
+     - B) The earliest possible completion date for the project
+     - C) The path with the most dependencies
+     - D) The path that requires the most resources
+
+139. **What is lead time in project management?**
+
+     - A) A delay before the next activity begins
+     - B) The time taken for materials to be delivered
+     - C) A period of waiting that can be accounted for in a schedule overlap
+     - D) The total duration of a project
+
+140. **In the example provided, how long does it take for the engine to be delivered after ordering?**
+
+     - A) 30 days
+     - B) 180 days
+     - C) 365 days
+     - D) 2 days
+
+141. **What does lag time refer to in project management?**
+
+     - A) The time taken to complete an activity
+     - B) A delay before the beginning of the next activity
+     - C) The overlap of two activities in a schedule
+     - D) The time required for planning a project
+
+142. **In the concrete driveway example, how long does the concrete need to cure before a delivery can be made?**
+
+     - A) 1 day
+     - B) 2 days
+     - C) 3 days
+     - D) 5 days
+
+143. **Which of the following statements is true regarding lead and lag times?**
+
+     - A) Lead time is always longer than lag time.
+     - B) Lag time can be planned for in a project schedule.
+     - C) Lead time does not affect the overall project timeline.
+     - D) Lag time is a type of resource allocation.
+
+144. What is the primary purpose of estimating the duration of activities in project management?
+
+     - A) To determine the cost of the project
+     - B) To develop the overall project schedule
+     - C) To assign resources to team members
+     - D) To evaluate team performance
+
+145. Which of the following techniques is the least time-consuming for estimating activity durations?
+
+     - A) Parametric estimating
+     - B) Three-point estimating
+     - C) Bottom-up estimating
+     - D) Analogous estimating
+
+146. The law of diminishing returns suggests that:
+
+     - A) Adding more resources will always increase efficiency.
+     - B) There is a point where adding resources does not lead to increased output.
+     - C) Procrastination is beneficial for productivity.
+     - D) Technology has no impact on productivity.
+
+147. What does Parkinson's law state?
+
+     - A) Work will expand to fill the available time.
+     - B) More resources always lead to faster completion.
+     - C) Procrastination leads to better results.
+     - D) Team consensus is unnecessary for estimates.
+
+148. In the "fist of five" technique, what does a closed fist represent?
+
+     - A) Full support for the estimate
+     - B) No support for the estimate
+     - C) Uncertainty about the estimate
+     - D) Agreement with the estimate
+
+149. What does the optimistic estimate represent in the three-point estimating technique?
+
+     - A) The average time the activity will take
+     - B) The time the activity will take if there are many problems
+     - C) The time the activity will take if we assume no problems
+     - D) The most realistic time the activity will take
+
+150. In the three-point estimating technique, how is the estimate calculated?
+
+     - A) Estimate = (Optimistic + Most Likely + Pessimistic) / 2
+     - B) Estimate = (Optimistic + Most Likely + Pessimistic) / 3
+     - C) Estimate = (Optimistic + 4 \* Most Likely + Pessimistic) / 6
+     - D) Estimate = (Most Likely + Pessimistic) / 2
+
+151. Which of the following statements is true regarding PERT estimating?
+
+     - A) It gives equal weight to all scenarios.
+     - B) It gives more weight to the optimistic scenario.
+     - C) It gives more weight to the most likely scenario.
+     - D) It does not consider pessimistic scenarios.
+
+152. If the optimistic estimate is 15 hours, the most likely estimate is 24 hours, and the pessimistic estimate is 30 hours, what is the three-point estimate?
+
+     - A) 20 hours
+     - B) 23 hours
+     - C) 25 hours
+     - D) 22 hours
+
+153. In the PERT estimating formula, how many times is the most likely estimate multiplied?
+
+     - A) 2
+     - B) 3
+     - C) 4
+     - D) 5
+
+154. What is the primary purpose of bottom-up estimating in project management?
+
+     - A) To provide a rough estimate of project costs
+     - B) To break down the project into smaller tasks and estimate their durations
+     - C) To assign tasks to team members
+     - D) To create a project timeline without detailed analysis
+
+155. Which of the following is NOT a step in the bottom-up estimating process?
+
+     - A) Break Down the Project into Tasks
+     - B) Estimate Task Durations
+     - C) Create a Gantt Chart
+     - D) Sum Up the Estimates
+
+156. When is bottom-up estimating particularly useful?
+
+     - A) When the project scope is vague
+     - B) When detailed task information is available
+     - C) When there are no subject matter experts available
+     - D) When the project has a flexible timeline
+
+157. In the example of building a mobile app, what is the total estimated duration for the project if the individual task durations are 80 hours for user interface design, 120 hours for backend development, 60 hours for testing, and 20 hours for deployment?
+
+     - A) 240 hours
+     - B) 260 hours
+     - C) 280 hours
+     - D) 300 hours
+
+158. What is a potential drawback of using bottom-up estimating?
+
+     - A) It provides inaccurate estimates
+     - B) It is time-consuming, especially for large projects
+     - C) It does not involve team members
+     - D) It is only suitable for small projects
+
+159. What is the most restrictive type of constraint in project management?
+
+     - A) Must start on dates
+     - B) Must finish by dates
+     - C) Start no earlier dates
+     - D) Finish no later dates
+
+160. Which of the following is NOT a type of constraint mentioned in the lecture?
+
+     - A) Must start on
+     - B) Must finish by
+     - C) Must continue until
+     - D) Start no later
+
+161. When developing a project schedule, which of the following should be considered a potential risk?
+
+     - A) Availability of resources
+     - B) Regulatory compliance
+     - C) Competing projects
+     - D) All of the above
+
+162. What is an example of a regulatory compliance consideration in project scheduling?
+
+     - A) The need for testing time
+     - B) The availability of team members
+     - C) The start date of the project
+     - D) The budget constraints
+
+163. Why is it important to consider supply chain issues when developing a project schedule?
+
+     - A) To ensure the project is completed on time
+     - B) To avoid catastrophic events
+     - C) To manage labor availability
+     - D) To account for global shortages of goods
+
+164. What is the primary purpose of a network diagram in project management?
+
+     - A) To visualize the project budget
+     - B) To represent the sequence of activities and find completion dates
+     - C) To assign tasks to team members
+     - D) To track project expenses
+
+165. Which of the following statements about the critical path is true?
+
+     - A) It is the shortest path through the project.
+     - B) Activities on the critical path can be delayed without affecting the project.
+     - C) It represents the longest total duration of project activities.
+     - D) It includes all activities in the project.
+
+166. Float (or slack) in project management refers to:
+
+     - A) The total time required to complete the project.
+     - B) The amount of time an activity can be delayed without delaying the entire project.
+     - C) The time taken for project meetings.
+     - D) The time allocated for project reviews.
+
+167. In a forward pass, how is the early finish of an activity calculated?
+
+     - A) Early start + Duration
+     - B) Early start + Duration - 1
+     - C) Late finish - Duration
+     - D) Late start + Duration
+
+168. When performing a backward pass, what does the late finish of an activity represent?
+
+     - A) The earliest day the activity can start
+     - B) The latest day the activity must finish
+     - C) The total duration of the project
+     - D) The time allocated for project delays
+
+169. What is the first step to create a Gantt chart in Google Sheets?
+
+     - A) Open Google Docs
+     - B) Go to Google Sheets and open a new sheet
+     - C) Download a Gantt chart template
+     - D) Create a presentation in Google Slides
+
+170. Which of the following templates is NOT available in the Google Sheets template gallery for project management?
+
+     - A) Gantt chart project timeline
+     - B) Project tracking
+     - C) Event marketing timeline
+     - D) Budget planning
+
+171. When you open a project timeline sheet in Google Sheets, what can you do with the cells?
+
+     - A) They are locked and cannot be edited
+     - B) You can only view them
+     - C) They are customizable and editable
+     - D) They can only be printed
+
+172. What type of projects can you use the Gantt chart template for?
+
+     - A) Only professional projects
+     - B) Only personal projects
+     - C) Both personal and professional projects
+     - D) Only academic projects
+
+173. How many different project management templates are mentioned in the content?
+
+     - A) Two
+     - B) Three
+     - C) Four
+     - D) Five
+
+174. What is the first process in project cost management?
+
+     - A) Estimate costs
+     - B) Develop project budget
+     - C) Plan cost management
+     - D) Monitor and control budget
+
+175. Which document is created during the plan cost management process?
+
+     - A) Cost estimation report
+     - B) Cost management plan
+     - C) Budget baseline document
+     - D) Project scope statement
+
+176. What does the project budget include?
+
+     - A) Only the costs of materials
+     - B) All necessary funds to execute the project successfully
+     - C) Only labor costs
+     - D) Historical data from past projects
+
+177. How does a project manager monitor and control the budget?
+
+     - A) By ignoring the baseline budget
+     - B) By comparing actual costs to the baseline budget
+     - C) By only focusing on future costs
+     - D) By consulting with stakeholders only at the end of the project
+
+178. What is earned value management used for in project cost management?
+
+     - A) To estimate future project costs
+     - B) To track the budget and communicate with stakeholders
+     - C) To develop the project schedule
+     - D) To create the cost management plan
+
+179. Which of the following is an example of a direct cost?
+
+     - A) Office rent
+     - B) Project team wages
+     - C) Corporate tech support
+     - D) Quality control costs
+
+180. What type of cost changes proportionally with the amount of output produced?
+
+     - A) Fixed costs
+     - B) Indirect costs
+     - C) Variable costs
+     - D) Direct costs
+
+181. A rough order of magnitude estimate typically falls within which range?
+
+     - A) +10% to -5%
+     - B) +25% to -10%
+     - C) +75% to -25%
+     - D) +50% to -20%
+
+182. Which of the following costs is considered an indirect cost?
+
+     - A) Materials needed for production
+     - B) Wages of team members working on the project
+     - C) Lease payments for office space
+     - D) Costs associated with the PMO office
+
+183. What is the purpose of a definitive estimate in project management?
+
+     - A) To provide a very rough estimate at the beginning of the project
+     - B) To offer a refined estimate for project approval
+     - C) To develop a highly accurate estimate based on detailed analysis
+     - D) To estimate costs when there is little detail about the project
+
+184. **Which estimating technique uses historical information to determine the cost of a project component?**
+
+     - A) Parametric Estimating
+     - B) Bottom-Up Estimating
+     - C) Analogous Estimating
+     - D) Three-Point Estimating
+
+185. **What is the primary advantage of bottom-up estimating?**
+
+     - A) It is the quickest method.
+     - B) It provides a broad estimation.
+     - C) It is more precise than other methods.
+     - D) It requires no historical data.
+
+186. **In parametric estimating, what is typically used to adjust the cost estimation?**
+
+     - A) Historical information
+     - B) A specific parameter
+     - C) Expert opinions
+     - D) Random guessing
+
+187. **What does the PERT estimating technique emphasize more than the three-point estimating technique?**
+
+     - A) The optimistic scenario
+     - B) The pessimistic scenario
+     - C) The most likely scenario
+     - D) The average of all scenarios
+
+188. **Which of the following is NOT a characteristic of three-point estimating?**
+
+     - A) It uses optimistic, most likely, and pessimistic scenarios.
+     - B) It averages the three estimates equally.
+     - C) It requires a detailed breakdown of every activity.
+     - D) It can be used to estimate both duration and cost.
+
+189. What is the project budget?
+
+     - A) The total projected costs needed to complete the project scope within the project schedule.
+     - B) The amount of money allocated for marketing the project.
+     - C) The total revenue expected from the project.
+     - D) The costs associated with project management only.
+
+190. What does the cost performance baseline include?
+
+     - A) Only the total costs of the project activities.
+     - B) The approved version of the budget along with contingency reserves.
+     - C) The estimated costs of labor only.
+     - D) The total revenue generated by the project.
+
+191. What is a contingency reserve?
+
+     - A) A fund set aside for unexpected project delays.
+     - B) An additional amount added to the cost of an activity to cover known risks.
+     - C) The total budget for the project.
+     - D) A reserve for future project expansions.
+
+192. Who controls the management reserve?
+
+     - A) The project manager.
+     - B) The project team.
+     - C) Management, the sponsor, or the PMO.
+     - D) The stakeholders.
+
+193. What does the cost baseline help project managers to measure?
+
+     - A) The total revenue of the project.
+     - B) Project performance in terms of expenditures and level of completion.
+     - C) The satisfaction of the project stakeholders.
+     - D) The quality of the project deliverables.
+
+194. What is the primary purpose of project procurement management?
+
+     - A) To manage the project team
+     - B) To acquire products or services from outside the project team
+     - C) To create the project budget
+     - D) To monitor project progress
+
+195. Which document is created during the plan procurement management process?
+
+     - A) Project Charter
+     - B) Procurement Management Plan
+     - C) Risk Management Plan
+     - D) Stakeholder Engagement Plan
+
+196. What does the process of conducting procurements involve?
+
+     - A) Closing out contracts
+     - B) Obtaining seller responses and awarding contracts
+     - C) Measuring project performance
+     - D) Planning project activities
+
+197. Why is it important to manage vendor relationships in project procurement management?
+
+     - A) To reduce project costs
+     - B) To ensure that vendors are performing as expected
+     - C) To eliminate the need for contracts
+     - D) To avoid communication with suppliers
+
+198. What is included in the Procurement Management Plan?
+
+     - A) Project team roles
+     - B) Criteria for measuring competitive bids
+     - C) Project timeline
+     - D) Risk assessment
+
+199. What is the primary goal of project managers in relation to projects?
+
+     - A) To create value
+     - B) To minimize costs
+     - C) To manage people
+     - D) To increase profits
+
+200. Which of the following best describes procurement in project management?
+
+     - A) The process of hiring employees
+     - B) The buying of necessary materials or services
+     - C) The scheduling of project tasks
+     - D) The evaluation of project outcomes
+
+201. When determining whether to make or buy materials, which question is NOT typically considered?
+
+     - A) Can we make this ourselves faster or for less money?
+     - B) How do we choose the best supplier?
+     - C) What color should the materials be?
+     - D) How do we communicate what we need to suppliers?
+
+202. Which of the following is NOT one of the steps in the procurement process mentioned in the content?
+
+     - A) What do we need?
+     - B) When do we need it?
+     - C) How do we market our project?
+     - D) Who will supply it to us?
+
+203. Maintaining a positive relationship with vendors and suppliers is important for:
+
+     - A) Reducing project costs
+     - B) Ensuring project success
+     - C) Increasing project duration
+     - D) Avoiding project risks
+
+204. What is the first step in the supplier selection process?
+
+     - A) Evaluating supplier quotes
+     - B) Developing a statement of work
+     - C) Awarding the contract
+     - D) Negotiating payment terms
+
+205. What document describes the technical requirements of a project?
+
+     - A) Statement of Work
+     - B) Terms of Reference
+     - C) Request for Proposal
+     - D) Contract Agreement
+
+206. Which of the following is NOT a criterion used to evaluate supplier quotes?
+
+     - A) Supplier history
+     - B) Quality of goods/services
+     - C) Supplier's marketing strategy
+     - D) References from previous clients
+
+207. After the negotiation phase, what is the next step in the supplier selection process?
+
+     - A) Control and monitor supplier performance
+     - B) Award the contract to the supplier
+     - C) Develop the terms of reference
+     - D) Send out requests for quotes
+
+208. Why is communication important during the control and monitor phase?
+
+     - A) To finalize the contract terms
+     - B) To ensure the supplier understands the project requirements
+     - C) To measure supplier performance and address issues
+     - D) To negotiate pricing and payment terms
+
+209. What is a contract?
+
+     - A) A verbal agreement between friends
+     - B) A legally binding agreement between parties that creates mutual obligations enforceable by law
+     - C) A casual promise to do something
+     - D) A document that outlines project goals
+
+210. Which of the following is NOT an element of a contract?
+
+     - A) Offer
+     - B) Consideration
+     - C) Acceptance
+     - D) Negotiation
+
+211. In a fixed price contract, who assumes more risk?
+
+     - A) The buyer
+     - B) The seller
+     - C) Both parties equally
+     - D) Neither party
+
+212. What type of contract allows the seller to adjust the price based on material or labor costs?
+
+     - A) Fixed price contract
+     - B) Time and material contract
+     - C) Cost plus contract
+     - D) Fixed price with economic price adjustment
+
+213. In a cost plus contract, who bears the risk of potentially higher costs?
+     - A) The seller
+     - B) The buyer
+     - C) Both parties
+     - D) Neither party
