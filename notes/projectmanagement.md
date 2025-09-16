@@ -1,8 +1,4 @@
-Here are crisp notes from the provided transcripts, designed to cover every possible important point for an MCQ-based test:
-
----
-
-### **Project Management: Core Concepts & Methodologies - Crisp Notes**
+### **Project Management: Core Concepts & Methodologies **
 
 **I. Defining Key Terms**
 
