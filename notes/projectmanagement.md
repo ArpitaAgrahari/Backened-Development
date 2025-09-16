@@ -1187,1228 +1187,1721 @@ PRACTICE QUESTIONS:
 
 1. **True/False**: A project is defined as a permanent effort that creates value for an individual or organization.
 
+**Answer:** False
+
 2. **Multiple Choice**: Which of the following is NOT one of the functions of management as described by Henri Fayol?
 
-   - A) Planning
-   - B) Organizing
-   - C) Marketing
-   - D) Controlling
+- A) Planning
+- B) Organizing
+- C) Marketing
+- D) Controlling
+
+**Answer:** C) Marketing
 
 3. **True/False**: The controlling function of management involves verifying that everything is working according to plan, schedule, and budget.
 
+**Answer:** True
+
 4. **True/False**: Projects are ongoing operations that do not have a specific end date.
+
+**Answer:** False
 
 5. **Multiple Choice**: Which of the following is NOT a characteristic of a project?
 
-   - A) Projects are unique.
-   - B) Projects are temporary.
-   - C) Projects are permanent.
-   - D) Projects create value for the business.
+- A) Projects are unique.
+- B) Projects are temporary.
+- C) Projects are permanent.
+- D) Projects create value for the business.
+
+**Answer:** C) Projects are permanent.
 
 6. **True/False**: All projects result in a tangible outcome, such as a physical product.
 
+**Answer:** False
+
 7. **True/False**: An organization can manage multiple unrelated projects simultaneously.
+
+**Answer:** True
 
 8. **Multiple Choice**: What is the primary purpose of grouping projects into a Program?
 
-   - A) To increase the number of projects
-   - B) To ensure all projects are managed by the same project manager
-   - C) To align projects with strategic business goals
-   - D) To reduce the overall cost of projects
+- A) To increase the number of projects
+- B) To ensure all projects are managed by the same project manager
+- C) To align projects with strategic business goals
+- D) To reduce the overall cost of projects
+
+**Answer:** C) To align projects with strategic business goals
 
 9. **True/False**: A Portfolio consists of multiple Programs that are managed independently of each other.
 
+**Answer:** False
+
 10. **True/False**: A project manager is responsible for connecting people to resources and ensuring the project's success.
+
+**Answer:** True
 
 11. **Multiple Choice**: Which of the following is NOT one of the five major processes that project managers follow?
 
-    - A) Initiating the project
-    - B) Planning the project
-    - C) Marketing the project
-    - D) Closing the project
+- A) Initiating the project
+- B) Planning the project
+- C) Marketing the project
+- D) Closing the project
+
+**Answer:** C) Marketing the project
 
 12. **True/False**: The project manager has no responsibility for monitoring the project once it has been executed.
 
+**Answer:** False
+
 13. **True/False**: A Project Management Professional (PMP) must be certified by the Project Management Institute (PMI) to be considered a project manager.
+
+**Answer:** False
 
 14. **Multiple Choice**: Which of the following is NOT a characteristic of a successful project manager?
 
-    - A) Organized
-    - B) Comfortable in static environments
-    - C) Goal-oriented
-    - D) Culturally aware
+- A) Organized
+- B) Comfortable in static environments
+- C) Goal-oriented
+- D) Culturally aware
+
+**Answer:** B) Comfortable in static environments
 
 15. **True/False**: The Project Management Body of Knowledge (PMBOK) is a resource that outlines specific knowledge areas essential for project managers.
 
+**Answer:** True
+
 16. **True/False**: A technical project manager is responsible for executing the work themselves rather than managing the client's expectations.
+
+**Answer:** False
 
 17. **Multiple Choice**: Which of the following is NOT one of the four key areas that a project manager focuses on when managing client expectations?
 
-    - A) Scope
-    - B) Budget
-    - C) Marketing
-    - D) Quality
+- A) Scope
+- B) Budget
+- C) Marketing
+- D) Quality
+
+**Answer:** C) Marketing
 
 18. **True/False**: Quality in a project refers only to the budget and schedule, and does not include the usability of the software.
 
+**Answer:** False
+
 19. **True/False**: The five process groups in project management are initiating, planning, executing, monitoring and controlling, and closing.
+
+**Answer:** True
 
 20. **Multiple Choice**: Which of the following is NOT one of the ten knowledge areas in project management?
 
-    - A) Integration Management
-    - B) Risk Management
-    - C) Financial Management
-    - D) Quality Management
+- A) Integration Management
+- B) Risk Management
+- C) Financial Management
+- D) Quality Management
+
+**Answer:** C) Financial Management
 
 21. **True/False**: The monitoring and controlling process is only necessary at the end of the project to ensure everything is on track.
 
+**Answer:** False
+
 22. **True/False**: The Project Integration Management process group includes the development of the project charter and the project management plan.
+
+**Answer:** True
 
 23. **Multiple Choice**: Which of the following is NOT a part of Project Scope Management?
 
-    - A) Collect Requirements
-    - B) Create WBS
-    - C) Control Costs
-    - D) Validate Scope
+- A) Collect Requirements
+- B) Create WBS
+- C) Control Costs
+- D) Validate Scope
+
+**Answer:** C) Control Costs
 
 24. **True/False**: The "Perform Integrated Change Control" process is essential for managing changes to the project scope, schedule, and costs.
 
+**Answer:** True
+
 25. **True/False**: Waterfall Project Management is best used when project requirements are not well known.
+
+**Answer:** False
 
 26. **Multiple Choice**: Which of the following best describes Agile Project Management?
 
-    - A) A linear approach that follows a strict sequence of phases.
-    - B) A collaborative approach that involves the customer throughout the project.
-    - C) A methodology that requires a complete plan before any work begins.
-    - D) A method that focuses solely on hardware development.
+- A) A linear approach that follows a strict sequence of phases.
+- B) A collaborative approach that involves the customer throughout the project.
+- C) A methodology that requires a complete plan before any work begins.
+- D) A method that focuses solely on hardware development.
+
+**Answer:** B) A collaborative approach that involves the customer throughout the project.
 
 27. **True/False**: Hybrid Project Management combines elements of both Waterfall and Agile methodologies to suit the needs of a project.
 
+**Answer:** True
+
 28. **True/False**: The Waterfall methodology is best suited for projects with unclear requirements and a need for flexibility.
+
+**Answer:** False
 
 29. **Multiple Choice**: Which of the following is a key characteristic of Agile project management?
 
-    - A) Sequential delivery of project phases
-    - B) Flexibility to changing requirements
-    - C) Emphasis on routine activities
-    - D) Benchmarking against previous projects
+- A) Sequential delivery of project phases
+- B) Flexibility to changing requirements
+- C) Emphasis on routine activities
+- D) Benchmarking against previous projects
+
+**Answer:** B) Flexibility to changing requirements
 
 30. **True/False**: Agile methodologies are designed to accommodate ambiguity and changing requirements effectively.
 
+**Answer:** True
+
 31. **True/False**: The project charter is a document that provides a detailed, low-level overview of the project.
+
+**Answer:** False
 
 32. **Multiple Choice**: What is one of the primary purposes of the project charter?
 
-    - A) To outline the daily tasks of team members
-    - B) To justify the project and explain its value to the organization
-    - C) To provide a detailed budget breakdown
-    - D) To list all the project risks in detail
+- A) To outline the daily tasks of team members
+- B) To justify the project and explain its value to the organization
+- C) To provide a detailed budget breakdown
+- D) To list all the project risks in detail
+
+**Answer:** B) To justify the project and explain its value to the organization
 
 33. **True/False**: The project charter is developed during the executing phase of project management.
 
+**Answer:** False
+
 34. **True/False**: A well-defined project scope helps project managers manage stakeholder expectations throughout the project.
+
+**Answer:** True
 
 35. **Multiple Choice**: What is the primary purpose of a project scope statement?
 
-    - A) To outline the project budget
-    - B) To document the project's specific deliverables and boundaries
-    - C) To assign team responsibilities
-    - D) To create a work breakdown structure
+- A) To outline the project budget
+- B) To document the project's specific deliverables and boundaries
+- C) To assign team responsibilities
+- D) To create a work breakdown structure
+
+**Answer:** B) To document the project's specific deliverables and boundaries
 
 36. **True/False**: The project management constraint triangle shows that scope, cost, and time are independent of each other.
 
+**Answer:** False
+
 37. **True/False**: A scope statement is used to manage the expectations of stakeholders regarding the project's goals and deliverables.
+
+**Answer:** True
 
 38. **Multiple Choice**: What is the primary purpose of a scope statement in project management?
 
-    - A) To define the budget of the project
-    - B) To articulate the goals and deliverables of the project
-    - C) To assign tasks to team members
-    - D) To schedule project meetings
+- A) To define the budget of the project
+- B) To articulate the goals and deliverables of the project
+- C) To assign tasks to team members
+- D) To schedule project meetings
+
+**Answer:** B) To articulate the goals and deliverables of the project
 
 39. **True/False**: The scope statement has no impact on keeping the project team on track.
 
+**Answer:** False
+
 40. **True/False**: Project scope management includes processes to manage scope changes and ensure that the project stays on time and within budget.
+
+**Answer:** True
 
 41. **Multiple Choice**: Which of the following is NOT one of the six processes under the project scope management knowledge area?
 
-    - A) Plan scope management
-    - B) Create a WBS
-    - C) Develop project charter
-    - D) Control scope
+- A) Plan scope management
+- B) Create a WBS
+- C) Develop project charter
+- D) Control scope
+
+**Answer:** C) Develop project charter
 
 42. **True/False**: The validate scope process involves obtaining approval of deliverables from the project manager only.
 
+**Answer:** False
+
 43. **True/False**: Poor communication is the primary reason for project failure in one-third of projects.
+
+**Answer:** True
 
 44. **Multiple Choice**: Which of the following is NOT a form of communication mentioned in the course material?
 
-    - A) Written communication
-    - B) Non-verbal communication
-    - C) Visual communication
-    - D) Spoken communication
+- A) Written communication
+- B) Non-verbal communication
+- C) Visual communication
+- D) Spoken communication
+
+**Answer:** C) Visual communication
 
 45. **True/False**: Stakeholders are only those who have a direct influence on a project and do not include those wh
 
+**Answer:** False
+
 46. **True/False**: Effective communication in project management involves ensuring that all stakeholders receive every piece of information at all times.
+
+**Answer:** False
 
 47. **Multiple Choice**: What is the first question a project manager should ask when developing a communications plan?
 
-    - A) How will the information be communicated?
-    - B) Who needs what information?
-    - C) When is the deadline for the project?
-    - D) What tools will be used for communication?
+- A) How will the information be communicated?
+- B) Who needs what information?
+- C) When is the deadline for the project?
+- D) What tools will be used for communication?
+
+**Answer:** B) Who needs what information?
 
 48. **True/False**: Noise in communication refers only to external distractions, such as background noise during a video call.
 
+**Answer:** False
+
 49. **True/False**: The Communications Channel Formula is used to determine the number of potential communication channels in a project.
+
+**Answer:** True
 
 50. **Multiple Choice**: What is the formula for calculating the number of communication channels?
 
-    - A) Channels = N + (N - 1)
-    - B) Channels = N (N + 1) / 2
-    - C) Channels = N (N - 1) / 2
-    - D) Channels = N^2
+- A) Channels = N + (N - 1)
+- B) Channels = N (N + 1) / 2
+- C) Channels = N (N - 1) / 2
+- D) Channels = N^2
+
+**Answer:** C) Channels = N (N - 1) / 2
 
 51. **True/False**: As the number of stakeholders increases, the total number of possible communication channels decreases.
 
+**Answer:** False
+
 52. **True/False**: Effective communication is one of the most important parts of project management.
+
+**Answer:** True
 
 53. **Multiple Choice**: What is the primary purpose of a project communication plan?
 
-    - A) To determine the project budget
-    - B) To identify who needs what information, when they need it, and how it will be delivered
-    - C) To outline the project schedule
-    - D) To assign tasks to team members
+- A) To determine the project budget
+- B) To identify who needs what information, when they need it, and how it will be delivered
+- C) To outline the project schedule
+- D) To assign tasks to team members
+
+**Answer:** B) To identify who needs what information, when they need it, and how it will be delivered
 
 54. **True/False**: Companies that follow a project communications process are less likely to complete their projects on time and within budget.
 
+**Answer:** False
+
 55. **True/False**: Stakeholders are only individuals who work for the company managing the project.
+
+**Answer:** False
 
 56. **Multiple Choice**: Which of the following is NOT a type of stakeholder mentioned in the lecture?
 
-    - A) Internal stakeholders
-    - B) External stakeholders
-    - C) Regulatory stakeholders
-    - D) Passive stakeholders
+- A) Internal stakeholders
+- B) External stakeholders
+- C) Regulatory stakeholders
+- D) Passive stakeholders
+
+**Answer:** D) Passive stakeholders
 
 57. **True/False**: The Salience Model categorizes stakeholders based on their power, legitimacy, and urgency.
 
+**Answer:** True
+
 58. **True/False**: A stakeholder analysis is only necessary for identifying positive stakeholders in a project.
+
+**Answer:** False
 
 59. **Multiple Choice**: What is the primary purpose of conducting a stakeholder analysis?
 
-    - A) To determine the budget for the project
-    - B) To identify stakeholders and analyze their level of involvement and influence
-    - C) To create a project timeline
-    - D) To assign tasks to team members
+- A) To determine the budget for the project
+- B) To identify stakeholders and analyze their level of involvement and influence
+- C) To create a project timeline
+- D) To assign tasks to team members
+
+**Answer:** B) To identify stakeholders and analyze their level of involvement and influence
 
 60. **True/False**: The Power Interest Grid is a tool used to develop a stakeholder map.
 
+**Answer:** True
+
 61. **True/False**: The most important resource a project manager has is equipment and inventory.
+
+**Answer:** False
 
 62. **Multiple Choice**: Which of the following is NOT considered a resource in project management?
 
-    - A) People
-    - B) Money
-    - C) Time
-    - D) Weather
+- A) People
+- B) Money
+- C) Time
+- D) Weather
+
+**Answer:** D) Weather
 
 63. **True/False**: Resource management in project management primarily focuses on managing physical resources rather than human resources.
 
+**Answer:** False
+
 64. **True/False**: In project management, people are not considered resources.
+
+**Answer:** False
 
 65. **Multiple Choice**: Which of the following is NOT a component of project resource management as defined by the PMBOK?
 
-    - A) Capital
-    - B) Technology
-    - C) Time Management
-    - D) People
+- A) Capital
+- B) Technology
+- C) Time Management
+- D) People
+
+**Answer:** C) Time Management
 
 66. **True/False**: The process of controlling resources in project management primarily focuses on managing people.
 
+**Answer:** False
+
 67. **True/False**: It is the project manager's responsibility to ensure that resources are assigned to project tasks effectively and efficiently.
+
+**Answer:** True
 
 68. **Multiple Choice**: Which of the following tools helps project managers visualize the roles and responsibilities of each team member?
 
-    - A) Gantt Chart
-    - B) Responsibility Assignment Matrix (RAM)
-    - C) SWOT Analysis
-    - D) PERT Chart
+- A) Gantt Chart
+- B) Responsibility Assignment Matrix (RAM)
+- C) SWOT Analysis
+- D) PERT Chart
+
+**Answer:** B) Responsibility Assignment Matrix (RAM)
 
 69. **True/False**: The RACI Chart stands for Responsible, Accountable, Consulted, and Informed, and it is used to clarify roles in a project.
 
+**Answer:** True
+
 70. **True/False**: In a matrix organization, employees typically report to only one manager.
+
+**Answer:** False
 
 71. **Multiple Choice**: What is one of the main advantages of a matrix organization?
 
-    - A) It simplifies the reporting structure.
-    - B) It allows for more efficient use of resources.
-    - C) It eliminates the need for project managers.
-    - D) It reduces the number of projects being managed.
+- A) It simplifies the reporting structure.
+- B) It allows for more efficient use of resources.
+- C) It eliminates the need for project managers.
+- D) It reduces the number of projects being managed.
+
+**Answer:** B) It allows for more efficient use of resources.
 
 72. **True/False**: In a balanced functional matrix, the project manager and functional manager share power equally.
 
+**Answer:** True
+
 73. **True/False**: The project manager has no influence over the team environment and cannot manage conflicts within the team.
+
+**Answer:** False
 
 74. **Multiple Choice**: What is one of the key responsibilities of a project manager when building a team?
 
-    - A) To solely focus on the project timeline
-    - B) To enhance team performance
-    - C) To avoid any conflicts
-    - D) To delegate all tasks to team members
+- A) To solely focus on the project timeline
+- B) To enhance team performance
+- C) To avoid any conflicts
+- D) To delegate all tasks to team members
+
+**Answer:** B) To enhance team performance
 
 75. **True/False**: Understanding different sources of power is essential for a project manager to effectively lead their team.
 
+**Answer:** True
+
 76. **True/False**: Legitimate power is derived from a person's likability and relationships with others.
+
+**Answer:** False
 
 77. **Multiple Choice**: Which type of power is based on an individual's level of expertise or skill?
 
-    - A) Reward Power
-    - B) Coercive Power
-    - C) Expert Power
-    - D) Legitimate Power
+- A) Reward Power
+- B) Coercive Power
+- C) Expert Power
+- D) Legitimate Power
+
+**Answer:** C) Expert Power
 
 78. **True/False**: Coercive power is generally considered a positive form of power to use in project management.
 
+**Answer:** False
+
 79. **Which leadership style focuses on serving the team and empowering its members?**
 
-    - A) Autocratic Leadership
-    - B) Servant Leadership
-    - C) Transactional Leadership
-    - D) Charismatic Leadership
+- A) Autocratic Leadership
+- B) Servant Leadership
+- C) Transactional Leadership
+- D) Charismatic Leadership
+
+**Answer:** B) Servant Leadership
 
 80. **What is a characteristic of Autocratic Leadership?**
 
-    - A) Seeks input from team members
-    - B) Maintains control and authority
-    - C) Encourages team goal-setting
-    - D) Inspires others through enthusiasm
+- A) Seeks input from team members
+- B) Maintains control and authority
+- C) Encourages team goal-setting
+- D) Inspires others through enthusiasm
+
+**Answer:** B) Maintains control and authority
 
 81. **Which leadership style is known for rewarding success and punishing failure?**
 
-    - A) Transformational Leadership
-    - B) Laissez-faire Leadership
-    - C) Transactional Leadership
-    - D) Democratic Leadership
+- A) Transformational Leadership
+- B) Laissez-faire Leadership
+- C) Transactional Leadership
+- D) Democratic Leadership
+
+**Answer:** C) Transactional Leadership
 
 82. **Democratic Leadership is characterized by:**
 
-    - A) A hands-off approach
-    - B) Laying out clear processes
-    - C) Seeking input from the group
-    - D) Maintaining strict control
+- A) A hands-off approach
+- B) Laying out clear processes
+- C) Seeking input from the group
+- D) Maintaining strict control
+
+**Answer:** C) Seeking input from the group
 
 83. **Which leadership style allows team members to set their own goals and make their own decisions?**
 
-    - A) Directing Leadership
-    - B) Laissez-faire Leadership
-    - C) Charismatic Leadership
-    - D) Transformational Leadership
+- A) Directing Leadership
+- B) Laissez-faire Leadership
+- C) Charismatic Leadership
+- D) Transformational Leadership
+
+**Answer:** B) Laissez-faire Leadership
 
 84. **Which of the following is NOT one of Maslow's hierarchy of needs?**
 
-    - A) Physiological needs
-    - B) Safety needs
-    - C) Financial needs
-    - D) Self-actualization needs
+- A) Physiological needs
+- B) Safety needs
+- C) Financial needs
+- D) Self-actualization needs
+
+**Answer:** C) Financial needs
 
 85. **According to Herzberg's two-factor theory, which of the following is considered a hygiene factor?**
 
-    - A) Recognition
-    - B) Interesting work
-    - C) Good working conditions
-    - D) Achievement
+- A) Recognition
+- B) Interesting work
+- C) Good working conditions
+- D) Achievement
+
+**Answer:** C) Good working conditions
 
 86. **In McGregor's Theory X and Theory Y, Theory Y assumes that:**
 
-    - A) Employees are inherently lazy and need supervision.
-    - B) Employees are self-motivated and can perform well if given the right conditions.
-    - C) Employees are only motivated by money.
-    - D) Employees do not require any management.
+- A) Employees are inherently lazy and need supervision.
+- B) Employees are self-motivated and can perform well if given the right conditions.
+- C) Employees are only motivated by money.
+- D) Employees do not require any management.
+
+**Answer:** B) Employees are self-motivated and can perform well if given the right conditions.
 
 87. **What does Vroom's Expectancy Theory emphasize as necessary for motivation?**
 
-    - A) Fair treatment among employees
-    - B) The belief that effort will lead to performance, performance will lead to rewards, and the value of those rewards.
-    - C) The importance of group norms and cohesiveness.
-    - D) The need for achievement, affiliation, and power.
+- A) Fair treatment among employees
+- B) The belief that effort will lead to performance, performance will lead to rewards, and the value of those rewards.
+- C) The importance of group norms and cohesiveness.
+- D) The need for achievement, affiliation, and power.
+
+**Answer:** B) The belief that effort will lead to performance, performance will lead to rewards, and the value of those rewards.
 
 88. **Which theory suggests that motivation can be influenced by positive reinforcement, negative reinforcement, punishment, and extinction?**
 
-    - A) Self-Efficacy Theory
-    - B) Reinforcement Theory
-    - C) Goal-Setting Theory
-    - D) Equity Theory
+- A) Self-Efficacy Theory
+- B) Reinforcement Theory
+- C) Goal-Setting Theory
+- D) Equity Theory
+
+**Answer:** B) Reinforcement Theory
 
 89. **Which of the following is NOT one of the four categories of emotional intelligence as defined by Daniel Goleman?**
 
-    - A) Self-awareness
-    - B) Self-management
-    - C) Social influence
-    - D) Relationship management
+- A) Self-awareness
+- B) Self-management
+- C) Social influence
+- D) Relationship management
+
+**Answer:** C) Social influence
 
 90. **What does self-awareness in emotional intelligence primarily involve?**
 
-    - A) Understanding the emotions of others
-    - B) Managing one's own emotions and behavior
-    - C) Recognizing and understanding one's own emotions
-    - D) Building relationships with team members
+- A) Understanding the emotions of others
+- B) Managing one's own emotions and behavior
+- C) Recognizing and understanding one's own emotions
+- D) Building relationships with team members
+
+**Answer:** C) Recognizing and understanding one's own emotions
 
 91. **Which category of emotional intelligence focuses on recognizing and understanding the emotions of others?**
 
-    - A) Self-management
-    - B) Social awareness
-    - C) Self-awareness
-    - D) Relationship management
+- A) Self-management
+- B) Social awareness
+- C) Self-awareness
+- D) Relationship management
+
+**Answer:** B) Social awareness
 
 92. **True or False: Emotional intelligence is only important for leaders and does not affect team members.**
 
-    - A) True
-    - B) False
+- A) True
+- B) False
+
+**Answer:** B) False
 
 93. **What is the primary benefit of understanding emotional cues from team members?**
 
-    - A) It allows for better time management.
-    - B) It helps in using emotions for the good of the team.
-    - C) It reduces the need for communication.
-    - D) It eliminates conflicts in the workplace.
+- A) It allows for better time management.
+- B) It helps in using emotions for the good of the team.
+- C) It reduces the need for communication.
+- D) It eliminates conflicts in the workplace.
+
+**Answer:** B) It helps in using emotions for the good of the team.
 
 94. **Which of the following is NOT one of the six global megatrends identified by the Project Management Institute?**
 
-    - A) Acceleration of the digital world
-    - B) Climate crisis
-    - C) Increased job security
-    - D) Shifting demographics of the workforce
+- A) Acceleration of the digital world
+- B) Climate crisis
+- C) Increased job security
+- D) Shifting demographics of the workforce
+
+**Answer:** C) Increased job security
 
 95. **What is a significant impact of digital transformation on project management during the pandemic?**
 
-    - A) It has made remote work impossible.
-    - B) It has allowed for more efficient collaboration with global team members.
-    - C) It has reduced the need for project managers.
-    - D) It has increased project costs.
+- A) It has made remote work impossible.
+- B) It has allowed for more efficient collaboration with global team members.
+- C) It has reduced the need for project managers.
+- D) It has increased project costs.
+
+**Answer:** B) It has allowed for more efficient collaboration with global team members.
 
 96. **According to PMI, how many new project management professionals will be needed in the next eight years?**
 
-    - A) 10 million
-    - B) 15 million
-    - C) 25 million
-    - D) 30 million
+- A) 10 million
+- B) 15 million
+- C) 25 million
+- D) 30 million
+
+**Answer:** C) 25 million
 
 97. **What does the term "great resignation" refer to?**
 
-    - A) A decrease in job opportunities.
-    - B) A trend of people resigning or changing jobs in record numbers.
-    - C) A new project management methodology.
-    - D) A global initiative to improve work-life balance.
+- A) A decrease in job opportunities.
+- B) A trend of people resigning or changing jobs in record numbers.
+- C) A new project management methodology.
+- D) A global initiative to improve work-life balance.
+
+**Answer:** B) A trend of people resigning or changing jobs in record numbers.
 
 98. **Why is it important to integrate diversity, equity, and inclusion in the workplace according to PMI?**
 
-    - A) To increase profits.
-    - B) To create a more equitable workforce for everyone.
-    - C) To reduce the number of employees.
-    - D) To comply with government regulations.
+- A) To increase profits.
+- B) To create a more equitable workforce for everyone.
+- C) To reduce the number of employees.
+- D) To comply with government regulations.
+
+**Answer:** B) To create a more equitable workforce for everyone.
 
 99. What is one of the key benefits of prioritizing workforce diversity in organizations?
 
-    - A) Increased employee turnover
-    - B) Stronger innovation
-    - C) Higher compliance costs
-    - D) Reduced market expansion
+- A) Increased employee turnover
+- B) Stronger innovation
+- C) Higher compliance costs
+- D) Reduced market expansion
+
+**Answer:** B) Stronger innovation
 
 100. Which of the following is a common barrier to achieving meaningful progress in workforce diversity?
 
-     - A) Broad focus on employee needs
-     - B) Narrow focus on representation
-     - C) Comprehensive training programs
-     - D) Strong leadership commitment
+- A) Broad focus on employee needs
+- B) Narrow focus on representation
+- C) Comprehensive training programs
+- D) Strong leadership commitment
+
+**Answer:** B) Narrow focus on representation
 
 101. According to research, companies with a strong commitment to supplier diversity achieve what kind of return on investment?
 
-     - A) 1.1x
-     - B) 1.3x
-     - C) 1.5x
-     - D) 2.0x
+- A) 1.1x
+- B) 1.3x
+- C) 1.5x
+- D) 2.0x
+
+**Answer:** C) 1.5x
 
 102. What is a recommended strategic shift for leaders to unlock the potential of a diverse workforce?
 
-     - A) Focus solely on demographic categories
-     - B) Treat inclusion as a compliance requirement
-     - C) Embed inclusive practices across business operations
-     - D) Limit diversity initiatives to hiring processes
+- A) Focus solely on demographic categories
+- B) Treat inclusion as a compliance requirement
+- C) Embed inclusive practices across business operations
+- D) Limit diversity initiatives to hiring processes
+
+**Answer:** C) Embed inclusive practices across business operations
 
 103. Why are job seekers increasingly prioritizing organizations that value inclusion?
 
-     - A) They prefer companies with higher salaries
-     - B) They are influenced by social media trends
-     - C) They want to work for socially responsible organizations
-     - D) They are looking for remote work opportunities
+- A) They prefer companies with higher salaries
+- B) They are influenced by social media trends
+- C) They want to work for socially responsible organizations
+- D) They are looking for remote work opportunities
+
+**Answer:** C) They want to work for socially responsible organizations
 
 104. **Which of the following is a characteristic of Waterfall Project Management?**
 
-     - A) It allows for changes in requirements throughout the project.
-     - B) It follows a linear and sequential approach.
-     - C) It focuses on collaboration with the customer.
-     - D) It uses sprints to deliver project increments.
+- A) It allows for changes in requirements throughout the project.
+- B) It follows a linear and sequential approach.
+- C) It focuses on collaboration with the customer.
+- D) It uses sprints to deliver project increments.
+
+**Answer:** B) It follows a linear and sequential approach.
 
 105. **In Agile Project Management, what is the purpose of a backlog?**
 
-     - A) To create a detailed project schedule.
-     - B) To gather and prioritize project requirements.
-     - C) To define the critical path of the project.
-     - D) To outline the dependencies between tasks.
+- A) To create a detailed project schedule.
+- B) To gather and prioritize project requirements.
+- C) To define the critical path of the project.
+- D) To outline the dependencies between tasks.
+
+**Answer:** B) To gather and prioritize project requirements.
 
 106. **When is Hybrid Project Management most beneficial?**
 
-     - A) When all project requirements are known upfront.
-     - B) When the project team prefers a single methodology.
-     - C) When the organization’s structure and culture require a tailored approach.
-     - D) When the project is solely focused on software development.
+- A) When all project requirements are known upfront.
+- B) When the project team prefers a single methodology.
+- C) When the organization’s structure and culture require a tailored approach.
+- D) When the project is solely focused on software development.
+
+**Answer:** C) When the organization’s structure and culture require a tailored approach.
 
 107. **What is a key feature of Agile Project Management?**
 
-     - A) It requires a complete plan before starting any work.
-     - B) It emphasizes delivering work in increments through sprints.
-     - C) It is best suited for projects with fixed requirements.
-     - D) It does not involve customer collaboration.
+- A) It requires a complete plan before starting any work.
+- B) It emphasizes delivering work in increments through sprints.
+- C) It is best suited for projects with fixed requirements.
+- D) It does not involve customer collaboration.
+
+**Answer:** B) It emphasizes delivering work in increments through sprints.
 
 108. **Which of the following scenarios is most suitable for using Waterfall Project Management?**
 
-     - A) Developing a new software application with evolving requirements.
-     - B) Constructing a bridge where requirements are well defined.
-     - C) Creating a marketing campaign that requires frequent adjustments.
-     - D) Designing a mobile app with ongoing user feedback.
+- A) Developing a new software application with evolving requirements.
+- B) Constructing a bridge where requirements are well defined.
+- C) Creating a marketing campaign that requires frequent adjustments.
+- D) Designing a mobile app with ongoing user feedback.
+
+**Answer:** B) Constructing a bridge where requirements are well defined.
 
 109. **Which project management methodology is characterized by a linear and sequential approach?**
 
-     - A) Agile
-     - B) Waterfall
-     - C) Scrum
-     - D) Kanban
+- A) Agile
+- B) Waterfall
+- C) Scrum
+- D) Kanban
+
+**Answer:** B) Waterfall
 
 110. **What is a core value of Agile methodology?**
 
-     - A) Detailed documentation
-     - B) Incremental delivery
-     - C) Strict adherence to initial plans
-     - D) Minimizing stakeholder involvement
+- A) Detailed documentation
+- B) Incremental delivery
+- C) Strict adherence to initial plans
+- D) Minimizing stakeholder involvement
+
+**Answer:** B) Incremental delivery
 
 111. **In which scenario is the Waterfall methodology particularly effective?**
 
-     - A) When project requirements are constantly changing
-     - B) When the project involves routine or repetitive activities
-     - C) When the project is highly innovative and unique
-     - D) When the project team is unfamiliar with the subject matter
+- A) When project requirements are constantly changing
+- B) When the project involves routine or repetitive activities
+- C) When the project is highly innovative and unique
+- D) When the project team is unfamiliar with the subject matter
+
+**Answer:** B) When the project involves routine or repetitive activities
 
 112. **What is a significant challenge of the Waterfall methodology?**
 
-     - A) It allows for rapid changes in project scope.
-     - B) It can be time-consuming to produce project deliverables.
-     - C) It encourages frequent stakeholder feedback.
-     - D) It is not suitable for benchmarking against previous projects.
+- A) It allows for rapid changes in project scope.
+- B) It can be time-consuming to produce project deliverables.
+- C) It encourages frequent stakeholder feedback.
+- D) It is not suitable for benchmarking against previous projects.
+
+**Answer:** B) It can be time-consuming to produce project deliverables.
 
 113. **Which of the following statements about Agile project management is true?**
 
-     - A) It is best used for projects with clear and fixed requirements.
-     - B) It discourages changes to project requirements.
-     - C) It is designed to handle ambiguity and changing needs.
-     - D) It follows a strict sequence of phases without flexibility.
+- A) It is best used for projects with clear and fixed requirements.
+- B) It discourages changes to project requirements.
+- C) It is designed to handle ambiguity and changing needs.
+- D) It follows a strict sequence of phases without flexibility.
+
+**Answer:** C) It is designed to handle ambiguity and changing needs.
 
 114. **What does the Communications Channel Formula help project managers to determine?**
 
-     - A) The budget for the project
-     - B) The number of potential communication channels
-     - C) The timeline for project completion
-     - D) The resources needed for the project
+- A) The budget for the project
+- B) The number of potential communication channels
+- C) The timeline for project completion
+- D) The resources needed for the project
+
+**Answer:** B) The number of potential communication channels
 
 115. **If a project has 5 stakeholders, how many potential communication channels are there?**
 
-     - A) 10
-     - B) 15
-     - C) 20
-     - D) 25
+- A) 10
+- B) 15
+- C) 20
+- D) 25
+
+**Answer:** A) 10
 
 116. **Which of the following statements is true regarding the complexity of communication channels?**
 
-     - A) More stakeholders always simplify communication.
-     - B) The number of communication channels decreases with more stakeholders.
-     - C) The number of communication channels increases with more stakeholders.
-     - D) Communication channels are irrelevant to project management.
+- A) More stakeholders always simplify communication.
+- B) The number of communication channels decreases with more stakeholders.
+- C) The number of communication channels increases with more stakeholders.
+- D) Communication channels are irrelevant to project management.
+
+**Answer:** C) The number of communication channels increases with more stakeholders.
 
 117. **In the formula Channels = N (N - 1) / 2, what does 'N' represent?**
 
-     - A) The number of communication methods
-     - B) The total number of stakeholders
-     - C) The total number of projects
-     - D) The number of resources allocated
+- A) The number of communication methods
+- B) The total number of stakeholders
+- C) The total number of projects
+- D) The number of resources allocated
+
+**Answer:** B) The total number of stakeholders
 
 118. **For a project with 3 stakeholders, how many communication channels can be expected?**
 
-     - A) 1
-     - B) 2
-     - C) 3
-     - D) 6
+- A) 1
+- B) 2
+- C) 3
+- D) 6
+
+**Answer:** C) 3
 
 119. Which project management methodology is also known as the predictive model?
 
-     - A) Agile
-     - B) Waterfall
-     - C) Scrum
-     - D) Kanban
+- A) Agile
+- B) Waterfall
+- C) Scrum
+- D) Kanban
+
+**Answer:** B) Waterfall
 
 120. In the predictive project management model, which of the following stages comes first?
 
-     - A) Executing
-     - B) Monitoring
-     - C) Planning
-     - D) Closing
+- A) Executing
+- B) Monitoring
+- C) Planning
+- D) Closing
+
+**Answer:** C) Planning
 
 121. What is a key characteristic of Agile project management?
 
-     - A) It follows a linear path.
-     - B) It welcomes changes to the project.
-     - C) It has well-defined milestones.
-     - D) It does not allow for frequent delivery.
+- A) It follows a linear path.
+- B) It welcomes changes to the project.
+- C) It has well-defined milestones.
+- D) It does not allow for frequent delivery.
+
+**Answer:** B) It welcomes changes to the project.
 
 122. In Agile project management, what is the role of the project manager commonly referred to as?
 
-     - A) Project Coordinator
-     - B) Scrum Master
-     - C) Team Leader
-     - D) Project Director
+- A) Project Coordinator
+- B) Scrum Master
+- C) Team Leader
+- D) Project Director
+
+**Answer:** B) Scrum Master
 
 123. What tool is often used in Agile project management to visualize work in progress?
 
-     - A) Gantt Chart
-     - B) Kanban Board
-     - C) PERT Chart
-     - D) Flowchart
+- A) Gantt Chart
+- B) Kanban Board
+- C) PERT Chart
+- D) Flowchart
+
+**Answer:** B) Kanban Board
 
 124. What is the first process in project schedule management?
 
-     - A) Develop Schedule
-     - B) Plan Schedule Management
-     - C) Sequence Activities
-     - D) Monitor and Control Schedule
+- A) Develop Schedule
+- B) Plan Schedule Management
+- C) Sequence Activities
+- D) Monitor and Control Schedule
+
+**Answer:** B) Plan Schedule Management
 
 125. Which document is created during the plan schedule management process?
 
-     - A) Activity List
-     - B) Schedule Management Plan
-     - C) Work Breakdown Structure
-     - D) Project Charter
+- A) Activity List
+- B) Schedule Management Plan
+- C) Work Breakdown Structure
+- D) Project Charter
+
+**Answer:** B) Schedule Management Plan
 
 126. What is a critical path in project management?
 
-     - A) The longest time the project takes to be completed
-     - B) The shortest time the project takes to be completed
-     - C) A list of all project activities
-     - D) A report on project risks
+- A) The longest time the project takes to be completed
+- B) The shortest time the project takes to be completed
+- C) A list of all project activities
+- D) A report on project risks
+
+**Answer:** A) The longest time the project takes to be completed
 
 127. During the planning process, how can project managers estimate the duration of activities?
 
-     - A) By guessing
-     - B) By using historical information or consulting experts
-     - C) By randomly selecting numbers
-     - D) By asking stakeholders for their opinions
+- A) By guessing
+- B) By using historical information or consulting experts
+- C) By randomly selecting numbers
+- D) By asking stakeholders for their opinions
+
+**Answer:** B) By using historical information or consulting experts
 
 128. What is the main output of the project schedule management knowledge area?
 
-     - A) Activity List
-     - B) Schedule Management Plan
-     - C) Project Scope Statement
-     - D) Risk Management Plan
+- A) Activity List
+- B) Schedule Management Plan
+- C) Project Scope Statement
+- D) Risk Management Plan
+
+**Answer:** B) Schedule Management Plan
 
 129. What is the primary purpose of defining project activities in schedule management?
 
-     - A) To create a budget for the project
-     - B) To break down project components into specific activities
-     - C) To assign team members to tasks
-     - D) To evaluate project risks
+- A) To create a budget for the project
+- B) To break down project components into specific activities
+- C) To assign team members to tasks
+- D) To evaluate project risks
+
+**Answer:** B) To break down project components into specific activities
 
 130. Which of the following is NOT an output of the activity definition process?
 
-     - A) Activity list
-     - B) Activity attributes
-     - C) Project milestones
-     - D) Project budget
+- A) Activity list
+- B) Activity attributes
+- C) Project milestones
+- D) Project budget
+
+**Answer:** D) Project budget
 
 131. What does the term "dependency" refer to in project management?
 
-     - A) A task that can be completed independently
-     - B) A situation where one activity relies on the completion of another
-     - C) A method of estimating project costs
-     - D) A milestone in the project timeline
+- A) A task that can be completed independently
+- B) A situation where one activity relies on the completion of another
+- C) A method of estimating project costs
+- D) A milestone in the project timeline
+
+**Answer:** B) A situation where one activity relies on the completion of another
 
 132. In the context of a work breakdown structure (WBS), what are work packages?
 
-     - A) The final deliverables of the project
-     - B) Individual activities that need to be completed
-     - C) Smaller projects within a larger project
-     - D) The overall project scope
+- A) The final deliverables of the project
+- B) Individual activities that need to be completed
+- C) Smaller projects within a larger project
+- D) The overall project scope
+
+**Answer:** B) Individual activities that need to be completed
 
 133. Which of the following is an example of a project milestone?
 
-     - A) Completing the project budget
-     - B) Successfully testing the starboard engine
-     - C) Ordering the ship's engines
-     - D) Installing the ship's engines
+- A) Completing the project budget
+- B) Successfully testing the starboard engine
+- C) Ordering the ship's engines
+- D) Installing the ship's engines
+
+**Answer:** B) Successfully testing the starboard engine
 
 134. What is the primary purpose of network diagramming in project management?
 
-     - A) To create a budget for the project
-     - B) To determine the most efficient sequence for project activities
-     - C) To assign team members to tasks
-     - D) To evaluate project risks
+- A) To create a budget for the project
+- B) To determine the most efficient sequence for project activities
+- C) To assign team members to tasks
+- D) To evaluate project risks
+
+**Answer:** B) To determine the most efficient sequence for project activities
 
 135. Which type of dependency requires one activity to be completed before another can start?
 
-     - A) Discretionary dependency
-     - B) External dependency
-     - C) Mandatory dependency
-     - D) Internal dependency
+- A) Discretionary dependency
+- B) External dependency
+- C) Mandatory dependency
+- D) Internal dependency
+
+**Answer:** C) Mandatory dependency
 
 136. In the context of project activities, what does a "finish to finish" dependency mean?
 
-     - A) One activity must start before another can finish
-     - B) Both activities must be completed at the same time
-     - C) One activity must finish before another can start
-     - D) Both activities can be done simultaneously
+- A) One activity must start before another can finish
+- B) Both activities must be completed at the same time
+- C) One activity must finish before another can start
+- D) Both activities can be done simultaneously
+
+**Answer:** B) Both activities must be completed at the same time
 
 137. Which of the following is an example of an external dependency?
 
-     - A) A painter must finish the kitchen before starting the bedroom
-     - B) A wall must be built before it can be painted
-     - C) The paint supplier must deliver paint before painting can begin
-     - D) Preparing the dirt must be done before planting seeds
+- A) A painter must finish the kitchen before starting the bedroom
+- B) A wall must be built before it can be painted
+- C) The paint supplier must deliver paint before painting can begin
+- D) Preparing the dirt must be done before planting seeds
+
+**Answer:** C) The paint supplier must deliver paint before painting can begin
 
 138. What does the critical path in project management represent?
 
-     - A) The longest path through the project
-     - B) The earliest possible completion date for the project
-     - C) The path with the most dependencies
-     - D) The path that requires the most resources
+- A) The longest path through the project
+- B) The earliest possible completion date for the project
+- C) The path with the most dependencies
+- D) The path that requires the most resources
+
+**Answer:** A) The longest path through the project
 
 139. **What is lead time in project management?**
 
-     - A) A delay before the next activity begins
-     - B) The time taken for materials to be delivered
-     - C) A period of waiting that can be accounted for in a schedule overlap
-     - D) The total duration of a project
+- A) A delay before the next activity begins
+- B) The time taken for materials to be delivered
+- C) A period of waiting that can be accounted for in a schedule overlap
+- D) The total duration of a project
+
+**Answer:** C) A period of waiting that can be accounted for in a schedule overlap
 
 140. **In the example provided, how long does it take for the engine to be delivered after ordering?**
 
-     - A) 30 days
-     - B) 180 days
-     - C) 365 days
-     - D) 2 days
+- A) 30 days
+- B) 180 days
+- C) 365 days
+- D) 2 days
+
+**Answer:** B) 180 days
 
 141. **What does lag time refer to in project management?**
 
-     - A) The time taken to complete an activity
-     - B) A delay before the beginning of the next activity
-     - C) The overlap of two activities in a schedule
-     - D) The time required for planning a project
+- A) The time taken to complete an activity
+- B) A delay before the beginning of the next activity
+- C) The overlap of two activities in a schedule
+- D) The time required for planning a project
+
+**Answer:** B) A delay before the beginning of the next activity
 
 142. **In the concrete driveway example, how long does the concrete need to cure before a delivery can be made?**
 
-     - A) 1 day
-     - B) 2 days
-     - C) 3 days
-     - D) 5 days
+- A) 1 day
+- B) 2 days
+- C) 3 days
+- D) 5 days
+
+**Answer:** C) 3 days
 
 143. **Which of the following statements is true regarding lead and lag times?**
 
-     - A) Lead time is always longer than lag time.
-     - B) Lag time can be planned for in a project schedule.
-     - C) Lead time does not affect the overall project timeline.
-     - D) Lag time is a type of resource allocation.
+- A) Lead time is always longer than lag time.
+- B) Lag time can be planned for in a project schedule.
+- C) Lead time does not affect the overall project timeline.
+- D) Lag time is a type of resource allocation.
+
+**Answer:** B) Lag time can be planned for in a project schedule.
 
 144. What is the primary purpose of estimating the duration of activities in project management?
 
-     - A) To determine the cost of the project
-     - B) To develop the overall project schedule
-     - C) To assign resources to team members
-     - D) To evaluate team performance
+- A) To determine the cost of the project
+- B) To develop the overall project schedule
+- C) To assign resources to team members
+- D) To evaluate team performance
+
+**Answer:** B) To develop the overall project schedule
 
 145. Which of the following techniques is the least time-consuming for estimating activity durations?
 
-     - A) Parametric estimating
-     - B) Three-point estimating
-     - C) Bottom-up estimating
-     - D) Analogous estimating
+- A) Parametric estimating
+- B) Three-point estimating
+- C) Bottom-up estimating
+- D) Analogous estimating
+
+**Answer:** D) Analogous estimating
 
 146. The law of diminishing returns suggests that:
 
-     - A) Adding more resources will always increase efficiency.
-     - B) There is a point where adding resources does not lead to increased output.
-     - C) Procrastination is beneficial for productivity.
-     - D) Technology has no impact on productivity.
+- A) Adding more resources will always increase efficiency.
+- B) There is a point where adding resources does not lead to increased output.
+- C) Procrastination is beneficial for productivity.
+- D) Technology has no impact on productivity.
+
+**Answer:** B) There is a point where adding resources does not lead to increased output.
 
 147. What does Parkinson's law state?
 
-     - A) Work will expand to fill the available time.
-     - B) More resources always lead to faster completion.
-     - C) Procrastination leads to better results.
-     - D) Team consensus is unnecessary for estimates.
+- A) Work will expand to fill the available time.
+- B) More resources always lead to faster completion.
+- C) Procrastination leads to better results.
+- D) Team consensus is unnecessary for estimates.
+
+**Answer:** A) Work will expand to fill the available time.
 
 148. In the "fist of five" technique, what does a closed fist represent?
 
-     - A) Full support for the estimate
-     - B) No support for the estimate
-     - C) Uncertainty about the estimate
-     - D) Agreement with the estimate
+- A) Full support for the estimate
+- B) No support for the estimate
+- C) Uncertainty about the estimate
+- D) Agreement with the estimate
+
+**Answer:** B) No support for the estimate
 
 149. What does the optimistic estimate represent in the three-point estimating technique?
 
-     - A) The average time the activity will take
-     - B) The time the activity will take if there are many problems
-     - C) The time the activity will take if we assume no problems
-     - D) The most realistic time the activity will take
+- A) The average time the activity will take
+- B) The time the activity will take if there are many problems
+- C) The time the activity will take if we assume no problems
+- D) The most realistic time the activity will take
+
+**Answer:** C) The time the activity will take if we assume no problems
 
 150. In the three-point estimating technique, how is the estimate calculated?
 
-     - A) Estimate = (Optimistic + Most Likely + Pessimistic) / 2
-     - B) Estimate = (Optimistic + Most Likely + Pessimistic) / 3
-     - C) Estimate = (Optimistic + 4 \* Most Likely + Pessimistic) / 6
-     - D) Estimate = (Most Likely + Pessimistic) / 2
+- A) Estimate = (Optimistic + Most Likely + Pessimistic) / 2
+- B) Estimate = (Optimistic + Most Likely + Pessimistic) / 3
+- C) Estimate = (Optimistic + 4 \* Most Likely + Pessimistic) / 6
+- D) Estimate = (Most Likely + Pessimistic) / 2
+
+**Answer:** B) Estimate = (Optimistic + Most Likely + Pessimistic) / 3
 
 151. Which of the following statements is true regarding PERT estimating?
 
-     - A) It gives equal weight to all scenarios.
-     - B) It gives more weight to the optimistic scenario.
-     - C) It gives more weight to the most likely scenario.
-     - D) It does not consider pessimistic scenarios.
+- A) It gives equal weight to all scenarios.
+- B) It gives more weight to the optimistic scenario.
+- C) It gives more weight to the most likely scenario.
+- D) It does not consider pessimistic scenarios.
+
+**Solution:**  
+C) It gives more weight to the most likely scenario.
 
 152. If the optimistic estimate is 15 hours, the most likely estimate is 24 hours, and the pessimistic estimate is 30 hours, what is the three-point estimate?
 
-     - A) 20 hours
-     - B) 23 hours
-     - C) 25 hours
-     - D) 22 hours
+- A) 20 hours
+- B) 23 hours
+- C) 25 hours
+- D) 22 hours
+
+**Solution:**  
+B) 23 hours  
+(Calculation: (15 + 24 + 30) / 3 = 69 / 3 = 23)
 
 153. In the PERT estimating formula, how many times is the most likely estimate multiplied?
 
-     - A) 2
-     - B) 3
-     - C) 4
-     - D) 5
+- A) 2
+- B) 3
+- C) 4
+- D) 5
+
+**Solution:**  
+C) 4  
+(PERT formula: (Optimistic + 4 × Most Likely + Pessimistic) / 6)
 
 154. What is the primary purpose of bottom-up estimating in project management?
 
-     - A) To provide a rough estimate of project costs
-     - B) To break down the project into smaller tasks and estimate their durations
-     - C) To assign tasks to team members
-     - D) To create a project timeline without detailed analysis
+- A) To provide a rough estimate of project costs
+- B) To break down the project into smaller tasks and estimate their durations
+- C) To assign tasks to team members
+- D) To create a project timeline without detailed analysis
+
+**Solution:**  
+B) To break down the project into smaller tasks and estimate their durations
 
 155. Which of the following is NOT a step in the bottom-up estimating process?
 
-     - A) Break Down the Project into Tasks
-     - B) Estimate Task Durations
-     - C) Create a Gantt Chart
-     - D) Sum Up the Estimates
+- A) Break Down the Project into Tasks
+- B) Estimate Task Durations
+- C) Create a Gantt Chart
+- D) Sum Up the Estimates
+
+**Solution:**  
+C) Create a Gantt Chart
 
 156. When is bottom-up estimating particularly useful?
 
-     - A) When the project scope is vague
-     - B) When detailed task information is available
-     - C) When there are no subject matter experts available
-     - D) When the project has a flexible timeline
+- A) When the project scope is vague
+- B) When detailed task information is available
+- C) When there are no subject matter experts available
+- D) When the project has a flexible timeline
+
+**Solution:**  
+B) When detailed task information is available
 
 157. In the example of building a mobile app, what is the total estimated duration for the project if the individual task durations are 80 hours for user interface design, 120 hours for backend development, 60 hours for testing, and 20 hours for deployment?
 
-     - A) 240 hours
-     - B) 260 hours
-     - C) 280 hours
-     - D) 300 hours
+- A) 240 hours
+- B) 260 hours
+- C) 280 hours
+- D) 300 hours
+
+**Solution:**  
+C) 280 hours  
+(Calculation: 80 + 120 + 60 + 20 = 280)
 
 158. What is a potential drawback of using bottom-up estimating?
 
-     - A) It provides inaccurate estimates
-     - B) It is time-consuming, especially for large projects
-     - C) It does not involve team members
-     - D) It is only suitable for small projects
+- A) It provides inaccurate estimates
+- B) It is time-consuming, especially for large projects
+- C) It does not involve team members
+- D) It is only suitable for small projects
+
+**Solution:**  
+B) It is time-consuming, especially for large projects
 
 159. What is the most restrictive type of constraint in project management?
 
-     - A) Must start on dates
-     - B) Must finish by dates
-     - C) Start no earlier dates
-     - D) Finish no later dates
+- A) Must start on dates
+- B) Must finish by dates
+- C) Start no earlier dates
+- D) Finish no later dates
+
+**Solution:**  
+A) Must start on dates
 
 160. Which of the following is NOT a type of constraint mentioned in the lecture?
 
-     - A) Must start on
-     - B) Must finish by
-     - C) Must continue until
-     - D) Start no later
+- A) Must start on
+- B) Must finish by
+- C) Must continue until
+- D) Start no later
+
+**Solution:**  
+C) Must continue until
 
 161. When developing a project schedule, which of the following should be considered a potential risk?
 
-     - A) Availability of resources
-     - B) Regulatory compliance
-     - C) Competing projects
-     - D) All of the above
+- A) Availability of resources
+- B) Regulatory compliance
+- C) Competing projects
+- D) All of the above
+
+**Solution:**  
+D) All of the above
 
 162. What is an example of a regulatory compliance consideration in project scheduling?
 
-     - A) The need for testing time
-     - B) The availability of team members
-     - C) The start date of the project
-     - D) The budget constraints
+- A) The need for testing time
+- B) The availability of team members
+- C) The start date of the project
+- D) The budget constraints
+
+**Solution:**  
+A) The need for testing time
 
 163. Why is it important to consider supply chain issues when developing a project schedule?
 
-     - A) To ensure the project is completed on time
-     - B) To avoid catastrophic events
-     - C) To manage labor availability
-     - D) To account for global shortages of goods
+- A) To ensure the project is completed on time
+- B) To avoid catastrophic events
+- C) To manage labor availability
+- D) To account for global shortages of goods
+
+**Solution:**  
+D) To account for global shortages of goods
 
 164. What is the primary purpose of a network diagram in project management?
 
-     - A) To visualize the project budget
-     - B) To represent the sequence of activities and find completion dates
-     - C) To assign tasks to team members
-     - D) To track project expenses
+- A) To visualize the project budget
+- B) To represent the sequence of activities and find completion dates
+- C) To assign tasks to team members
+- D) To track project expenses
+
+**Solution:**  
+B) To represent the sequence of activities and find completion dates
 
 165. Which of the following statements about the critical path is true?
 
-     - A) It is the shortest path through the project.
-     - B) Activities on the critical path can be delayed without affecting the project.
-     - C) It represents the longest total duration of project activities.
-     - D) It includes all activities in the project.
+- A) It is the shortest path through the project.
+- B) Activities on the critical path can be delayed without affecting the project.
+- C) It represents the longest total duration of project activities.
+- D) It includes all activities in the project.
+
+**Solution:**  
+C) It represents the longest total duration of project activities.
 
 166. Float (or slack) in project management refers to:
 
-     - A) The total time required to complete the project.
-     - B) The amount of time an activity can be delayed without delaying the entire project.
-     - C) The time taken for project meetings.
-     - D) The time allocated for project reviews.
+- A) The total time required to complete the project.
+- B) The amount of time an activity can be delayed without delaying the entire project.
+- C) The time taken for project meetings.
+- D) The time allocated for project reviews.
+
+**Solution:**  
+B) The amount of time an activity can be delayed without delaying the entire project.
 
 167. In a forward pass, how is the early finish of an activity calculated?
 
-     - A) Early start + Duration
-     - B) Early start + Duration - 1
-     - C) Late finish - Duration
-     - D) Late start + Duration
+- A) Early start + Duration
+- B) Early start + Duration - 1
+- C) Late finish - Duration
+- D) Late start + Duration
+
+**Solution:**  
+A) Early start + Duration
 
 168. When performing a backward pass, what does the late finish of an activity represent?
 
-     - A) The earliest day the activity can start
-     - B) The latest day the activity must finish
-     - C) The total duration of the project
-     - D) The time allocated for project delays
+- A) The earliest day the activity can start
+- B) The latest day the activity must finish
+- C) The total duration of the project
+- D) The time allocated for project delays
+
+**Solution:**  
+B) The latest day the activity must finish
 
 169. What is the first step to create a Gantt chart in Google Sheets?
 
-     - A) Open Google Docs
-     - B) Go to Google Sheets and open a new sheet
-     - C) Download a Gantt chart template
-     - D) Create a presentation in Google Slides
+- A) Open Google Docs
+- B) Go to Google Sheets and open a new sheet
+- C) Download a Gantt chart template
+- D) Create a presentation in Google Slides
+
+**Solution:**  
+B) Go to Google Sheets and open a new sheet
 
 170. Which of the following templates is NOT available in the Google Sheets template gallery for project management?
 
-     - A) Gantt chart project timeline
-     - B) Project tracking
-     - C) Event marketing timeline
-     - D) Budget planning
+- A) Gantt chart project timeline
+- B) Project tracking
+- C) Event marketing timeline
+- D) Budget planning
+
+**Solution:**  
+D) Budget planning
 
 171. When you open a project timeline sheet in Google Sheets, what can you do with the cells?
 
-     - A) They are locked and cannot be edited
-     - B) You can only view them
-     - C) They are customizable and editable
-     - D) They can only be printed
+- A) They are locked and cannot be edited
+- B) You can only view them
+- C) They are customizable and editable
+- D) They can only be printed
+
+**Solution:**  
+C) They are customizable and editable
 
 172. What type of projects can you use the Gantt chart template for?
 
-     - A) Only professional projects
-     - B) Only personal projects
-     - C) Both personal and professional projects
-     - D) Only academic projects
+- A) Only professional projects
+- B) Only personal projects
+- C) Both personal and professional projects
+- D) Only academic projects
+
+**Solution:**  
+C) Both personal and professional projects
 
 173. How many different project management templates are mentioned in the content?
 
-     - A) Two
-     - B) Three
-     - C) Four
-     - D) Five
+- A) Two
+- B) Three
+- C) Four
+- D) Five
+
+**Solution:**  
+C) Four
 
 174. What is the first process in project cost management?
 
-     - A) Estimate costs
-     - B) Develop project budget
-     - C) Plan cost management
-     - D) Monitor and control budget
+- A) Estimate costs
+- B) Develop project budget
+- C) Plan cost management
+- D) Monitor and control budget
+
+**Solution:**  
+C) Plan cost management
 
 175. Which document is created during the plan cost management process?
 
-     - A) Cost estimation report
-     - B) Cost management plan
-     - C) Budget baseline document
-     - D) Project scope statement
+- A) Cost estimation report
+- B) Cost management plan
+- C) Budget baseline document
+- D) Project scope statement
+
+**Solution:**  
+B) Cost management plan
 
 176. What does the project budget include?
 
-     - A) Only the costs of materials
-     - B) All necessary funds to execute the project successfully
-     - C) Only labor costs
-     - D) Historical data from past projects
+- A) Only the costs of materials
+- B) All necessary funds to execute the project successfully
+- C) Only labor costs
+- D) Historical data from past projects
+
+**Solution:**  
+B) All necessary funds to execute the project successfully
 
 177. How does a project manager monitor and control the budget?
 
-     - A) By ignoring the baseline budget
-     - B) By comparing actual costs to the baseline budget
-     - C) By only focusing on future costs
-     - D) By consulting with stakeholders only at the end of the project
+- A) By ignoring the baseline budget
+- B) By comparing actual costs to the baseline budget
+- C) By only focusing on future costs
+- D) By consulting with stakeholders only at the end of the project
+
+**Solution:**  
+B) By comparing actual costs to the baseline budget
 
 178. What is earned value management used for in project cost management?
 
-     - A) To estimate future project costs
-     - B) To track the budget and communicate with stakeholders
-     - C) To develop the project schedule
-     - D) To create the cost management plan
+- A) To estimate future project costs
+- B) To track the budget and communicate with stakeholders
+- C) To develop the project schedule
+- D) To create the cost management plan
+
+**Solution:**  
+B) To track the budget and communicate with stakeholders
 
 179. Which of the following is an example of a direct cost?
 
-     - A) Office rent
-     - B) Project team wages
-     - C) Corporate tech support
-     - D) Quality control costs
+- A) Office rent
+- B) Project team wages
+- C) Corporate tech support
+- D) Quality control costs
+
+**Solution:**  
+B) Project team wages
 
 180. What type of cost changes proportionally with the amount of output produced?
 
-     - A) Fixed costs
-     - B) Indirect costs
-     - C) Variable costs
-     - D) Direct costs
+- A) Fixed costs
+- B) Indirect costs
+- C) Variable costs
+- D) Direct costs
+
+**Solution:**  
+C) Variable costs
 
 181. A rough order of magnitude estimate typically falls within which range?
 
-     - A) +10% to -5%
-     - B) +25% to -10%
-     - C) +75% to -25%
-     - D) +50% to -20%
+- A) +10% to -5%
+- B) +25% to -10%
+- C) +75% to -25%
+- D) +50% to -20%
+
+**Solution:**  
+C) +75% to -25%
 
 182. Which of the following costs is considered an indirect cost?
 
-     - A) Materials needed for production
-     - B) Wages of team members working on the project
-     - C) Lease payments for office space
-     - D) Costs associated with the PMO office
+- A) Materials needed for production
+- B) Wages of team members working on the project
+- C) Lease payments for office space
+- D) Costs associated with the PMO office
+
+**Solution:**  
+D) Costs associated with the PMO office
 
 183. What is the purpose of a definitive estimate in project management?
 
-     - A) To provide a very rough estimate at the beginning of the project
-     - B) To offer a refined estimate for project approval
-     - C) To develop a highly accurate estimate based on detailed analysis
-     - D) To estimate costs when there is little detail about the project
+- A) To provide a very rough estimate at the beginning of the project
+- B) To offer a refined estimate for project approval
+- C) To develop a highly accurate estimate based on detailed analysis
+- D) To estimate costs when there is little detail about the project
+
+**Solution:**  
+C) To develop a highly accurate estimate based on detailed analysis
 
 184. **Which estimating technique uses historical information to determine the cost of a project component?**
 
-     - A) Parametric Estimating
-     - B) Bottom-Up Estimating
-     - C) Analogous Estimating
-     - D) Three-Point Estimating
+- A) Parametric Estimating
+- B) Bottom-Up Estimating
+- C) Analogous Estimating
+- D) Three-Point Estimating
+
+**Solution:**  
+C) Analogous Estimating
 
 185. **What is the primary advantage of bottom-up estimating?**
 
-     - A) It is the quickest method.
-     - B) It provides a broad estimation.
-     - C) It is more precise than other methods.
-     - D) It requires no historical data.
+- A) It is the quickest method.
+- B) It provides a broad estimation.
+- C) It is more precise than other methods.
+- D) It requires no historical data.
+
+**Solution:**  
+C) It is more precise than other methods.
 
 186. **In parametric estimating, what is typically used to adjust the cost estimation?**
 
-     - A) Historical information
-     - B) A specific parameter
-     - C) Expert opinions
-     - D) Random guessing
+- A) Historical information
+- B) A specific parameter
+- C) Expert opinions
+- D) Random guessing
+
+**Solution:**  
+B) A specific parameter
 
 187. **What does the PERT estimating technique emphasize more than the three-point estimating technique?**
 
-     - A) The optimistic scenario
-     - B) The pessimistic scenario
-     - C) The most likely scenario
-     - D) The average of all scenarios
+- A) The optimistic scenario
+- B) The pessimistic scenario
+- C) The most likely scenario
+- D) The average of all scenarios
+
+**Solution:**  
+C) The most likely scenario
 
 188. **Which of the following is NOT a characteristic of three-point estimating?**
 
-     - A) It uses optimistic, most likely, and pessimistic scenarios.
-     - B) It averages the three estimates equally.
-     - C) It requires a detailed breakdown of every activity.
-     - D) It can be used to estimate both duration and cost.
+- A) It uses optimistic, most likely, and pessimistic scenarios.
+- B) It averages the three estimates equally.
+- C) It requires a detailed breakdown of every activity.
+- D) It can be used to estimate both duration and cost.
+
+**Solution:**  
+C) It requires a detailed breakdown of every activity.
 
 189. What is the project budget?
 
-     - A) The total projected costs needed to complete the project scope within the project schedule.
-     - B) The amount of money allocated for marketing the project.
-     - C) The total revenue expected from the project.
-     - D) The costs associated with project management only.
+- A) The total projected costs needed to complete the project scope within the project schedule.
+- B) The amount of money allocated for marketing the project.
+- C) The total revenue expected from the project.
+- D) The costs associated with project management only.
+
+**Solution:**  
+A) The total projected costs needed to complete the project scope within the project schedule.
 
 190. What does the cost performance baseline include?
 
-     - A) Only the total costs of the project activities.
-     - B) The approved version of the budget along with contingency reserves.
-     - C) The estimated costs of labor only.
-     - D) The total revenue generated by the project.
+- A) Only the total costs of the project activities.
+- B) The approved version of the budget along with contingency reserves.
+- C) The estimated costs of labor only.
+- D) The total revenue generated by the project.
+
+**Solution:**  
+B) The approved version of the budget along with contingency reserves.
 
 191. What is a contingency reserve?
 
-     - A) A fund set aside for unexpected project delays.
-     - B) An additional amount added to the cost of an activity to cover known risks.
-     - C) The total budget for the project.
-     - D) A reserve for future project expansions.
+- A) A fund set aside for unexpected project delays.
+- B) An additional amount added to the cost of an activity to cover known risks.
+- C) The total budget for the project.
+- D) A reserve for future project expansions.
+
+**Solution:**  
+B) An additional amount added to the cost of an activity to cover known risks.
 
 192. Who controls the management reserve?
 
-     - A) The project manager.
-     - B) The project team.
-     - C) Management, the sponsor, or the PMO.
-     - D) The stakeholders.
+- A) The project manager.
+- B) The project team.
+- C) Management, the sponsor, or the PMO.
+- D) The stakeholders.
+
+**Solution:**  
+C) Management, the sponsor, or the PMO.
 
 193. What does the cost baseline help project managers to measure?
 
-     - A) The total revenue of the project.
-     - B) Project performance in terms of expenditures and level of completion.
-     - C) The satisfaction of the project stakeholders.
-     - D) The quality of the project deliverables.
+- A) The total revenue of the project.
+- B) Project performance in terms of expenditures and level of completion.
+- C) The satisfaction of the project stakeholders.
+- D) The quality of the project deliverables.
+
+**Solution:**  
+B) Project performance in terms of expenditures and level of completion.
 
 194. What is the primary purpose of project procurement management?
 
-     - A) To manage the project team
-     - B) To acquire products or services from outside the project team
-     - C) To create the project budget
-     - D) To monitor project progress
+- A) To manage the project team
+- B) To acquire products or services from outside the project team
+- C) To create the project budget
+- D) To monitor project progress
+
+**Solution:**  
+B) To acquire products or services from outside the project team
 
 195. Which document is created during the plan procurement management process?
 
-     - A) Project Charter
-     - B) Procurement Management Plan
-     - C) Risk Management Plan
-     - D) Stakeholder Engagement Plan
+- A) Project Charter
+- B) Procurement Management Plan
+- C) Risk Management Plan
+- D) Stakeholder Engagement Plan
+
+**Solution:**  
+B) Procurement Management Plan
 
 196. What does the process of conducting procurements involve?
 
-     - A) Closing out contracts
-     - B) Obtaining seller responses and awarding contracts
-     - C) Measuring project performance
-     - D) Planning project activities
+- A) Closing out contracts
+- B) Obtaining seller responses and awarding contracts
+- C) Measuring project performance
+- D) Planning project activities
+
+**Solution:**  
+B) Obtaining seller responses and awarding contracts
 
 197. Why is it important to manage vendor relationships in project procurement management?
 
-     - A) To reduce project costs
-     - B) To ensure that vendors are performing as expected
-     - C) To eliminate the need for contracts
-     - D) To avoid communication with suppliers
+- A) To reduce project costs
+- B) To ensure that vendors are performing as expected
+- C) To eliminate the need for contracts
+- D) To avoid communication with suppliers
+
+**Solution:**  
+B) To ensure that vendors are performing as expected
 
 198. What is included in the Procurement Management Plan?
 
-     - A) Project team roles
-     - B) Criteria for measuring competitive bids
-     - C) Project timeline
-     - D) Risk assessment
+- A) Project team roles
+- B) Criteria for measuring competitive bids
+- C) Project timeline
+- D) Risk assessment
+
+**Solution:**  
+B) Criteria for measuring competitive bids
 
 199. What is the primary goal of project managers in relation to projects?
 
-     - A) To create value
-     - B) To minimize costs
-     - C) To manage people
-     - D) To increase profits
+- A) To create value
+- B) To minimize costs
+- C) To manage people
+- D) To increase profits
+
+**Solution:**  
+A) To create value
 
 200. Which of the following best describes procurement in project management?
 
-     - A) The process of hiring employees
-     - B) The buying of necessary materials or services
-     - C) The scheduling of project tasks
-     - D) The evaluation of project outcomes
+- A) The process of hiring employees
+- B) The buying of necessary materials or services
+- C) The scheduling of project tasks
+- D) The evaluation of project outcomes
+
+**Solution:**  
+B) The buying of necessary materials or services
 
 201. When determining whether to make or buy materials, which question is NOT typically considered?
 
-     - A) Can we make this ourselves faster or for less money?
-     - B) How do we choose the best supplier?
-     - C) What color should the materials be?
-     - D) How do we communicate what we need to suppliers?
+- A) Can we make this ourselves faster or for less money?
+- B) How do we choose the best supplier?
+- C) What color should the materials be?
+- D) How do we communicate what we need to suppliers?
+
+**Solution:**  
+C) What color should the materials be?
 
 202. Which of the following is NOT one of the steps in the procurement process mentioned in the content?
 
-     - A) What do we need?
-     - B) When do we need it?
-     - C) How do we market our project?
-     - D) Who will supply it to us?
+- A) What do we need?
+- B) When do we need it?
+- C) How do we market our project?
+- D) Who will supply it to us?
+
+**Solution:**  
+C) How do we market our project?
 
 203. Maintaining a positive relationship with vendors and suppliers is important for:
 
-     - A) Reducing project costs
-     - B) Ensuring project success
-     - C) Increasing project duration
-     - D) Avoiding project risks
+- A) Reducing project costs
+- B) Ensuring project success
+- C) Increasing project duration
+- D) Avoiding project risks
+
+**Solution:**  
+B) Ensuring project success
 
 204. What is the first step in the supplier selection process?
 
-     - A) Evaluating supplier quotes
-     - B) Developing a statement of work
-     - C) Awarding the contract
-     - D) Negotiating payment terms
+- A) Evaluating supplier quotes
+- B) Developing a statement of work
+- C) Awarding the contract
+- D) Negotiating payment terms
+
+**Solution:**  
+B) Developing a statement of work
 
 205. What document describes the technical requirements of a project?
 
-     - A) Statement of Work
-     - B) Terms of Reference
-     - C) Request for Proposal
-     - D) Contract Agreement
+- A) Statement of Work
+- B) Terms of Reference
+- C) Request for Proposal
+- D) Contract Agreement
+
+**Solution:**  
+B) Terms of Reference
 
 206. Which of the following is NOT a criterion used to evaluate supplier quotes?
 
-     - A) Supplier history
-     - B) Quality of goods/services
-     - C) Supplier's marketing strategy
-     - D) References from previous clients
+- A) Supplier history
+- B) Quality of goods/services
+- C) Supplier's marketing strategy
+- D) References from previous clients
+
+**Solution:**  
+C) Supplier's marketing strategy
 
 207. After the negotiation phase, what is the next step in the supplier selection process?
 
-     - A) Control and monitor supplier performance
-     - B) Award the contract to the supplier
-     - C) Develop the terms of reference
-     - D) Send out requests for quotes
+- A) Control and monitor supplier performance
+- B) Award the contract to the supplier
+- C) Develop the terms of reference
+- D) Send out requests for quotes
+
+**Solution:**  
+B) Award the contract to the supplier
 
 208. Why is communication important during the control and monitor phase?
 
-     - A) To finalize the contract terms
-     - B) To ensure the supplier understands the project requirements
-     - C) To measure supplier performance and address issues
-     - D) To negotiate pricing and payment terms
+- A) To finalize the contract terms
+- B) To ensure the supplier understands the project requirements
+- C) To measure supplier performance and address issues
+- D) To negotiate pricing and payment terms
+
+**Solution:**  
+C) To measure supplier performance and address issues
 
 209. What is a contract?
 
-     - A) A verbal agreement between friends
-     - B) A legally binding agreement between parties that creates mutual obligations enforceable by law
-     - C) A casual promise to do something
-     - D) A document that outlines project goals
+- A) A verbal agreement between friends
+- B) A legally binding agreement between parties that creates mutual obligations enforceable by law
+- C) A casual promise to do something
+- D) A document that outlines project goals
+
+**Solution:**  
+B) A legally binding agreement between parties that creates mutual obligations enforceable by law
 
 210. Which of the following is NOT an element of a contract?
 
-     - A) Offer
-     - B) Consideration
-     - C) Acceptance
-     - D) Negotiation
+- A) Offer
+- B) Consideration
+- C) Acceptance
+- D) Negotiation
+
+**Solution:**  
+D) Negotiation
 
 211. In a fixed price contract, who assumes more risk?
 
-     - A) The buyer
-     - B) The seller
-     - C) Both parties equally
-     - D) Neither party
+- A) The buyer
+- B) The seller
+- C) Both parties equally
+- D) Neither party
+
+**Solution:**  
+B) The seller
 
 212. What type of contract allows the seller to adjust the price based on material or labor costs?
 
-     - A) Fixed price contract
-     - B) Time and material contract
-     - C) Cost plus contract
-     - D) Fixed price with economic price adjustment
+- A) Fixed price contract
+- B) Time and material contract
+- C) Cost plus contract
+- D) Fixed price with economic price adjustment
+
+**Solution:**  
+D) Fixed price with economic price adjustment
 
 213. In a cost plus contract, who bears the risk of potentially higher costs?
-     - A) The seller
-     - B) The buyer
-     - C) Both parties
-     - D) Neither party
+
+- A) The seller
+- B) The buyer
+- C) Both parties
+- D) Neither party
+
+**Solution:**  
+B) The buyer
