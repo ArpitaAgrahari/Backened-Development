@@ -403,509 +403,634 @@ Here are crisp notes from the provided transcripts, designed to cover every poss
 - A solid plan for managing stakeholder expectations depends on the **level of communication and engagement** the project manager offers throughout the project.
 - Project managers now have the tools to analyze stakeholder needs and develop a comprehensive communication strategy.
 
-Here are crisp notes from the provided transcripts, designed to cover every possible important point for an MCQ-based test:
+Here are comprehensive notes from the provided transcript, structured for an MCQ-based exam, ensuring all important information is included and appropriately cited:
+
+## Project Team and Resource Management: Key Concepts
+
+### 1. Understanding Resources in Project Management
+
+- **Broad Definition of Resources:** Includes equipment, inventory, money (cash, capital), and people needed to accomplish project goals.
+- **Project Manager's Key Questions about Resources:** What resources are needed, when are they needed, how can they be acquired, and how to ensure their efficient and effective use.
+- **People as the Most Important Resource:** Project managers often equate resource management with human resource management because project completion is impossible without people.
+- **PMBOK Definition of Project Resource Management:** Involves processes to **identify, acquire, and manage** the resources necessary for successful project completion. It ensures the right resources are available to the project manager and team at the right time and place.
+- **Categorisation of Resources:**
+  - **Capital:** Equipment, land, buildings, funding, dedicated office space.
+  - **Technology:** Software, data protection needs.
+  - **People (Team Members):** Acquiring the right people, managing and leading them, evaluating performance, developing incentives, providing training.
+
+### 2. Project Resource Management as a Knowledge Area
+
+- Project Resource Management is a **knowledge area** within project management.
+- It contains **six different processes** spread across the Planning, Executing, Monitoring, and Controlling process groups.
+
+#### A. Planning Group Processes:
+
+1.  **Plan Resource Management:**
+
+    - Project managers determine how to **estimate, acquire, and use physical resources**.
+    - Also defines how to **lead the project team**.
+    - Results in a **formal Resource Management Plan**. This plan outlines necessary components for effective resource planning.
+    - Includes defining project needs, assigning resources effectively, efficiently, and appropriately.
+    - Tools: Developing a **project organisation chart** for streamlined task assignment, and using a **Responsibility Assignment Matrix (RAM)** and **RACI Chart** (Responsible, Accountable, Consulted, Informed).
+
+2.  **Estimate Activity Resources:**
+    - Project managers use the **Work Breakdown Structure (WBS)** and work packages to determine needed resources throughout the project.
+    - Results in a **Resource Breakdown Structure (RBS)** or Resource Lists, which clearly defines resources and their timing.
+
+#### B. Executing Process Group Processes:
+
+1.  **Acquire Resources:**
+
+    - Project managers **recruit team members**.
+    - **Buys or rents equipment**, gets materials and supplies to meet project outcomes.
+
+2.  **Develop Team:**
+    - Involves management and leadership skills.
+    - Project managers undertake activities to **improve individual and team performance**.
+    - Includes professional development, training, building trust, creating a positive work environment, building team culture, managing conflicts, and rewarding good team performance.
+
+#### C. Monitoring and Controlling Process Group Processes:
+
+1.  **Manage Team:**
+
+    - Project managers **track and measure team performance**.
+    - **Provides feedback** and manages inevitable changes to team members.
+    - Optimises team performance and influences team behaviour.
+
+2.  **Control Resources:**
+    - Occurs throughout the project.
+    - Primarily focuses on **physical resources**.
+    - Project managers ensure physical resources are **working as planned** in terms of timing and efficiency to meet project goals.
+    - **Distinction:** Project managers _manage and lead people_, but _control physical resources_.
+
+### 3. Resources in a Matrix Organisation
+
+- **Prevalence:** Common in larger companies or those with a global footprint.
+- **Definition:** A management structure where employees **report to two or more bosses**.
+- **Two Chains of Command:** One along functional lines and the other along project lines. For example, a marketing resource reports to both the project manager and the director of marketing.
+- **Contrast with Traditional Structure:** Traditional management has a single chain of command where each employee reports to one manager.
+- **Pros (Benefits):**
+  - Increases organisational **productivity through flexibility**.
+  - More **efficient use of resources** as they can be shared and re-allocated between projects.
+  - Access to **Subject Matter Experts (SMEs)**, eliminating the need for extensive training or external hiring.
+- **Cons (Challenges):**
+  - **Complexity** in management.
+  - Team members may find it challenging to report to two managers with **competing interests**.
+  - **Increased competition for the best resources** among different projects, leading to potential conflict.
+- **Types of Matrix Organisations (Balance of Power for Project Manager):**
+  - **Weak Matrix:** Project manager has the **least amount of power**, acting more as a project coordinator. The functional manager retains most managerial power.
+  - **Balanced Functional Matrix:** Power is **shared equally**. Authority over project-related tasks and allocated resources only. This structure can be difficult for employees due to shared authority.
+  - **Strong Project Matrix:** Project manager has the **greatest amount of power**, with a say in resource allocation for the entire project and higher power than the functional manager.
+- **Negotiation Skills:** Essential for project managers in matrix organisations to compete for internal resources, especially when scarce or on compressed schedules.
+
+### 4. Project Team and Leadership Foundations
+
+- **Importance of the Team:** Having the right people is crucial for project success.
+- **Project Manager's Role:** Responsibility and opportunity to build the team, enhance performance, cultivate a positive environment, and manage conflicts.
+- **Setting the Tone:** The team leader has the power to set the tone for the team.
+
+### 5. Types of Power (French and Raven, 1950s)
+
+- Psychologists John French and Bertram Raven identified five types of power based on how people achieve results from others.
+- **Five Bases of Power:**
+  1.  **Legitimate Power:** Derived from a **position or formal relationships** within an organisation (e.g., CEO, Vice President over an intern).
+  2.  **Reward Power:** The ability to **give benefits** to someone for doing what is desired (e.g., a return favour, a thank you, or a future obligation).
+  3.  **Expert Power:** Based on an individual's **level of expertise, skill, or competence** (e.g., reputation for website design, customer relations, sought-after opinion).
+  4.  **Referent Power:** Relates to a person's **likability** and the ability to build relationships (often expert networkers).
+  5.  **Coercive Power:** The ability to **punish or force compliance** (e.g., reprimanding an employee, forcing overtime). This power is generally discouraged as it leads to unhappy team members.
+
+### 6. Team Development (Tuckman's Model)
+
+- **Growth Cycles:** Teams experience growth cycles in communication and collaboration.
+- **Tuckman's Original Stages (1960s):**
+  1.  **Forming:** Initial stage where team members meet and begin to understand the project.
+  2.  **Storming:** Characterised by conflict, disagreements, and challenges to leadership.
+  3.  **Norming:** Team members begin to resolve differences, develop cohesion, and establish norms for working together.
+  4.  **Performing:** The team operates effectively, efficiently, and collaboratively to achieve goals.
+- **Added Fifth Stage:** 5. **Adjourning:** The stage where the team or project concludes.
+- **Project Manager's Role:** Recognise these stages and lead the team through each to cultivate positive dynamics and build high-performing teams.
+
+### 7. Leadership Types and Styles
+
+- **Leadership Definition:** Not just about managing people, but about **influence**.
+- **Variability:** No single "right" style; leadership style may change based on time or situation.
+- **Common Leadership Styles:**
+  1.  **Servant Leadership:** Puts the **team first**, empowers members, focuses on their needs, and develops them to increase overall performance.
+  2.  **Autocratic Leadership:** **Maintains control**, makes decisions based on own judgment, and does not seek input from others.
+  3.  **Democratic Leadership:** Seeks **input from the group** and adopts a shared leadership approach.
+  4.  **Charismatic Leadership:** **Self-confident**, inspiring, enthusiastic, and personality-driven.
+  5.  **Directing Leadership:** Lays out a **clear process and offers specific direction**. Effective with new employees needing on-the-job training.
+  6.  **Transactional Leadership:** **Rewards success and punishes failure**, operating on a system of rules and regulations.
+  7.  **Transformational Leadership:** **Encourages and inspires team members** to do their best work, motivating them to exceed expectations.
+  8.  **Laissez-faire Leadership:** A **hands-off style** where the leader allows the team to set its own goals and make its own decisions.
+
+### 8. Motivation Theories
+
+- **Motivation Concept:** Individuals are motivated by their needs, leading to behaviours aimed at satisfying those needs. Satisfaction can lead to new needs, restarting the cycle.
+- **Two Categories of Theories:**
+  1.  **Content Theories:** Focus on **"what"** will motivate us, looking at needs and aspirations.
+  2.  **Process Theories:** Focus on **"how"** motivation occurs, concerned with the process and how to adjust it.
+
+#### A. Content Theories:
+
+1.  **Maslow's Hierarchy of Needs:**
+    - Needs are arranged in a hierarchy; lower-level needs must be satisfied before moving to higher ones.
+    - **Five Levels:**
+      - **Physiological:** Food, water.
+      - **Safety:** Freedom from war, secure job.
+      - **Social:** Relationships, belonging to groups.
+      - **Esteem:** Praise, recognition, status.
+      - **Self-Actualisation:** Wanting to be the best one can be.
+2.  **Herzberg's Two-Factor Theory:**
+    - **Motivators:** Encourage harder work when present (e.g., interesting job).
+    - **Hygiene Factors:** Cause demotivation when absent (e.g., poor working conditions, poor pay).
+3.  **Three Needs Theory:**
+    - Individuals have three needs that exist on a scale: **achievement, affiliation** (collaboration, group belonging), and **power**.
+    - Managers can use this to set tailored motivational targets.
+4.  **McGregor's Theory X and Theory Y:**
+    - **Theory X:** Assumes team members are intrinsically **lazy and unmotivated**, avoid work if possible, requiring management to build systems of control and supervision.
+    - **Theory Y:** Assumes team members are **ambitious and self-motivated**, and will perform well if provided with the right conditions.
+5.  **ERG Theory (Alderfer):**
+    - A simplified version of Maslow's hierarchy with three hierarchical needs.
+    - **Existence Needs:** Physical well-being (food, water, safety).
+    - **Relatedness Needs:** Need to relate to other people.
+    - **Growth Needs:** Personal development and desire for meaningful work.
+6.  **Mayo's Motivation Theory:**
+    - Employee performance is defined by **norms** (positive/negative behaviour encouragement) and **group cohesiveness** (how well the group gets along).
+    - Highly cohesive groups with positive norms are most motivated and highest performing.
+    - Mayo was the first to recognise that **treating employees well can increase productivity**.
+
+#### B. Process Theories:
+
+1.  **Adam's Equity Theory:**
+    - High motivation achieved when employees perceive their **treatment to be fair relative to others**.
+    - Perceived unfairness leads to employees adjusting their inputs (e.g., work effort).
+2.  **Vroom's Expectancy Theory:**
+    - A person chooses behaviour based on the **expected result** of that behaviour.
+    - **Three Factors for Motivation:**
+      - **Expectancy:** Belief that effort will lead to achievable targets.
+      - **Instrumentality:** Belief that a reward will be received if targets are hit.
+      - **Valence:** The value and desire for the offered reward.
+    - Motivation is higher if these three factors are multiplied together to yield a high result.
+3.  **Taylor's Scientific Management (1911):**
+    - Believed employees were **only motivated by money**.
+    - Assumed workers don't inherently enjoy work and must be **monitored closely** to prevent slacking off.
+4.  **Self-Efficacy Theory:**
+    - Task-specific motivation; higher self-efficacy (belief in performing a specific task) leads to more motivation.
+    - **Four Factors Determining Self-Efficacy:**
+      - Experience (similar past jobs).
+      - Vicarious Experience (seeing others succeed).
+      - Social Persuasion (encouragement from others).
+      - Physiological Feedback (ease with the task).
+5.  **Reinforcement Theory:**
+    - Uses four factors to encourage good behaviour and discourage bad behaviour.
+    - **Positive Reinforcement:** Reward for desired behaviour.
+    - **Negative Reinforcement:** Reward by removing something negative from the environment.
+    - **Punishment:** Threat of a negative consequence to stop undesirable behaviour.
+    - **Extinction:** Stopping learned behaviour by withholding the positive reinforcement that led to it.
+6.  **Locke's Goal-Setting Theory:**
+    - Setting the **right goals** increases both motivation and productivity.
+    - **Characteristics of "Right Goals":**
+      - **Clarity:** Must be clear.
+      - **Challenge:** Must be challenging, but not overly so.
+      - **Commitment:** Must be committed to achieving the goal.
+      - **Feedback:** Regular feedback boosts commitment.
+      - **Task Complexity:** Be aware that a goal should not be too complicated.
+
+### 9. Team Performance Appraisals
+
+- **Challenge in Matrix Organisations:** Project Managers often have responsibility for project deliverables but lack the authority to formally evaluate team members due to multiple reporting lines.
+- **Recommendation:** Project Managers should incorporate processes to provide performance feedback within their communication and management plans.
+
+### 10. Emotional Intelligence (Daniel Goleman, 1995)
+
+- **Definition:** Awareness and recognition of one's own emotions, as well as team members' emotions.
+- **Purpose:** Understanding emotions can be used for the good of the team.
+- **Four Categories of Emotional Intelligence:**
+  1.  **Self-Awareness:** Ability to understand one's own emotions, what drives them, and personal strengths/weaknesses.
+  2.  **Self-Management:** Managing one's emotions and behaviour.
+  3.  **Social Awareness:** Ability to tune into others, recognise, understand, and be empathetic of their emotions.
+  4.  **Relationship Management:** Applying emotional understanding in communications and collaborations with others.
+
+### 11. Global Megatrends Affecting Project Management (PMI Report)
+
+- The world and work methods have changed significantly since 2020, impacting project management.
+- PMI's "Global Megatrends" report identifies six trends driven by technology, demographics, and globalisation.
+
+#### A. The Six Global Megatrends:
+
+1.  **Acceleration of our Digital World:**
+    - **Digital Transformation:** Encompasses technologies like machine learning (ML), artificial intelligence (AI), Cloud-based computing, and the Internet of Things (IoT).
+    - **Impact:** Enabled remote project management and efficient global team collaboration during the pandemic.
+2.  **The Climate Crisis:**
+    - **Urgent Action:** World leaders stress the need for immediate action.
+    - **PMI Prediction:** Sustainability practices must be integrated into every project and process to combat climate change.
+3.  **Shifting Demographics of the Workforce:**
+    - **Talent Gap:** 25 million new project management professionals are needed in the next eight years, but there aren't enough to fill this gap.
+    - **The Great Resignation:** A phenomenon (coined during the pandemic) of people resigning or changing jobs in record numbers.
+    - **Suggestions:** Incorporate more technology to reduce PM workload and strategically recruit younger workers to rebuild the talent pipeline.
+4.  **Disruption in the Supply Chain:**
+    - A global issue affecting consumers, companies, and industries; worker supply is a component of economic shifts.
+    - **PMI Suggestion:** Build stronger cross-border collaborations to promote knowledge sharing and accelerate global recovery, especially for less connected countries.
+5.  **Shifting Employer-Employee Relationship:**
+    - **Historic Labor Shortage:** Early 2020s saw a significant shortage, compounded by women and underrepresented minorities leaving the workforce and not returning due to disillusionment with work-life balance.
+    - **Employee Expectations:** Workers want more from companies, including positive social impact and recognition/reward for individual contributions.
+    - **Organisational Need:** Reset the employer-employee relationship to retain good employees.
+6.  **Demand for an Equitable Workforce (Diversity, Equity, and Inclusion - DEI):**
+    - **Goal:** Create a workforce that is more equitable for everyone through systematic integration of DEI.
+    - **Key Aspects:**
+      - Equal pay for women, ethnic minorities, and others.
+      - Inclusion for employees with disabilities.
+      - Creating spaces for LGBTQ employees to feel comfortable bringing their full selves to work.
+    - **PMI Suggestion:** Embed DEI in every function and process of the value chain. Engage employees in policy creation, incorporate equity in training, form resource groups, and recruit/retain diverse talent by fostering an authentic culture.
+
+### 12. Innovative Teams: Broadening Workforce Diversity and Inclusion
+
+- Organisations face pressure to cultivate diverse, equitable, and inclusive work environments, often struggling with narrow, compliance-driven approaches.
+- **Business Case for Workforce Diversity:**
+  - Companies with strong diversity commitment achieve **1.3x higher procurement return on investment**.
+  - Bias and lack of fair treatment are top factors contributing to **employee turnover**.
+  - Growing number of job seekers prioritise organisations valuing inclusion and social responsibility.
+  - Increasing societal and investor expectations, including ESG (Environmental, Social, and Governance) criteria.
+- **Key Challenges in Achieving Progress:**
+  - **Narrow Focus on Representation:** Primarily addresses demographic diversity in hiring without ensuring equitable access to career advancement, mentorship, and leadership.
+  - **Overly Simplistic Approaches:** Treats individuals as broad demographic groups rather than understanding nuanced personal and professional experiences.
+  - **Lack of Integration with Business Strategy:** Diversity is often viewed as a compliance initiative, not a fundamental business driver for innovation, market expansion, and brand reputation.
+- **Strategic Shifts for Leaders (BCG Recommendations):**
+  1.  **Expand Scope of Workforce Inclusion Efforts:**
+      - Move beyond traditional demographics to recognise **intersectionality of employee identities** and evolving needs.
+      - Address the **full spectrum of employee experiences** (recruitment to leadership opportunities).
+      - Develop policies supporting both **functional** (e.g., pay equity) and **emotional** (e.g., feeling valued) aspects of workplace satisfaction.
+  2.  **Embed Inclusive Practices Across Business Operations:**
+      - Leverage diversity for **innovation**, developing products/services for underserved communities.
+      - Expand **supplier diversity programs** for resilient supply chains.
+      - Partner with external stakeholders for systemic change.
+  3.  **Use Data-Driven Metrics to Measure Impact:**
+      - Assess **representation, workplace inclusion, career progression, and long-term retention**.
+      - Align diversity goals with broader business objectives (financial performance, customer engagement, market expansion).
+      - Enhance transparency by publicly reporting progress and holding leadership accountable.
+  4.  **Amplify the Role of Business in Societal Change:**
+      - Leadership in promoting inclusion builds **stronger brand loyalty** and attracts top talent.
+      - Align business strategy with social impact initiatives (e.g., supporting diverse entrepreneurs).
+- **Overall Goal:** Shift from treating inclusion as a compliance requirement to embedding it as a **core driver of business success**, fostering innovation and enhancing employee engagement.
+
+Here are comprehensive notes from the provided transcripts, structured to help you prepare for an MCQ-based exam, ensuring all important information is included:
 
 ---
 
-### **Project Management: Comprehensive Crisp Notes**
+## Project Scheduling and Management Methodologies: Exam Notes
 
-**I. Core Concepts**
+### 1. Project Management Methodologies
 
-- **Project:** A **temporary effort that creates value** [Transcript 1 (T1)]. It has a beginning and an end, is unique, initiates change, and results in a deliverable [T1].
-  - **Temporary Nature:** Projects have start and end dates. They conclude when objectives are met, funding runs out, need ceases, or they are cancelled [T1]. Without an end date, it's considered **operations** (ongoing) [T1].
-  - **Unique:** Projects fulfill a specific objective or create a new product/service [T1].
-  - **Create Value:** Deliver tangible (e.g., rocket booster) or intangible (e.g., software update) value [T1].
-- **Management (Henri Fayol's Definition):** Functions include Planning, Organizing, Commanding, Coordinating, and Controlling [T1]. Modern adaptation includes Planning, Organizing, **Leadership** (combining commanding and coordinating), and Controlling [T1].
-- **Project Management:** Applying specific knowledge, skills, tools, and techniques to **deliver value** [T1]. PMI defines it as such [T1].
+Project management offers different lifecycles, primarily categorised into two main methodologies: **Predictive** (or Traditional) and **Agile**.
 
-**II. Functions of Management (Detailed)**
+#### A. Predictive Model (Waterfall)
 
-- **Planning:** Setting direction, communicating goals, defining methods, steps, and resources [T1].
-- **Organizing:** Assembling resources (people, funding, equipment) to achieve goals [T1].
-- **Leading/Leadership:** Focusing on human aspects: hiring, managing, training, coaching, performance review, setting an example [T1].
-- **Controlling:** Verifying adherence to plan, schedule, and budget [T1].
+- **Nature:** Follows a **linear path** for project scheduling.
+- **Milestones:** More **defined and sequenced** upfront.
+- **Response to Change:** **Does not respond well to changes** to the project or schedule. Risks of schedule or scope changes are actively managed and reduced because they can significantly disrupt the plan.
+- **Phases:** Follows the stages of **initiating, planning, executing, controlling and monitoring, and closing**. Each stage has well-defined processes and tools.
+- **Planning:** The project manager **plans the entire schedule upfront**. All planning is completed at the beginning.
+- **Suitability:** Best used when the **scope is well-defined** or if the project is similar to a previous successful project.
+- **Scheduling:** May follow a stage gate process for managing the schedule.
 
-**III. The Project Manager (PM) Role and Responsibilities**
+#### B. Agile Project Management
 
-- **Core Role:** Ultimate responsibility for project success [T1]. Connects people to resources and processes, sets direction, applies PM tools, and leads teams to deliver value [T1]. A good PM is a **problem solver** [T1].
-- **Key Activities:** Define tasks, develop plans, manage resources, establish metrics, communicate status, transfer project to client, document lessons learned [T1].
-- **Qualities:** Organized, passionate, goal-oriented, comfortable with change, drives change, leads others, culturally aware, servant leader, strong negotiation skills (especially in matrix orgs) [T1, 23, 28, 33, 35].
-- **Project Management Constraint Triangle (Iron Triangle):** Balances **Scope, Budget (Cost), Schedule (Time)**, with **Quality** as an overarching factor [T1]. Changes in one constraint impact others [T1]. PM's job is to balance these [T1]. Quality should not be compromised [T1].
-- **Managing Expectations:** A core PM responsibility, particularly for technical PMs [T1]. A well-defined scope helps a PM push back on out-of-scope requests or justify additional resources [T1].
-- **"Overhead" Perception:** PMs can sometimes be seen as overhead because they facilitate work rather than directly performing technical tasks [T1].
+- **Nature:** Uses an **iterative process**.
+- **Value Creation:** Prioritises **creating value through quicker releases** and encourages more frequent delivery, focusing on creating value early and often.
+- **Response to Change:** **Welcomes changes** to the project and schedule.
+- **Team Work:** Teams work more **collaboratively** to plan, execute, verify, and deliver on smaller iterations or segments of the project.
+- **Key Concepts:**
+  - **Sprints:** Short cycles of planning followed by immediate execution.
+  - **Scrum Master:** The title for the project manager in Agile methodology.
+  - **Kanban:** A system often used for project scheduling and monitoring in Agile. It's a "work in progress" system where project parts move across a board from left to right until they are tested, validated, and delivered.
+- **Comparision:** Agile is not inherently better than the predictive model for every project or situation; suitability depends on project characteristics.
 
-**IV. Project Management Process Groups (5)**
+### 2. Project Schedule Management (Traditional/Predictive Model)
 
-These define **what a project manager does** chronologically in a traditional project [T1].
+Project Schedule Management is a **knowledge area** within the traditional or predictive model of project management. Its purpose is to define the process for delivering the project to clients on time, including estimating steps, meeting milestones, and determining the quickest way to meet project needs.
 
-1.  **Initiating the Project:**
-    - Define initial scope and identify stakeholders [T1]. Understand business environment, strategy, assets [T1]. Develop **business case** [T1].
-    - **Project Charter (Key Document):** Prepared by PM or sponsor. **Justifies the project**, provides high-level overview, gives PM authority, aligns stakeholders [T1].
-      - **Contents:** Justification, objectives/deliverables, measurable goals (requirements & constraints), stakeholders/team, high-level budget/ROI, milestones/timeline, potential risks, resources, approval requirements [T1].
-      - It is the **first process in the Initiating phase** and belongs to **Project Integration Management** [T1].
-2.  **Planning the Project:**
-    - Define activities, duration, cost, resources, build schedule, identify/mitigate risks [T1]. Develop **scope of work**, detailed estimates, quality plans, communication strategy, and procurement plans [T1]. A good plan is vital for success [T1].
-3.  **Executing the Project:**
-    - Assemble team, set ground rules, procure resources, determine milestones [T1]. Much of the project's actual work occurs here [T1]. PM focuses on leading and developing the team [T1].
-4.  **Monitoring and Controlling the Project:**
-    - Ensure project stays on track, meets milestones and quality standards [T1]. Collect performance data, compare to metrics, implement risk mitigation, communicate status [T1]. Track, review, regulate progress; apply corrective actions [T1].
-5.  **Closing the Project:**
-    - Gain customer approval, hand over project, complete final documentation, write report, and share **lessons learned** [T1].
+This knowledge area contains **six processes** across the Planning and Monitoring & Controlling process groups:
 
-**V. Project Management Knowledge Areas (10)**
+#### A. Planning Group Processes:
 
-These define **what a project manager needs to know** [T1].
+1.  **Plan Schedule Management**
 
-1.  **Integration Management:** Coordinates all project elements. **Most important** for informed decision-making and continuous throughout the lifecycle [T1]. The Project Charter falls under this [T1].
-2.  **Scope Management:** Ensures **all and only** the required work for successful completion [T1].
-    - **PMI Definition:** Work required for deliverables, managing changes, staying on time/budget [T1]. Defines project boundaries (what you _will_ and _won't_ do) [T1].
-    - **Project Scope Statement:** Documented description of scope, deliverables, boundaries, responsibilities, estimates [T1]. Ensures stakeholder understanding [T1].
-    - **Scope Management Plan:** Defines how change requests are handled, how WBS is developed, and how deliverables are approved [T1].
-    - **Scope Creep:** Out-of-scope requests from stakeholders; PMs must avoid this, using formal change control if necessary [T1].
-    - **Six Processes:**
-      - _Planning:_ Plan Scope Management, Collect Requirements, Define Scope, Create Work Breakdown Structure (WBS) [T1].
-      - _Monitoring & Controlling:_ Validate Scope (stakeholder approval), Control Scope (prevent creep) [T1].
-3.  **Schedule Management:** Ensures timely project completion [T1].
-4.  **Cost Management:** Ensures project completion within budget [T1].
-5.  **Quality Management:** Ensures deliverables satisfy needs; PMs measure quality and take corrective actions [T1].
-6.  **Resource Management:** Identifies, acquires, and manages physical and human resources for project completion.
-    - **Resources:** Capital (equipment, land, buildings, funding, office space), Technology (software, data protection), and People (team members).
-    - **Six Processes:**
-      - _Planning:_
-        1.  **Plan Resource Management:** Determine how to estimate, acquire, and use physical resources, and lead the team. Results in a formal **Resource Management Plan**.
-        2.  **Estimate Activity Resources:** Uses WBS to determine resources needed. Results in a **Resource Breakdown Structure (RBS)**.
-      - _Executing:_ 3. **Acquire Resources:** Recruit team members, buy/rent equipment, get materials/supplies. 4. **Develop Team:** Improve individual/team performance, professional development, training, build trust/positive environment/culture, manage conflicts, reward performance. 5. **Manage Team:** Track/measure performance, provide feedback, manage team member changes, optimize performance, influence behavior.
-      - _Monitoring & Controlling:_ 6. **Control Resources:** Focuses primarily on **physical resources** (PMs manage/lead people, but control physical assets). Ensures resources work as planned for timing and efficiency.
-    - **Tools:** Project organization chart, Responsibility Assignment Matrix (RAM), RACI (Responsible, Accountable, Consulted, Informed) Chart, Resource Breakdown Structure (RBS).
-    - **Negotiating for Resources:** Crucial, especially when resources are scarce or schedule is compressed.
-7.  **Communications Management:** Ensures timely and secure generation, collection, sharing, and archiving of project knowledge. Poor communication is a major cause of project failure [T1].
-8.  **Risk Management:** Identifies, analyses, and responds to project risks (e.g., schedule delays, resource loss) [T1].
-9.  **Procurement Management:** Acquires goods/services from outside the organization, managing vendor relationships and outsourcing [T1].
-10. **Stakeholder Management:** Identifies and builds relationships with people/organizations impacted by the project [T1].
-    - **Stakeholder:** Anyone with influence or power over the project, team, or outcome (customer, team, investors, suppliers, government) [T1].
-    - **Goal:** Manage stakeholder expectations to achieve project deliverables [T1].
-    - **Four Processes:** Identify Stakeholders, Plan Stakeholder Management, Manage Stakeholder Engagement, Monitor Stakeholder Engagement [T1].
-    - **Types:** Internal (sponsor, team, board), External (investors, suppliers, community), Clients (customer, end-user), Governmental/Regulatory (IRS, EPA, FDA) [T1].
-    - **Stakeholder Analysis:** Identify early, determine interests/influence [T1]. Categorize by interest, influence, involvement [T1].
-    - **Salience Model:** Classifies stakeholders by **Power, Legitimacy, and Urgency** into seven categories (e.g., Definitive stakeholders have all three and require most engagement) [T1].
-    - **Power Interest Grid (Most Common):** Classifies by **Power** (Y-axis) and **Interest** (X-axis) [T1].
-      - **Players (High Interest, High Power):** Keep engaged, seek collaboration (e.g., sponsor, customer) [T1].
-      - **Subjects (High Interest, Low Power):** Consult for insights, keep informed (e.g., key admin support) [T1].
-      - **Context Setters (High Power, Low Interest):** Keep satisfied (e.g., Director of Engineering) [T1].
-      - **Crowd (Low Power, Low Interest):** Provide information, no feedback expected (e.g., website updates) [T1].
-    - **Relationship with Communications Management:** These two areas are intertwined; stakeholder management relies on effective communication and engagement [T1].
+    - **Output:** The **Schedule Management Plan** document.
+    - **Purpose:** This document details the methodology for how the project schedule will be managed, including how activities will be defined and estimated (resources, durations), how the schedule will be reported to stakeholders, and any assumptions or potential risks.
+    - **Role:** Serves as a **guidebook or playbook** for the project manager throughout the project.
 
-**VI. Work Breakdown Structure (WBS)**
+2.  **Define Activities**
 
-- **Definition:** A graphical tool that breaks down project deliverables into smaller **work packages** [T1].
-- **Purpose:** Identifies every project element, ensures all deliverables are detailed, and nothing is missed [T1].
-- **Structure:** Level one is the project deliverable, broken down into smaller components at level two and further into work packages [T1]. Broken down to the lowest level for accurate time, cost, and resource estimation [T1]. Tasks typically start with verbs [T1].
-- **Uses:** Project cost budgeting (estimating each component), project timing (building sequence, schedule, milestones), identifying dependencies, and determining the critical path [T1].
-- **WBS Dictionary:** Adds context, describes work packages, detailing assumptions and interdependencies. Helps prevent scope creep and aids communication [T1].
+    - **Process:** Breaking down each project component or work package into specific, well-defined, and itemised activities. This is the second process in schedule management.
+    - **Inputs:**
+      - **Project Scope:** The work required to successfully meet the project's deliverables.
+      - **Work Breakdown Structure (WBS):** Provides detail on all parts and components to be delivered. It serves as a guide for activity development.
+      - **Work Packages:** Components broken down further from the WBS, essentially "mini-projects" within the larger project, which are then broken into individual activities.
+    - **Outputs:**
+      - **Activity List:** A comprehensive list of project activities.
+      - **Activity Attributes:** Details about each activity, including **dependencies**.
+      - **Project Milestones:** Significant events in the project that need to be met.
 
-**VII. Project Management Methodologies**
+3.  **Sequence Activities**
 
-- **A. Waterfall (Traditional/Predictive):**
-  - **Focus:** Comprehensive plan followed strictly [T1].
-  - **When to Use:** Requirements are **well known and stable** (e.g., building a house, bridge, plane) [T1]. Changes are expensive [T1].
-  - **Flow:** Sequential phases: Requirements, Design, Develop/Build, Test, Deploy [T1].
-  - **Outcome:** Usually **one big outcome** at the end [T1].
-  - **Tools:** Uses traditional WBS [T1].
-  - **Measurement:** Against an original plan or **baseline** [T1].
-- **B. Agile:**
-  - **Focus:** Collaborative, adaptable to evolving requirements [T1].
-  - **When to Use:** Requirements are **not well known or likely to change** (e.g., software development, innovative projects) [T1].
-  - **Collaboration:** Close customer involvement throughout [T1].
-  - **Sprints:** Work done in fixed **time-boxes** (typically 1-4 weeks), delivering increments after each sprint [T1].
-  - **Backlog:** Uses a **product/project backlog** for gathering and prioritizing requirements. Work for sprints is pulled from high-priority items [T1].
-  - **Feedback:** Increments are showcased to customer for feedback, leading to new requirements and reprioritization [T1].
-  - **Scrum:** A common Agile approach [T1].
-- **C. Hybrid:**
-  - **Definition:** Combines elements of Waterfall and Agile, customised to specific project/organisation needs [T1].
-  - **Application:** Can switch methodologies for different phases or run concurrently (e.g., Waterfall for hardware, Agile for software in a plane build) [T1].
+    - **Process:** Defining the **order** in which project activities need to be performed.
+    - **Dependencies:** Some activities are **dependent** on others, meaning one activity must be completed before another can begin (e.g., cannot assemble a product until raw materials are purchased). Software is often used for this.
+    - **Types of Dependencies:**
+      - **Mandatory Dependency:** An activity _must_ happen before another, with no alternative (e.g., a wall must be built before it can be painted).
+      - **Discretionary Dependency:** An activity _should_ happen before another, but it's not strictly necessary (e.g., painting a wall before moving in furniture).
+      - **External Dependency:** A dependency that originates _outside_ the project (e.g., a paint supplier delivering paint).
+      - **Internal Dependency:** A dependency that originates _within_ the project (e.g., painters finishing one room before starting another).
+    - **Precedence Diagramming (Network Diagramming):** A tool used by project managers to visually determine relationships between activities and develop the formal schedule, helping examine dependencies and identify the critical path.
+      - **Nodes:** Represent individual activities.
+      - **Arrows:** Represent dependencies between activities.
+      - **Four Types of Precedence Relationships:**
+        - **Finish-to-Start (FS):** Activity A must finish before Activity B can start (e.g., preparing dirt before digging a hole). This is a very common dependency type.
+        - **Finish-to-Finish (FF):** Both activities should finish at the same time (e.g., tomatoes harvested and salad assembled concurrently).
+        - **Start-to-Start (SS):** Activity A must start before Activity B can start, often done simultaneously (e.g., plowing land starts before planting seeds).
+        - **Start-to-Finish (SF):** Activity A must start before Activity B can finish (rarely used).
+    - **Leads and Lags:**
+      - **Lead Time:** An overlap in the schedule where an activity can be partially started before its predecessor is fully complete; something being waited for, but accounted for in an overlap (e.g., ordering an engine a year before installation).
+      - **Lag Time:** A deliberate delay or waiting period _after_ one activity is complete but _before_ the next dependent activity can begin (e.g., waiting two days for concrete to cure before driving on it).
 
-**VIII. Organisational Structures: Matrix Organisations**
+4.  **Estimate Activity Durations**
 
-- **Definition:** A management structure where employees report to **two or more bosses** (functional manager and project manager). Allows cross-functional work but adds complexity.
-- **Traditional Structure:** Single chain of command, one manager.
-- **Pros of Matrix:** Increases flexibility and productivity, efficient resource use (sharing, re-allocation), access to **Subject Matter Experts (SMEs)**.
-- **Cons of Matrix:** Complexity, challenging for team members with competing interests from two managers, competition for best resources, increased potential for conflict.
-- **Balance of Power (Project Manager's Authority):**
-  - **Weak Matrix:** PM has the **least power**, acts more as a **project coordinator**. Functional manager holds most managerial power.
-  - **Balanced Matrix:** Power is **shared equally**. Can be difficult for team members. PM typically has authority only over project-related tasks and allocated resources.
-  - **Strong Matrix:** PM has the **greatest power**, including a say in resource allocation for the entire project, often holding more power than the functional manager.
-- **Negotiation Skills:** **Strong negotiation skills are necessary** for PMs in matrix organisations due to competition for internal resources.
-- **Performance Appraisals:** PMs may have responsibility for deliverables but not the authority to evaluate team members' performance in matrix organisations.
+    - **Process:** Determining how long each individual activity will take, considering all assigned resources. These estimates are crucial for developing the overall project schedule.
+    - **Estimation Inputs:** Historical information from similar projects, expert consultation, or industry standards.
+    - **Factors Impacting Estimates:**
+      - **Law of Diminishing Returns:** Adding more resources to an activity beyond a certain point will not proportionally reduce the time needed and may even have a negative impact (e.g., a 10% increase in hours only yields a 5% increase in output).
+      - **Adding Resources:** Doubling resources doesn't necessarily halve completion time due to learning curves for new people, increased risk of error, or simply having too many people on an activity.
+      - **Technology:** Increased technological capacity often leads to increased productivity.
+      - **Motivational Factors:**
+        - **Student Syndrome (Procrastination):** People tend to apply themselves at the last possible minute to accomplish tasks.
+        - **Parkinson's Law:** Work expands to fill the time available for its completion (e.g., a one-day task takes a full week if a week is allocated).
+    - **Common Estimating Techniques:**
+      - **Analogous Estimating:**
+        - Uses **historic data** from similar past projects and expert judgment.
+        - **Least time-consuming** but can be **less accurate**.
+        - Useful in early planning stages with limited information. Accuracy depends heavily on the similarity of projects and reliability of data.
+      - **Parametric Estimating:**
+        - Uses an **algorithm** to calculate cost or duration based on historical data and specific project parameters (e.g., cost per unit, duration per unit).
+        - Provides **more accuracy** due to detailed data analysis and mathematical calculations.
+        - Can be scaled to different project sizes and complexities.
+      - **Three-Point Estimating:**
+        - Incorporates **risk scenarios** by using a range of estimates.
+        - Includes an **Optimistic Estimate (O)** (best case), a **Most Likely Estimate (ML)** (realistic view), and a **Pessimistic Estimate (P)** (worst case).
+        - Formula: **Estimate = (Optimistic + Most Likely + Pessimistic) / 3**.
+      - **PERT (Program Evaluation and Review Technique) Estimating:**
+        - Similar to three-point but gives **more weight to the most likely scenario**.
+        - Formula: **PERT Estimate = (Optimistic + (4 \* Most Likely) + Pessimistic) / 6**.
+      - **Bottom-Up Estimating:**
+        - **Aggregates estimates** from the lowest-level components of the Work Breakdown Structure (WBS).
+        - Involves breaking the project into smaller, manageable tasks and estimating each individual component.
+        - Provides **accurate, detailed, and comprehensive** estimates, ensuring no tasks are overlooked.
+        - **More time-consuming** than other approaches, especially for many tasks.
+        - Requires accurate input from subject matter experts (SMEs).
+        - Ideal when scope is well-defined, accuracy is critical, and SMEs are available.
+    - **Decision-Making for Estimates:**
+      - Project managers should work with their team for duration estimates, as team members are often experts.
+      - **Fist of Five:** A decision-making technique, often used in Agile, where team members vote on their confidence in an estimate. A closed fist means no support, five fingers mean full support. If less than three fingers are shown, concerns are voiced until consensus (three or more fingers) is reached.
 
-**IX. Project Team Development**
+5.  **Develop Schedule**
+    - **Process:** Taking all information from sequencing and estimation steps to create a **formal project schedule**.
+    - **Critical Path:** The shortest possible time the project takes to be completed; the **minimum amount of time necessary**. It is the **longest total duration of activities** through the network diagram. Activities on the critical path **cannot be delayed** without delaying the entire project.
+    - **Schedule Constraints:** Restrictions that must be considered when developing the schedule.
+      - **Must Start On/Must Finish By:** Most restrictive, client-driven dates (e.g., software update during a three-week shutdown).
+      - **Start No Earlier/No Later:** Dates for starting a project/portion based on other events/dependencies.
+      - **Finish No Earlier/No Later:** Similar dependencies for other events or projects.
+      - **Resource Access:** Availability of specific personnel or resources.
+      - **Profit/Market Timing:** Strategic launch dates to maximise profit or be first to market.
+      - **Regulatory Compliances:** Time needed for testing or meeting specific rules.
+    - **Potential Risks to Schedule:**
+      - **Competing Projects:** Other projects within the organisation that might consume resources or funding.
+      - **Catastrophic Events:** Unpredictable events (earthquakes, wildfires) that can be mitigated by seasonal planning.
+      - **Labor Shortages:** Difficulty attracting and retaining adequate labor.
+      - **Supply Chain Disruptions:** Global shortages requiring careful planning of lead times.
+    - **Network Diagramming (PDM) for Schedule Development:**
+      - A **visual or graphical representation** of the sequence of activities.
+      - Helps find the earliest and latest possible completion dates for the project and identify efficiencies.
+      - **Node Information for Forward/Backward Pass:**
+        - **Activity Number:** In the centre of the node.
+        - **Early Start (ES):** The earliest day an activity can begin, usually the predecessor's early finish day plus one.
+        - **Early Finish (EF):** The earliest day an activity can be completed, calculated as ES + Duration - 1.
+        - **Late Finish (LF):** The latest day an activity must finish without delaying the overall project.
+        - **Late Start (LS):** The latest day an activity can begin without delaying the overall project, calculated as LF - Duration + 1.
+      - **Forward Pass:** Calculates the Early Start and Early Finish dates for all activities by moving chronologically through the network diagram.
+      - **Backward Pass:** Calculates the Late Finish and Late Start dates by working backward from the project's overall completion date.
+      - **Float (Slack):** The amount of time an activity can be delayed without delaying the entire project's finish date.
+        - Calculated as (Late Finish - Early Finish) or (Late Start - Early Start) for a particular activity.
+        - Activities on the **critical path have zero float**.
+    - **Schedule Baseline:** Once durations, critical path, and float are determined, the **schedule baseline** is developed.
+      - It is the **approved version of a schedule model** that can only be changed through formal change control procedures.
+      - Serves as a **basis for comparison** to actual results.
+      - Includes baseline start and finish dates and is approved by stakeholders.
+    - **Gantt Chart:** A common tool used to **graphically communicate the project schedule** to stakeholders.
+      - Shows activities, their start and finish dates, durations, and project milestones.
+      - Often created using project management software or spreadsheet applications like Google Sheets templates.
 
-- **Importance:** Having the right people makes or breaks a project. PMs build, enhance, cultivate, and manage conflicts within teams, setting the tone.
-- **Tuckman's Stages of Team Development (1960s, Bruce Tuckman):**
-  1.  **Forming:** Team comes together.
-  2.  **Storming:** Conflicts and differences emerge.
-  3.  **Norming:** Team establishes norms, resolves conflicts.
-  4.  **Performing:** High-functioning, efficient team.
-  5.  **Adjourning:** Team or project ends (added more recently).
+#### B. Monitoring & Controlling Group Processes:
 
-**X. Leadership and Power**
-
-- **Leadership:** About **influence**, not just management. No single "right" style; may change based on situation.
-- **French and Raven's Five Bases of Power (late 1950s):**
-  1.  **Legitimate Power:** Derived from position or formal relationships (e.g., CEO, VP over intern).
-  2.  **Reward Power:** Ability to give benefits for desired actions (e.g., return favour, thank you).
-  3.  **Expert Power:** Based on individual's expertise, skill, or competence (e.g., reputation for website design).
-  4.  **Referent Power:** Based on likability, strong relationships, and networking ability.
-  5.  **Coercive Power:** Ability to punish or force compliance (e.g., reprimand, forced overtime). **Not a good power to use** as it leads to unhappy team members.
-- **Common Leadership Styles:**
-  - **Servant Leadership:** Puts team first, empowers, develops members, focuses on needs.
-  - **Autocratic Leadership:** Maintains control, doesn't seek input, makes decisions based on own judgment.
-  - **Democratic Leadership:** Seeks input from the group, shared leadership.
-  - **Charismatic Leadership:** Self-confident, inspires others, enthusiastic, personality-driven.
-  - **Directing Leadership:** Lays out clear process, offers specific direction (good for new employees).
-  - **Transactional Leadership:** Rewards success, punishes failure, based on rules/regulations.
-  - **Transformational Leadership:** Encourages/inspires team to exceed expectations.
-  - **Laissez-faire Leadership:** Hands-off, allows team to set goals and make decisions.
-
-**XI. Motivation Theories**
-
-- **General Concept:** Needs motivate behaviors to satisfy those needs.
-- **Two Categories:**
-  - **Content Theories:** Focus on **what** motivates us (needs, aspirations).
-  - **Process Theories:** Focus on **how** motivation occurs (the process by which motivation happens).
-- **Content Theories:**
-  - **Maslow's Hierarchy of Needs:** Five levels in a hierarchy: Physiological, Safety, Social, Esteem, Self-Actualization. Lower needs must be met before moving to higher ones.
-  - **Herzberg's Two-Factor Theory:**
-    - **Motivators:** Encourage harder work if present (e.g., interesting job).
-    - **Hygiene Factors:** Cause unmotivation if _not_ present (e.g., poor working conditions, poor pay).
-  - **Three Needs Theory:** Three needs exist on a scale: Achievement, Affiliation (collaboration, group belonging), Power. Managers can use to set tailored motivational targets.
-  - **McGregor's Theory X and Theory Y:**
-    - **Theory X:** Assumes employees are lazy, unmotivated, avoid work; requires control/supervision.
-    - **Theory Y:** Assumes employees are ambitious, self-motivated; perform well if provided with the right conditions.
-  - **ERG Theory (Alderfer):** Simplified Maslow's. Three hierarchical needs: Existence (physical well-being), Relatedness (to others), Growth (personal development, meaningful work).
-  - **Mayo's Motivation Theory:** Group performance depends on **norms** (positive/negative behavior) and **group cohesiveness** (getting along). High cohesiveness + positive norms = highest motivation/performance. Mayo was first to recognise good employee treatment leads to productivity.
-- **Process Theories:**
-  - **Adam's Equity Theory:** High motivation when treatment is perceived as fair relative to others. Individuals adjust inputs (work done) to compensate for perceived unfairness of outputs (pay).
-  - **Vroom's Expectancy Theory:** Behavior chosen based on expected results. Three factors for motivation: **Expectancy** (effort leads to achievable targets), **Instrumentality** (hitting targets leads to reward), **Valence** (value/want the reward). Motivation is higher if these factors are high.
-  - **Taylor's Scientific Management (Motivation Aspect):** Believed employees are only motivated by **money**. Workers don't inherently enjoy work, so employers must monitor closely to ensure efficiency.
-  - **Self-Efficacy Theory:** Task-specific motivation. Higher self-efficacy (belief in performing a task) leads to more motivation. Four factors: Experience, Vicarious experience (seeing others succeed), Social persuasion (encouragement), Physiological feedback (ease with task).
-  - **Reinforcement Theory:** Four factors influence motivation (encourage good, discourage bad behavior):
-    - **Positive Reinforcement:** Reward for desired behavior.
-    - **Negative Reinforcement:** Reward by removing something negative.
-    - **Punishment:** Threat of negative consequence to stop undesirable behavior.
-    - **Extinction:** Stopping learned behavior by withholding positive reinforcement.
-  - **Locke's Goal-Setting Theory:** Setting the right goals increases motivation and productivity. Right goals must have: **Clarity, Challenge** (but not too much), **Commitment, Feedback**, and appropriate **Task Complexity**.
-
-**XII. Emotional Intelligence (EQ)**
-
-- **Definition:** Awareness and recognition of one's own emotions, and those of team members. Helps use emotions for the good of the team.
-- **Daniel Goleman's Four Categories (1995):**
-  1.  **Self-awareness:** Understanding one's own emotions, drives, strengths, weaknesses.
-  2.  **Self-management:** Managing one's emotions and behavior.
-  3.  **Social awareness:** Tuning into others, recognising/understanding emotions, empathy.
-  4.  **Relationship management:** Applying emotional understanding in communication and collaboration.
-
-**XIII. PMI Global Megatrends (Since 2020)**
-
-- PMI report studying workplace changes due to technology, demographics, globalization complexities. Six large global megatrends:
-  1.  **Acceleration of the Digital World:** Digital transformation (ML, AI, Cloud, IoT) enabling remote work and global collaboration.
-  2.  **Climate Crisis:** PMI predicts sustainability practices must be built into every project/process to combat climate change.
-  3.  **Shifting Demographics of the Workforce:**
-      - 25 million new PM professionals needed in 8 years (talent gap).
-      - **Great Resignation:** People resigning/changing jobs in record numbers (coined during pandemic).
-      - Suggestions: Incorporate technology to reduce PM workload, recruit younger workers.
-  4.  **Disruption in the Supply Chain & Economic Shifts:**
-      - Historic labor shortage (early 2020s), made complex by women/minorities leaving workforce due to pandemic and not returning (disillusioned by work-life balance).
-      - PMI suggests stronger cross-border collaborations for knowledge sharing and global recovery.
-      - Organisations need to reset the employer-employee relationship to retain good employees.
-  5.  **People Want More from Companies:** Workers desire to work for companies with a positive social impact, and want individual contributions recognized and rewarded.
-  6.  **Demand for Equity (Diversity, Equity, and Inclusion - DEI):**
-      - Systematic integration of DEI for a more equitable workforce.
-      - Includes equal pay for women/ethnic minorities, inclusion for disabled employees, safe spaces for LGBTQ employees.
-      - PMI suggestions: Embed DEI in every function/process, engage employees in policy/goal creation, form resource groups, recruit/retain diverse talent, cultivate inclusive culture.
-
-**XIV. Innovative Teams & Diversity/Inclusion**
-
-- **Pressure:** Organisations face increasing pressure to cultivate diverse, equitable, and inclusive work environments.
-- **Business Case for Diversity:** Leads to stronger innovation, improved employee retention, better financial outcomes (e.g., higher procurement ROI), and attracts job seekers who value inclusion. Societal expectations are also driving corporate strategies.
-- **Key Challenges:**
-  - **Narrow Focus on Representation:** Often only addresses demographic diversity in hiring, not career advancement, mentorship, or leadership roles.
-  - **Overly Simplistic Approaches:** Treats individuals as broad demographic groups, ignoring personal/professional nuances.
-  - **Lack of Integration:** Viewed as compliance, not a fundamental business driver for innovation or market expansion.
-- **Strategic Shifts for Leaders (BCG Recommendations):**
-  1.  **Expand Scope of Workforce Inclusion Efforts:** Beyond demographics, recognise intersectionality of identities, address full employee experience (recruitment to leadership), develop policies for functional (pay equity) and emotional (feeling valued) satisfaction.
-  2.  **Embed Inclusive Practices Across Business Operations:** Leverage diversity for innovation (products for underserved communities), expand supplier diversity, partner with external stakeholders for systemic change.
-  3.  **Use Data-Driven Metrics to Measure Impact:** Assess representation, inclusion, progression, retention; align with business objectives (financial, customer, market); enhance transparency, hold leadership accountable.
-  4.  **Amplify the Role of Business in Societal Change:** Leadership in promoting inclusion builds brand loyalty, attracts talent, aligns with ESG criteria, supports diverse entrepreneurs.
-- **Overall Shift:** From treating inclusion as a compliance requirement to embedding it as a core driver of business success for competitive advantage.
-
-**XV. PMI (Project Management Institute)**
-
-- **Role:** Non-profit global professional organization, provides resources and training, advances the profession [T1].
-- **Certification:** Offers the **Project Management Professional (PMP)** certification, a globally recognized standard [T1].
-- **PMBOK:** Maintains the **Project Management Body of Knowledge**, a foundational resource [T1].
-
-**XVI. Processes (49)**
-
-- There are 49 specific processes (tools/techniques) for PMs. Each fits into a process group and knowledge area [T1].
-
-**XVII. Project Management Software**
-
-- Commercial software provides templates for managing scope, schedule, and budgeting. Companies must choose appropriate tools [T1].
-
-Here are crisp notes from all the provided transcripts, designed to cover every possible important point for an MCQ-based test:
+1.  **Control Schedule**
+    - **Process:** The project manager ensures the project is progressing according to the plan. This process occurs **throughout the life of the project**.
+    - **Actions:** If project dates slip or deadlines are at risk, the project manager takes **corrective actions** to get the project back on schedule. This may involve **schedule compression** techniques.
 
 ---
 
-### **Project Management: Comprehensive Crisp Notes**
+Here are comprehensive notes from the provided sources, meticulously structured for an MCQ-based exam to ensure all important information is captured:
 
-**I. Core Concepts**
+---
 
-- **Project:** A **temporary effort that creates value** [T1]. It has a beginning and an end, is unique, initiates change, and results in a deliverable [T1].
-  - **Temporary Nature:** Projects have start and end dates. They conclude when objectives are met, funding runs out, need ceases, or they are cancelled [T1]. Without an end date, it's considered **operations** (ongoing) [T1].
-  - **Unique:** Projects fulfill a specific objective or create a new product/service [T1].
-  - **Create Value:** Deliver tangible (e.g., rocket booster) or intangible (e.g., software update) value [T1].
-- **Management (Henri Fayol's Definition):** Functions include Planning, Organizing, Commanding, Coordinating, and Controlling [T1]. Modern adaptation includes Planning, Organizing, **Leadership** (combining commanding and coordinating), and Controlling [T1].
-- **Project Management:** Applying specific knowledge, skills, tools, and techniques to **deliver value** [T1]. PMI defines it as such [T1].
+## Project Costing and Procurement Management: Key Concepts
 
-**II. Functions of Management (Detailed)**
+### 1. Project Cost Management
 
-- **Planning:** Setting direction, communicating goals, defining methods, steps, and resources [T1].
-- **Organizing:** Assembling resources (people, funding, equipment) to achieve goals [T1].
-- **Leading/Leadership:** Focusing on human aspects: hiring, managing, training, coaching, performance review, setting an example [T1].
-- **Controlling:** Verifying adherence to plan, schedule, and budget [T1].
+- **Definition:** Project Cost Management is a **knowledge area** within project management that encompasses all processes to **plan the budget, estimate activity costs, and manage and control the project budget**.
+- **Importance:** Estimating and controlling costs are critical for delivering a project to **scope, on schedule, and on budget**.
+- **Overall Project Cost:** The sum of all its activities.
+- **Processes:** This knowledge area contains **four processes** spread across the **Planning** and **Monitoring & Controlling** process groups.
 
-**III. The Project Manager (PM) Role and Responsibilities**
+#### A. Planning Group Processes:
 
-- **Core Role:** Ultimate responsibility for project success [T1]. Connects people to resources and processes, sets direction, applies PM tools, and leads teams to deliver value [T1]. A good PM is a **problem solver** [T1].
-- **Key Activities:** Define tasks, develop plans, manage resources, establish metrics, communicate status, transfer project to client, document lessons learned [T1].
-- **Qualities:** Organized, passionate, goal-oriented, comfortable with change, drives change, leads others, culturally aware, servant leader, strong negotiation skills (especially in matrix orgs) [T1, 23, 28, 33, 35].
-- **Project Management Constraint Triangle (Iron Triangle):** Balances **Scope, Budget (Cost), Schedule (Time)**, with **Quality** as an overarching factor [T1]. Changes in one constraint impact others [T1]. PM's job is to balance these [T1]. Quality should not be compromised [T1].
-- **Managing Expectations:** A core PM responsibility, particularly for technical PMs [T1]. A well-defined scope helps a PM push back on out-of-scope requests or justify additional resources [T1].
-- **"Overhead" Perception:** PMs can sometimes be seen as overhead because they facilitate work rather than directly performing technical tasks [T1].
+1.  **Plan Cost Management**
 
-**IV. Project Management Process Groups (5)**
+    - **Purpose:** To create a framework for how project costs will be planned, estimated, and controlled throughout the project.
+    - **Output:** The **Cost Management Plan** document.
+    - **Team Involvement:** The project team will need to estimate project costs.
 
-These define **what a project manager does** chronologically in a traditional project [T1].
+2.  **Estimate Costs**
 
-1.  **Initiating the Project:**
-    - Define initial scope and identify stakeholders [T1]. Understand business environment, strategy, assets [T1]. Develop **business case** [T1].
-    - **Project Charter (Key Document):** Prepared by PM or sponsor. **Justifies the project**, provides high-level overview, gives PM authority, aligns stakeholders [T1].
-      - **Contents:** Justification, objectives/deliverables, measurable goals (requirements & constraints), stakeholders/team, high-level budget/ROI, milestones/timeline, potential risks, resources, approval requirements [T1].
-      - It is the **first process in the Initiating phase** and belongs to **Project Integration Management** [T1].
-2.  **Planning the Project:**
-    - Define activities, duration, cost, resources, build schedule, identify/mitigate risks [T1]. Develop **scope of work**, detailed estimates, quality plans, communication strategy, and procurement plans [T1]. A good plan is vital for success [T1].
-3.  **Executing the Project:**
-    - Assemble team, set ground rules, procure resources, determine milestones [T1]. Much of the project's actual work occurs here [T1]. PM focuses on leading and developing the team [T1].
-4.  **Monitoring and Controlling the Project:**
-    - Ensure project stays on track, meets milestones and quality standards [T1]. Collect performance data, compare to metrics, implement risk mitigation, communicate status [T1]. Track, review, regulate progress; apply corrective actions [T1].
-5.  **Closing the Project:**
-    - Gain customer approval, hand over project, complete final documentation, write report, and share **lessons learned** [T1].
+    - **Methods:** Project managers and teams can use various methods:
+      - **Historical information** from similar past projects.
+      - **Consulting with suppliers**.
+      - **Estimation techniques** based on industry standards (discussed in detail later).
 
-**V. Project Management Knowledge Areas (10)**
+3.  **Determine Budget**
+    - **Process:** Taking all information from the cost estimating process to develop the project budget.
+    - **Cost Baseline:** Establishes a **cost baseline** which serves as the **initial measurement** against which all future project costs will be compared.
+    - **Funding:** The project budget should include all necessary funds for successful project execution through its life.
 
-These define **what a project manager needs to know** [T1].
+#### B. Monitoring & Controlling Group Processes:
 
-1.  **Integration Management:** Coordinates all project elements. **Most important** for informed decision-making and continuous throughout the lifecycle [T1]. The Project Charter falls under this [T1].
-2.  **Scope Management:** Ensures **all and only** the required work for successful completion [T1].
-    - **PMI Definition:** Work required for deliverables, managing changes, staying on time/budget [T1]. Defines project boundaries (what you _will_ and _won't_ do) [T1].
-    - **Project Scope Statement:** Documented description of scope, deliverables, boundaries, responsibilities, estimates [T1]. Ensures stakeholder understanding [T1].
-    - **Scope Management Plan:** Defines how change requests are handled, how WBS is developed, and how deliverables are approved [T1].
-    - **Scope Creep:** Out-of-scope requests from stakeholders; PMs must avoid this, using formal change control if necessary [T1].
-    - **Six Processes:**
-      - _Planning:_ Plan Scope Management, Collect Requirements, Define Scope, Create Work Breakdown Structure (WBS) [T1].
-      - _Monitoring & Controlling:_ Validate Scope (stakeholder approval), Control Scope (prevent creep) [T1].
-3.  **Schedule Management:** Ensures timely project completion [T1].
-4.  **Cost Management:** Ensures project completion within budget [T1].
-5.  **Quality Management:** Ensures deliverables satisfy needs; PMs measure quality and take corrective actions [T1].
-6.  **Resource Management:** Identifies, acquires, and manages physical and human resources for project completion.
-    - **Resources:** Capital (equipment, land, buildings, funding, office space), Technology (software, data protection), and People (team members) [T1].
-    - **Six Processes:**
-      - _Planning:_
-        1.  **Plan Resource Management:** Determine how to estimate, acquire, and use physical resources, and lead the team. Results in a formal **Resource Management Plan**.
-        2.  **Estimate Activity Resources:** Uses WBS to determine resources needed. Results in a **Resource Breakdown Structure (RBS)**.
-      - _Executing:_ 3. **Acquire Resources:** Recruit team members, buy/rent equipment, get materials/supplies. 4. **Develop Team:** Improve individual/team performance, professional development, training, build trust/positive environment/culture, manage conflicts, reward performance. 5. **Manage Team:** Track/measure performance, provide feedback, manage team member changes, optimize performance, influence behavior.
-      - _Monitoring & Controlling:_ 6. **Control Resources:** Focuses primarily on **physical resources** (PMs manage/lead people, but control physical assets). Ensures resources work as planned for timing and efficiency.
-    - **Tools:** Project organization chart, Responsibility Assignment Matrix (RAM), RACI (Responsible, Accountable, Consulted, Informed) Chart, Resource Breakdown Structure (RBS).
-    - **Negotiating for Resources:** Crucial, especially when resources are scarce or schedule is compressed.
-7.  **Communications Management:** Ensures timely and secure generation, collection, sharing, and archiving of project knowledge. Poor communication is a major cause of project failure [T1].
-8.  **Risk Management:** Identifies, analyses, and responds to project risks (e.g., schedule delays, resource loss) [T1].
-9.  **Procurement Management:** Acquires goods/services from outside the organization, managing vendor relationships and outsourcing [T1].
-10. **Stakeholder Management:** Identifies and builds relationships with people/organizations impacted by the project [T1].
-    - **Stakeholder:** Anyone with influence or power over the project, team, or outcome (customer, team, investors, suppliers, government) [T1].
-    - **Goal:** Manage stakeholder expectations to achieve project deliverables [T1].
-    - **Four Processes:** Identify Stakeholders, Plan Stakeholder Management, Manage Stakeholder Engagement, Monitor Stakeholder Engagement [T1].
-    - **Types:** Internal (sponsor, team, board), External (investors, suppliers, community), Clients (customer, end-user), Governmental/Regulatory (IRS, EPA, FDA) [T1].
-    - **Stakeholder Analysis:** Identify early, determine interests/influence [T1]. Categorize by interest, influence, involvement [T1].
-    - **Salience Model:** Classifies stakeholders by **Power, Legitimacy, and Urgency** into seven categories (e.g., Definitive stakeholders have all three and require most engagement) [T1].
-    - **Power Interest Grid (Most Common):** Classifies by **Power** (Y-axis) and **Interest** (X-axis) [T1].
-      - **Players (High Interest, High Power):** Keep engaged, seek collaboration (e.g., sponsor, customer) [T1].
-      - **Subjects (High Interest, Low Power):** Consult for insights, keep informed (e.g., key admin support) [T1].
-      - **Context Setters (High Power, Low Interest):** Keep satisfied (e.g., Director of Engineering) [T1].
-      - **Crowd (Low Power, Low Interest):** Provide information, no feedback expected (e.g., website updates) [T1].
-    - **Relationship with Communications Management:** These two areas are intertwined; stakeholder management relies on effective communication and engagement [T1].
+1.  **Control Costs**
+    - **Purpose:** Project managers continuously **monitor and control the budget** once approved and the project is progressing.
+    - **Method:** Comparing actual expenditures to the baseline budget.
+    - **Tools:** Uses **Earned Value Management (EVM)** tools to track the budget and communicate with stakeholders.
 
-**VI. Work Breakdown Structure (WBS)**
+### 2. Estimating Project Cost: Types, Accuracy, and Techniques
 
-- **Definition:** A graphical tool that breaks down project deliverables into smaller **work packages** [T1].
-- **Purpose:** Identifies every project element, ensures all deliverables are detailed, and nothing is missed [T1].
-- **Structure:** Level one is the project deliverable, broken down into smaller components at level two and further into work packages [T1]. Broken down to the lowest level for accurate time, cost, and resource estimation [T1]. Tasks typically start with verbs [T1].
-- **Uses:** Project cost budgeting (estimating each component), project timing (building sequence, schedule, milestones), identifying dependencies, and determining the critical path [T1].
-- **WBS Dictionary:** Adds context, describes work packages, detailing assumptions and interdependencies. Helps prevent scope creep and aids communication [T1].
+#### A. Accuracy Levels of Estimates
 
-**VII. Project Management Methodologies**
+- **Rough Order of Magnitude (ROM) Estimate:**
+  - **Accuracy:** -25% to 75%.
+  - **Use:** Very rough, used at the **beginning of the project** for an educated guess when detail is limited. Should be replaced by more accurate estimates later.
+- **Budget Estimate:**
+  - **Accuracy:** -10% to 25%.
+  - **Use:** More refined, useful for **planning the project** and often used in the decision to approve the project.
+- **Definitive Estimate:**
+  - **Accuracy:** -5% to 10%.
+  - **Use:** Most accurate, developed when the project is **planned in detail** and a thorough analysis of activities and costs has been done.
 
-- **A. Waterfall (Traditional/Predictive):**
-  - **Focus:** Comprehensive plan followed strictly [T1].
-  - **When to Use:** Requirements are **well known and stable** (e.g., building a house, bridge, plane) [T1]. Changes are expensive [T1].
-  - **Flow:** Sequential phases: Requirements, Design, Develop/Build, Test, Deploy [T1].
-  - **Outcome:** Usually **one big outcome** at the end [T1].
-  - **Tools:** Uses traditional WBS [T1].
-  - **Measurement:** Against an original plan or **baseline** [T1].
-- **B. Agile:**
-  - **Focus:** Collaborative, adaptable to evolving requirements [T1].
-  - **When to Use:** Requirements are **not well known or likely to change** (e.g., software development, innovative projects) [T1].
-  - **Collaboration:** Close customer involvement throughout [T1].
-  - **Sprints:** Work done in fixed **time-boxes** (typically 1-4 weeks), delivering increments after each sprint [T1].
-  - **Backlog:** Uses a **product/project backlog** for gathering and prioritizing requirements. Work for sprints is pulled from high-priority items [T1].
-  - **Feedback:** Increments are showcased to customer for feedback, leading to new requirements and reprioritization [T1].
-  - **Scrum:** A common Agile approach [T1].
-- **C. Hybrid:**
-  - **Definition:** Combines elements of Waterfall and Agile, customised to specific project/organisation needs [T1].
-  - **Application:** Can switch methodologies for different phases or run concurrently (e.g., Waterfall for hardware, Agile for software in a plane build) [T1].
+#### B. Types of Costs
 
-**VIII. Organisational Structures: Matrix Organisations**
+- **Direct Costs:**
+  - **Definition:** Easily assigned or billed directly to a project.
+  - **Examples:** Project team wages (if 100% dedicated to the project), materials needed to build the deliverable.
+- **Indirect Costs:**
+  - **Definition:** Cannot be easily associated with a single project; resources are shared across multiple projects.
+  - **Examples:** Quality control, PMO office costs, corporate tech support.
+- **Fixed Costs:**
+  - **Definition:** Do not usually change over time or with the number of units produced.
+  - **Examples:** Lease payments for a building, monthly software subscriptions.
+- **Variable Costs:**
+  - **Definition:** Change proportionally to the amount of output produced. The more output, the higher the cost.
+  - **Examples:** Material cost for each unit produced.
+- **Important Relationships:**
+  - A cost can be **either direct or indirect, but not both**.
+  - A cost can be **either fixed or variable, but not both**.
+  - A cost can be **both direct and variable** (e.g., dedicated assembly line workers whose numbers increase with output).
 
-- **Definition:** A management structure where employees report to **two or more bosses** (functional manager and project manager). Allows cross-functional work but adds complexity.
-- **Traditional Structure:** Single chain of command, one manager.
-- **Pros of Matrix:** Increases flexibility and productivity, efficient resource use (sharing, re-allocation), access to **Subject Matter Experts (SMEs)**.
-- **Cons of Matrix:** Complexity, challenging for team members with competing interests from two managers, competition for best resources, increased potential for conflict.
-- **Balance of Power (Project Manager's Authority):**
-  - **Weak Matrix:** PM has the **least power**, acts more as a **project coordinator**. Functional manager holds most managerial power.
-  - **Balanced Matrix:** Power is **shared equally**. Can be difficult for team members. PM typically has authority only over project-related tasks and allocated resources.
-  - **Strong Matrix:** PM has the **greatest power**, including a say in resource allocation for the entire project, often holding more power than the functional manager.
-- **Negotiation Skills:** **Strong negotiation skills are necessary** for PMs in matrix organisations due to competition for internal resources.
-- **Performance Appraisals:** PMs may have responsibility for deliverables but not the authority to evaluate team members' performance in matrix organisations.
+#### C. Cost Estimating Tools and Techniques
 
-**IX. Project Team Development**
+- Many of these techniques are the **same as those used for estimating activity duration**.
+- **Analogous Estimating (Top-Down Estimating):**
+  - **Method:** Uses **historical information** from similar past projects and expert judgment to determine costs.
+  - **Characteristics:** **Less time-consuming** but can be **less accurate**. Provides a broad estimation.
+  - **Example:** If a 1,000 sq ft manufacturing space conversion cost $500,000, a 2,000 sq ft conversion would be estimated at $1,000,000.
+- **Parametric Estimating:**
+  - **Method:** Uses a **mathematical modeling based estimation technique** based on a specific parameter (e.g., cost per unit, per hour) and historical information. Adjusts for size or scope.
+  - **Characteristics:** Provides **more accuracy** due to data analysis and mathematical calculations.
+  - **Example:** If a programmer costs $800 per day and is needed for 6 days, the estimated cost is $4,800 ($800 x 6).
+- **Bottom-Up Estimating:**
+  - **Method:** Breaks down the project into the lowest-level components of the Work Breakdown Structure (WBS) and **estimates every single activity**. Includes all cost types (direct/indirect, fixed/variable).
+  - **Characteristics:** **More time-consuming** but much more **precise and detailed**.
+- **Three-Point Estimating:**
+  - **Method:** Uses Subject Matter Experts (SMEs) to define **Optimistic (O), Most Likely (ML), and Pessimistic (P)** cost scenarios.
+  - **Formula:** **Estimate = (Optimistic + Most Likely + Pessimistic) / 3**.
+  - **Example:** O=$4,000, ML=$8,000, P=$15,000 → Estimate = ($4,000 + $8,000 + $15,000) / 3 = $9,000.
+- **PERT (Program Evaluation and Review Technique) Estimating:**
+  - **Method:** Similar to three-point, but puts **more weight on the most likely scenario**.
+  - **Formula:** **PERT Estimate = (Optimistic + (4 \* Most Likely) + Pessimistic) / 6**.
+  - **Example:** O=$4,000, ML=$8,000, P=$15,000 → PERT Estimate = ($4,000 + (4 \* $8,000) + $15,000) / 6 = $8,500. The PERT estimate ($8,500) is closer to the Most Likely ($8,000) than the three-point estimate ($9,000).
 
-- **Importance:** Having the right people makes or breaks a project. PMs build, enhance, cultivate, and manage conflicts within teams, setting the tone.
-- **Tuckman's Stages of Team Development (1960s, Bruce Tuckman):**
-  1.  **Forming:** Team comes together.
-  2.  **Storming:** Conflicts and differences emerge.
-  3.  **Norming:** Team establishes norms, resolves conflicts.
-  4.  **Performing:** High-functioning, efficient team.
-  5.  **Adjourning:** Team or project ends (added more recently).
+### 3. Developing the Project Budget
 
-**X. Leadership and Power**
+- **Project Budget:** The **total projected costs** needed to complete the project scope within the project schedule; all authorized funds used to execute the project from start to finish.
+- **Cost Performance Baseline (Cost Baseline / BAC):**
+  - **Definition:** The **approved version of the budget** that includes contingency reserves.
+  - **Function:** Serves as the **baseline for measuring project performance** throughout the project. It allows comparison of actual expenditures to gauge performance (e.g., behind budget, meeting milestones).
+  - **Components:** Sum of all project activity costs + any contingency reserves for known project risks.
+  - **Alias:** Also known as the **Budget At Completion (BAC)**.
+  - **Visualisation:** Often graphed against time, showing cumulative project expenditure.
+  - **Usage:** Used to forecast funding requirements and measure project performance in terms of expenditures and completion level.
+- **Contingency Reserves:**
+  - **Purpose:** An additional amount added to the cost of an activity or work package to cover **known risks** associated with that activity.
+  - **Application:** Can be for specific work packages (e.g., 2-5% for anticipated supply chain issues like expedited shipping fees) or a general reserve (e.g., 5-10% overall).
+  - **Importance:** Crucial to include as it's unrealistic to anticipate no problems. Can also be applied to project schedules for potential delays.
+- **Management Reserve:**
+  - **Purpose:** An amount of money held **outside the cost performance baseline** for **unknown risks or uncertainty**.
+  - **Control:** Not controlled by the project manager; it's controlled by **management, the sponsor, or the PMO**.
+  - **Access:** Requires going through a formal change process to access these funds.
+- **Total Project Budget:**
+  - **Formula:** **Cost Baseline + Management Reserve**.
+  - This represents the complete authorised funds for the project, accounting for both known and unknown risks.
 
-- **Leadership:** About **influence**, not just management. No single "right" style; may change based on situation.
-- **French and Raven's Five Bases of Power (late 1950s):**
-  1.  **Legitimate Power:** Derived from position or formal relationships (e.g., CEO, VP over intern).
-  2.  **Reward Power:** Ability to give benefits for desired actions (e.g., return favour, thank you).
-  3.  **Expert Power:** Based on individual's expertise, skill, or competence (e.g., reputation for website design).
-  4.  **Referent Power:** Based on likability, strong relationships, and networking ability.
-  5.  **Coercive Power:** Ability to punish or force compliance (e.g., reprimand, forced overtime). **Not a good power to use** as it leads to unhappy team members.
-- **Common Leadership Styles:**
-  - **Servant Leadership:** Puts team first, empowers, develops members, focuses on needs.
-  - **Autocratic Leadership:** Maintains control, doesn't seek input, makes decisions based on own judgment.
-  - **Democratic Leadership:** Seeks input from the group, shared leadership.
-  - **Charismatic Leadership:** Self-confident, inspires others, enthusiastic, personality-driven.
-  - **Directing Leadership:** Lays out clear process, offers specific direction (good for new employees).
-  - **Transactional Leadership:** Rewards success, punishes failure, based on rules/regulations.
-  - **Transformational Leadership:** Encourages/inspires team to exceed expectations.
-  - **Laissez-faire Leadership:** Hands-off, allows team to set goals and make decisions.
+### 4. Project Procurement Management
 
-**XI. Motivation Theories**
+- **Definition:** The **knowledge area** that contains the processes allowing project managers to **purchase or acquire products or services from outside the project team**. This applies when resources (materials or people/expertise) are not available in-house.
+- **Key Questions for Procurement:** What is needed? When is it needed? Make or buy? Who will supply it? How to contract? How to maintain vendor relationships?.
+- **Processes:** Contains **three processes** across the **Planning, Executing, and Monitoring & Controlling** process groups.
 
-- **General Concept:** Needs motivate behaviors to satisfy those needs.
-- **Two Categories:**
-  - **Content Theories:** Focus on **what** motivates us (needs, aspirations).
-  - **Process Theories:** Focus on **how** motivation occurs (the process by which motivation happens).
-- **Content Theories:**
-  - **Maslow's Hierarchy of Needs:** Five levels in a hierarchy: Physiological, Safety, Social, Esteem, Self-Actualization. Lower needs must be met before moving to higher ones.
-  - **Herzberg's Two-Factor Theory:**
-    - **Motivators:** Encourage harder work if present (e.g., interesting job).
-    - **Hygiene Factors:** Cause unmotivation if _not_ present (e.g., poor working conditions, poor pay).
-  - **Three Needs Theory:** Three needs exist on a scale: Achievement, Affiliation (collaboration, group belonging), Power. Managers can use to set tailored motivational targets.
-  - **McGregor's Theory X and Theory Y:**
-    - **Theory X:** Assumes employees are lazy, unmotivated, avoid work; requires control/supervision.
-    - **Theory Y:** Assumes employees are ambitious, self-motivated; perform well if provided with the right conditions.
-  - **ERG Theory (Alderfer):** Simplified Maslow's. Three hierarchical needs: Existence (physical well-being), Relatedness (to others), Growth (personal development, meaningful work).
-  - **Mayo's Motivation Theory:** Group performance depends on **norms** (positive/negative behavior) and **group cohesiveness** (getting along). High cohesiveness + positive norms = highest motivation/performance. Mayo was first to recognise good employee treatment leads to productivity.
-- **Process Theories:**
-  - **Adam's Equity Theory:** High motivation when treatment is perceived as fair relative to others. Individuals adjust inputs (work done) to compensate for perceived unfairness of outputs (pay).
-  - **Vroom's Expectancy Theory:** Behavior chosen based on expected results. Three factors for motivation: **Expectancy** (effort leads to achievable targets), **Instrumentality** (hitting targets leads to reward), **Valence** (value/want the reward). Motivation is higher if these factors are high.
-  - **Taylor's Scientific Management (Motivation Aspect):** Believed employees are only motivated by **money**. Workers don't inherently enjoy work, so employers must monitor closely to ensure efficiency.
-  - **Self-Efficacy Theory:** Task-specific motivation. Higher self-efficacy (belief in performing a task) leads to more motivation. Four factors: Experience, Vicarious experience (seeing others succeed), Social persuasion (encouragement), Physiological feedback (ease with task).
-  - **Reinforcement Theory:** Four factors influence motivation (encourage good, discourage bad behavior):
-    - **Positive Reinforcement:** Reward for desired behavior.
-    - **Negative Reinforcement:** Reward by removing something negative.
-    - **Punishment:** Threat of negative consequence to stop undesirable behavior.
-    - **Extinction:** Stopping learned behavior by withholding positive reinforcement.
-  - **Locke's Goal-Setting Theory:** Setting the right goals increases motivation and productivity. Right goals must have: **Clarity, Challenge** (but not too much), **Commitment, Feedback**, and appropriate **Task Complexity**.
+#### A. Planning Group Processes:
 
-**XII. Emotional Intelligence (EQ)**
+1.  **Plan Procurement Management**
+    - **Purpose:** To create a document detailing all activities for the procurement process.
+    - **Output:** The **Procurement Management Plan**.
+    - **Content:** Specifies if requests will be sent out to bid, to whom, any constraints, stakeholder roles, and criteria for measuring competitive bids from suppliers.
 
-- **Definition:** Awareness and recognition of one's own emotions, and those of team members. Helps use emotions for the good of the team.
-- **Daniel Goleman's Four Categories (1995):**
-  1.  **Self-awareness:** Understanding one's own emotions, drives, strengths, weaknesses.
-  2.  **Self-management:** Managing one's emotions and behavior.
-  3.  **Social awareness:** Tuning into others, recognising/understanding emotions, empathy.
-  4.  **Relationship management:** Applying emotional understanding in communication and collaboration.
+#### B. Executing Group Processes:
 
-**XIII. PMI Global Megatrends (Since 2020)**
+1.  **Conduct Procurements**
+    - **Process:** Obtaining seller responses, contacting sellers, **selecting the seller**, and **awarding the contract**.
+    - **Company Practices:** May involve preferred sellers/vendors, formal **Requests for Proposals (RFPs)**, or separate groups to review proposals and award contracts to reduce bias.
 
-- PMI report studying workplace changes due to technology, demographics, globalization complexities. Six large global megatrends:
-  1.  **Acceleration of the Digital World:** Digital transformation (ML, AI, Cloud, IoT) enabling remote work and global collaboration.
-  2.  **Climate Crisis:** PMI predicts sustainability practices must be built into every project/process to combat climate change.
-  3.  **Shifting Demographics of the Workforce:**
-      - 25 million new PM professionals needed in 8 years (talent gap).
-      - **Great Resignation:** People resigning/changing jobs in record numbers (coined during pandemic).
-      - Suggestions: Incorporate technology to reduce PM workload, recruit younger workers.
-  4.  **Disruption in the Supply Chain & Economic Shifts:**
-      - Historic labor shortage (early 2020s), made complex by women/minorities leaving workforce due to pandemic and not returning (disillusioned by work-life balance).
-      - PMI suggests stronger cross-border collaborations for knowledge sharing and global recovery.
-      - Organisations need to reset the employer-employee relationship to retain good employees.
-  5.  **People Want More from Companies:** Workers desire to work for companies with a positive social impact, and want individual contributions recognized and rewarded.
-  6.  **Demand for Equity (Diversity, Equity, and Inclusion - DEI):**
-      - Systematic integration of DEI for a more equitable workforce.
-      - Includes equal pay for women/ethnic minorities, inclusion for disabled employees, safe spaces for LGBTQ employees.
-      - PMI suggestions: Embed DEI in every function/process, engage employees in policy/goal creation, form resource groups, recruit/retain diverse talent, cultivate inclusive culture.
+#### C. Monitoring & Controlling Group Processes:
 
-**XIV. Innovative Teams & Diversity/Inclusion**
+1.  **Control Procurements**
+    - **Process:** Managing vendor relationships, continuously measuring contract performance, making corrective actions, and **closing out contracts** (once fulfilled or canceled).
+    - **Importance:** Managing vendor relationships is crucial for project success. Suppliers are seen as an extension of the team and vital stakeholders. Open communication is extremely important. Strong supplier relationships can drive new innovation.
 
-- **Pressure:** Organisations face increasing pressure to cultivate diverse, equitable, and inclusive work environments.
-- **Business Case for Diversity:** Leads to stronger innovation, improved employee retention, better financial outcomes (e.g., higher procurement ROI), and attracts job seekers who value inclusion. Societal expectations are also driving corporate strategies.
-- **Key Challenges:**
-  - **Narrow Focus on Representation:** Often only addresses demographic diversity in hiring, not career advancement, mentorship, or leadership roles.
-  - **Overly Simplistic Approaches:** Treats individuals as broad demographic groups, ignoring personal/professional nuances.
-  - **Lack of Integration:** Viewed as compliance, not a fundamental business driver for innovation or market expansion.
-- **Strategic Shifts for Leaders (BCG Recommendations):**
-  1.  **Expand Scope of Workforce Inclusion Efforts:** Beyond demographics, recognise intersectionality of identities, address full employee experience (recruitment to leadership), develop policies for functional (pay equity) and emotional (feeling valued) satisfaction.
-  2.  **Embed Inclusive Practices Across Business Operations:** Leverage diversity for innovation (products for underserved communities), expand supplier diversity, partner with external stakeholders for systemic change.
-  3.  **Use Data-Driven Metrics to Measure Impact:** Assess representation, inclusion, progression, retention; align with business objectives (financial, customer, market); enhance transparency, hold leadership accountable.
-  4.  **Amplify the Role of Business in Societal Change:** Leadership in promoting inclusion builds brand loyalty, attracts talent, aligns with ESG criteria, supports diverse entrepreneurs.
-- **Overall Shift:** From treating inclusion as a compliance requirement to embedding it as a core driver of business success for competitive advantage.
+### 5. Make or Buy Decisions
 
-**XV. PMI (Project Management Institute)**
+- **Definition:** Project managers often decide whether to **internally produce** (make) the resources needed or to **outsource** (buy) them from another company.
+- **Considerations:** Weighs the costs of internally producing versus externally sourcing. This could involve equipment, people, or expertise.
 
-- **Role:** Non-profit global professional organization, provides resources and training, advances the profession [T1].
-- **Certification:** Offers the **Project Management Professional (PMP)** certification, a globally recognized standard [T1].
-- **PMBOK:** Maintains the **Project Management Body of Knowledge**, a foundational resource [T1].
+### 6. Supplier Selection and Management Process
 
-**XVI. Processes (49)**
+- **Importance:** Strategic supplier selection and a well-defined process are crucial for project success; suppliers become important stakeholders.
+- **Key Documents for Bidding:**
+  1.  **Statement of Work (SOW):**
+      - **Purpose:** A detailed, legally binding document outlining the **scope of the project**, all project requirements, and contractual terms.
+      - **Content:** Can include an introduction, purpose statement, scope statement, work location, schedule duration, types of tasks/deliverables, milestones, testing requirements, payment terms, and other important information.
+      - **Clarity:** Must be comprehensive enough for vendors to understand project requirements and what they need to provide.
+      - **Distinction:** Different from a Project Charter.
+  2.  **Terms of Reference (TOR):**
+      - **Purpose:** A description of the **technical requirements** of the request for proposal or bidding documents.
+      - **Importance:** Especially vital for projects that are technical in nature, governmentally regulated, or require specific technical credentials.
+      - **Content:** Includes project scope, schedule, engineering-related work, level of expertise expected from suppliers (e.g., licensed professionals), and any stakeholder interests like permits, standards, or regulations.
+- **Request for Quote (RFQ) / Request for Proposal (RFP):** The formal document sent to potential suppliers as an **invitation to bid** on the contract.
+- **Evaluation Phase:**
+  - Receive quotes/bids from multiple suppliers.
+  - Evaluate bids based on criteria such as supplier history, risk of using a new supplier, references, and quality.
+- **Negotiation:** Back-and-forth discussions with potential suppliers on pricing, payment terms, and other aspects before final acceptance.
+- **Contract Award:** The phase where the contract is awarded to the selected supplier for goods or services.
+- **Performance and Delivery:** The supplier performs the work or supplies the goods, which can be a one-time delivery or ongoing over the project life.
+- **Control and Monitor Phase:** Measures supplier performance, and includes corrective actions if issues arise. Communication is extremely important between buyer and supplier.
 
-- There are 49 specific processes (tools/techniques) for PMs. Each fits into a process group and knowledge area [T1].
+### 7. Contracts
 
-**XVII. Project Management Software & Tools**
-
-- Commercially available software programs provide templates for managing project scope, schedule, and budgeting applications [T1]. Companies must determine which program or template is best for their specific project [T1].
-- **Gantt Charts with Google Sheets:**
-  - Gantt charts can be accessed via **Google Sheets template gallery**.
-  - To find them: Open Google Sheets, go to the **template gallery** on the upper right-hand side, then select **general templates**, and scroll down.
-  - There are **four different project management templates** available on Google Sheets: **Gantt chart project timeline, project tracking, event marketing timeline**, and one other which functions similarly for Gantt charts.
-  - These templates are **customizable/editable** (e.g., project name, specific cells).
-  - They are useful for course projects, personal use, or professional use.
+- **Definition:** A **legally binding agreement** between parties that creates mutual obligations enforceable by law; essentially, a promise that can be enforced legally.
+- **Elements of a Valid Contract:**
+  1.  **Offer:** One party makes a specific promise.
+  2.  **Consideration:** Something of value is promised in exchange for the offer (the value that makes parties enter the contract).
+  3.  **Acceptance:** The offer is accepted, and parties agree to the offer and consideration.
+  4.  **Mutuality (Meeting of the Minds):** Both parties understand and agree to the basic terms of the contract and have the authority to enter into it.
+  5.  **Legality:** The contract's purpose and subject matter must be legal to be enforceable.
+- **Types of Contracts and Associated Risks:** Different contract types carry different levels of risk for the buyer and the supplier.
+  1.  **Fixed Price Contract:**
+      - **Use:** When deliverables are clearly defined.
+      - **Risk:** **Seller assumes more risk** because the price is fixed; if seller's costs increase, they cannot pass this on to the buyer. Buyer assumes less risk.
+      - **Variants:**
+        - **Fixed Price Incentive Contract:** Allows seller to receive more money for incentives (e.g., early delivery bonus).
+        - **Fixed Price with Economic Price Adjustment:** Allows price adjustment if costs of materials or labor increase/decrease.
+  2.  **Time and Material (T&M) Contract:**
+      - **Use:** Popular for outsourcing labor and materials, especially when the buyer doesn't know the exact time needed (e.g., temporary employees for specific skills).
+      - **Risk:** **Buyer assumes higher risk** because costs can quickly get out of hand if labor takes longer than expected.
+  3.  **Cost Plus Contract:**
+      - **Use:** When exact requirements are ambiguous or not clear.
+      - **Risk:** **Buyer assumes higher risk** as they pay the actual cost incurred by the seller plus a predetermined fee. The supplier is not incentivized to finish early or on time since all costs are covered by the buyer.
+  4.  **Retainer:**
+      - **Use:** Buyer prepays a specific amount for a specific number of employee hours, often when the Statement of Work isn't very clear (e.g., for freelancers in the gig economy).
+      - **Risk:** **Buyer assumes risk** as retainers are usually paid in advance of work completion.
 
 ---
 
