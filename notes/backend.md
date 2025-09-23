@@ -2679,3 +2679,2212 @@ Wait-free algorithms are typically implemented using **atomic operations**, such
 - **Wait-free:** Guarantees that all threads will make progress.
 
 Wait-free algorithms are incredibly difficult to design and implement and are usually only found in specialized, high-performance systems.
+
+Of course, let's continue with the questions.
+
+---
+
+### Testing Distributed Systems
+
+Testing distributed systems is notoriously difficult because of their inherent complexity and the unpredictable nature of networks. Unlike a monolithic application, where you can control the entire environment, a distributed system involves multiple independent components, each with its own state and potential for failure.
+
+#### How to Test a Distributed System
+
+1.  **Unit and Integration Testing:** Start with the basics. Test each service in isolation (**unit testing**) and then test how they interact with each other in a controlled environment (**integration testing**). This helps catch a lot of bugs before you get to the more complex, system-level testing.
+
+2.  **Chaos Engineering:** This is a technique for intentionally introducing failures into the system to see how it responds. You can:
+
+    - **Simulate network partitions** to see how the system behaves under a CAP theorem scenario.
+    - **Introduce latency** to see how services handle slow responses.
+    - **Kill random services** to test the system's fault tolerance and recovery mechanisms.
+
+3.  **End-to-End Testing:** This involves testing the entire system from the user's perspective. It's a great way to verify that all the components are working together correctly. However, these tests can be flaky and are not great for finding the root cause of a problem.
+
+4.  **Performance and Load Testing:** You need to test how the system performs under a heavy load. This includes checking for bottlenecks, race conditions, and other issues that only appear under stress.
+
+5.  **Fault Injection:** This is a more targeted form of chaos engineering. You can inject specific errors (e.g., a "database not available" error) into a service to test its specific error handling logic.
+
+The key to testing a distributed system is to embrace its inherent unreliability and to design tests that account for failures. You can't just test the happy path; you have to test the worst-case scenarios.
+
+---
+
+### Async Communication
+
+Asynchronous communication is a way for two systems to communicate without having to wait for a response. The sender sends a message and continues with its own work, while the receiver processes the message whenever it can.
+
+#### When to Apply Asynchronous Communication
+
+1.  **Decoupling:** Asynchronous communication is a powerful way to **decouple** services. The sender doesn't need to know if the receiver is available or even what the receiver is doing. It just needs to send a message to a queue. This makes the system more flexible and resilient to failures.
+
+2.  **Long-Running Tasks:** It's perfect for tasks that take a long time to complete (e.g., processing a video, generating a report). The user can submit a request and get a response immediately, while the backend processes the request asynchronously.
+
+3.  **Scalability:** Asynchronous communication is highly scalable. You can simply add more workers to process the messages in a queue. This is a common pattern for building highly scalable web services.
+
+4.  **Event-Driven Architecture:** It's the core of an **Event-Driven Architecture (EDA)**, where services communicate by producing and consuming events. This is a great way to build a reactive and resilient system.
+
+**Analogy:**
+
+- **Synchronous:** A phone call. You have to wait for the person to answer before you can talk.
+- **Asynchronous:** Sending an email. You can send the email and continue with your work, and the recipient will read it and respond whenever they can.
+
+---
+
+### Pitfalls of RPC
+
+**RPC (Remote Procedure Call)** is a protocol that allows a program to call a function or a method in another process on a remote computer. It makes a remote call look and feel like a local one.
+
+#### What are the General Pitfalls of RPC?
+
+The biggest pitfall is the **illusion of a local call**. While RPC makes a remote call look simple, the reality is that it's fundamentally different from a local call. This can lead to a number of problems:
+
+1.  **Network Unreliability:** A local call either succeeds or fails. A remote call can succeed, fail, or time out. The network can be slow, or the server might be down. These are not issues you have to deal with in a local call.
+
+2.  **Performance:** A remote call is orders of magnitude slower than a local call. It involves network latency and the overhead of serialization and deserialization.
+
+3.  **Partial Failures:** A local call either succeeds or fails completely. A remote call can experience a **partial failure**, where the request reaches the server and is processed, but the response is lost. This can lead to an inconsistent state.
+
+4.  **Security:** A local call is inherently secure. A remote call requires you to deal with authentication, authorization, and encryption.
+
+5.  **Versioning:** A local call is always to the same version of the code. A remote call requires you to manage version compatibility between the client and the server.
+
+Because of these pitfalls, many developers prefer to use a more explicit protocol like **REST**, where the remote nature of the call is not hidden.
+
+---
+
+### Design of Distributed Systems
+
+The design of a distributed system changes significantly depending on whether you're working in a closed, secure network or a geographically distributed, public system.
+
+#### Closed and Secure Network
+
+- **Trust:** You can assume a high level of trust between services. You might not need to implement complex security protocols for every single call.
+- **Network Reliability:** The network is often fast and reliable. You might be able to get away with a more synchronous design and assume low latency.
+- **Coordination:** You can use more centralized coordination mechanisms, like a shared database, to maintain state.
+
+#### Geographically Distributed and Public System
+
+- **No Trust:** You cannot assume any level of trust. Every request must be authenticated and authorized. You need to implement robust security measures (e.g., HTTPS, OAuth).
+- **Network Unreliability:** The network is inherently unreliable. You must design for failure. You should favor **asynchronous communication** and implement **retries** and **circuit breakers**.
+- **Latency:** You must account for high network latency between services. You should design a more stateless, **event-driven architecture** to minimize the number of round trips.
+- **Data Consistency:** You will likely need to make a trade-off between consistency and availability (see the CAP theorem).
+
+**The key difference** is that in a closed system, you can assume trust and reliability, which allows for simpler designs. In a public system, you must design for a world of zero trust and inherent unreliability.
+
+---
+
+### Fault Tolerance
+
+**Fault tolerance** is the ability of a system to continue to operate without interruption when one or more of its components fail.
+
+#### How to Manage Fault Tolerance
+
+- **Web Application:**
+
+  1.  **Redundancy:** You can run multiple copies of your application on different servers, and use a load balancer to distribute traffic. If one server fails, the others can take over.
+  2.  **Statelessness:** Design your services to be stateless so that any server can handle any request.
+  3.  **Asynchronous Communication:** Use message queues and asynchronous communication to decouple services. If one service goes down, the messages can be queued and processed when it comes back up.
+  4.  **Circuit Breaker Pattern:** This pattern prevents a cascade of failures. If a service is failing repeatedly, the circuit breaker will "open" and prevent further calls to that service, failing fast instead of making the client wait for a timeout.
+  5.  **Retries and Timeouts:** Implement retry logic with a backoff strategy, and use timeouts to prevent your application from hanging.
+
+- **Desktop Application:**
+  1.  **Graceful Degradation:** The application should continue to work even if a part of it fails. For example, if a feature that requires an internet connection fails, the rest of the application should still be usable.
+  2.  **Error Handling:** Implement robust error handling to catch and handle any unexpected errors, and provide a clear message to the user.
+  3.  **Persistence:** The application should save its state frequently to a local file, so if it crashes, the user can restore their work.
+  4.  **Auto-Recovery:** The application should be able to recover from a crash without any user intervention.
+
+---
+
+### How to Deal with Failures in a Distributed System
+
+Failures are an inevitability in a distributed system. You must design for them, not around them.
+
+#### Approaches to Handling Failure
+
+1.  **Failure Detection:** The first step is to detect the failure. This can be done with **heartbeats** (a service sends a periodic "I'm alive" message) or **timeouts**.
+
+2.  **Replication:** Replicate your data and services so that if one node fails, there is a backup.
+
+3.  **Circuit Breakers:** As mentioned before, the circuit breaker pattern prevents a small failure from cascading into a system-wide outage.
+
+4.  **Retries:** If a request fails, you can retry it. However, you must use a **backoff strategy** to avoid overwhelming the failing service with requests.
+
+5.  **Asynchronous Communication:** Use message queues to make the system more resilient. If a service is down, the messages will just sit in the queue until it comes back up.
+
+6.  **Sagas:** For long-running transactions, you can use a **saga** to manage failures. If a part of the transaction fails, a compensating action is taken to undo the previous steps.
+
+**The core idea** is to treat failures as a normal part of the system's operation and to design your system to be self-healing and resilient.
+
+---
+
+### Network Partitions
+
+A **network partition** is a failure of communication between nodes in a distributed system. The system is split into two or more independent parts, and the nodes in each part cannot communicate with the nodes in the other parts.
+
+#### Approaches to Reconciliation
+
+The approach to reconciliation depends on the system's design (CAP theorem).
+
+- **AP (Available, Partition Tolerant) Systems:**
+
+  - **State:** These systems accept writes on both sides of the partition.
+  - **Reconciliation:** When the partition heals, the system will use a **reconciliation** algorithm to merge the conflicting data. This might involve a **last-writer-wins** strategy or a more complex conflict resolution algorithm.
+  - **Example:** In Cassandra, if you write to the same row on two different nodes during a partition, the system will use a timestamp to determine which write "wins" when the partition heals.
+
+- **CP (Consistent, Partition Tolerant) Systems:**
+  - **State:** These systems will become unavailable on one side of the partition. They will not accept writes to ensure data consistency.
+  - **Reconciliation:** When the partition heals, the system is already in a consistent state. There is no reconciliation needed.
+
+**The main challenge** is in the AP systems, where you must design a conflict resolution algorithm that makes sense for your application. This can be very complex.
+
+---
+
+### Fallacies of Distributed Computing
+
+The **Fallacies of Distributed Computing** are a set of false assumptions that developers make when building distributed systems. They were coined by a group of engineers at Sun Microsystems.
+
+1.  **The network is reliable:** Networks can fail at any time.
+2.  **Latency is zero:** Network requests are always slower than local ones.
+3.  **Bandwidth is infinite:** Network bandwidth is a limited resource.
+4.  **The network is secure:** You must assume that an attacker can intercept, modify, or replay any request.
+5.  **Topology doesn't change:** The network topology can change at any time.
+6.  **There is one administrator:** A distributed system is often managed by multiple teams.
+7.  **Transport cost is zero:** It's not free to send data over the network.
+8.  **The network is homogeneous:** The network is a mix of different hardware and software.
+
+These fallacies are important because they highlight the differences between building a local application and building a distributed one. The a-ha moment is realizing that you can't build a distributed system as if it were a single, local one.
+
+---
+
+### Request/Reply vs. Publish/Subscribe
+
+These are two common messaging patterns in distributed systems.
+
+- **Request/Reply:** A client sends a request to a service and waits for a reply. It's a synchronous, one-to-one communication pattern.
+
+  - **When to Use:** When the client needs an immediate response from the service. Good for a REST API.
+
+- **Publish/Subscribe:** A publisher sends a message to a topic, and a subscriber receives all messages from that topic. It's an asynchronous, one-to-many communication pattern.
+  - **When to Use:**
+    - **Decoupling:** When the publisher doesn't need to know who the subscribers are.
+    - **Scalability:** When you have a lot of subscribers.
+    - **Event-Driven Architecture:** When you want to build a system that reacts to events.
+    - **Example:** A social media application where a user posts a message, and all of their followers receive it.
+
+**The main difference:** Request/Reply is for direct, synchronous communication. Publish/Subscribe is for indirect, asynchronous, and many-to-many communication.
+
+---
+
+### Implement Transactions
+
+If a system does not support transactionality, you can't simply implement ACID properties from scratch without a database or a similar system. However, you can implement a form of a **saga** to manage a series of related operations.
+
+#### How to Implement a Saga
+
+1.  **Define Local Transactions:** A saga is a sequence of **local transactions**, where each local transaction is an atomic operation within a single service.
+2.  **Choreography vs. Orchestration:**
+    - **Choreography:** Each service publishes an event when its local transaction is complete, and other services react to the event and start their own local transactions.
+    - **Orchestration:** A central orchestrator service tells each service what to do.
+3.  **Define Compensating Transactions:** Each local transaction must have a **compensating transaction** that can undo the changes made by that transaction.
+4.  **Failure Handling:** If a local transaction fails, the saga must execute a sequence of compensating transactions to roll back the entire process.
+
+**Example (A flight booking system):**
+
+1.  A user books a flight (**local transaction 1**).
+2.  The system reserves a seat on the plane (**local transaction 2**).
+3.  The system processes the payment (**local transaction 3**).
+
+- **Failure:** If the payment fails, the saga must execute a **compensating transaction** to un-reserve the seat and un-book the flight.
+
+A saga is a way to achieve a form of "eventual consistency" for transactions in a distributed system, where ACID guarantees are not possible.
+
+---
+
+### Agility
+
+**Agility** in software development is the ability to respond to change. It's not a specific methodology or process; it's a mindset and a set of principles for building software in a way that is flexible and adaptive.
+
+#### What is it?
+
+- **Individuals and interactions over processes and tools.** (From the Agile Manifesto)
+- **Working software over comprehensive documentation.**
+- **Customer collaboration over contract negotiation.**
+- **Responding to change over following a plan.**
+
+Agility is about creating a culture that is focused on delivering value to the customer quickly and being able to adapt to new requirements as they emerge.
+
+---
+
+### Legacy Code
+
+**Legacy code** is a term for existing code that is difficult to work with and change. It's often code that lacks tests, has a poor design, and is not well-documented.
+
+#### How to Deal with Legacy Code
+
+1.  **Don't start with a rewrite.** Rewriting a system from scratch is risky and expensive. It's almost always better to try to improve the existing system.
+2.  **Add tests.** The first step is to add tests to the existing code. This provides a safety net that allows you to refactor the code without breaking it.
+3.  **Find the seams.** Find the "seams" in the code—the places where you can safely add a new class or function without touching the legacy code. You can use an **Anti-Corruption Layer** to protect your new code from the legacy code.
+4.  **Refactor in small steps.** Don't try to refactor the entire system at once. Refactor one small piece at a time, and use your new tests to ensure you haven't broken anything.
+5.  **Fix as you go.** A good rule of thumb is to fix a piece of legacy code every time you have to touch it.
+
+---
+
+### Legacy Code ELI5
+
+"ELI5" means "Explain Like I'm 5."
+
+#### What is Legacy Code?
+
+Imagine you have a big Lego castle that's been built by a lot of different people over many years. They all had a different idea of what the castle should look like, and they didn't always write down what they were doing. Now, you have to add a new tower to the castle, but you can't tell which blocks are holding it all up. That big, messy castle is **legacy code**. It works, but it's very hard to change without the whole thing falling apart.
+
+#### Why Should I Care About Code Quality?
+
+You should care because a bad Lego castle is very expensive to fix. If the castle is messy, every time you want to add a new piece, it takes a lot of time and effort to figure out where it should go, and there's a good chance you'll break something. If the castle is well-built and organized, adding a new piece is easy, and you'll be able to build a new tower in no time.
+
+Code quality is about building a system that is easy to change. If you want to keep adding new features and fixing bugs, you have to invest in code quality.
+
+---
+
+### Sell me Kanban
+
+I am the CEO of your company. Explain Kanban and convince me to invest in it.
+
+"Mr./Ms. CEO, I'd like to talk to you about something that will make our development process more efficient, transparent, and predictable, all without a massive, up-front investment. The solution is called **Kanban**."
+
+"Right now, we are probably using a system where we plan everything upfront, and we are constantly getting bogged down in big, long-running projects. Kanban is a different way of working. Instead of pushing work onto the team, we let the team pull the work when they are ready."
+
+"Here's how it works: we visualize our workflow on a board, with columns like 'To Do,' 'In Progress,' and 'Done.' The key is that we limit the amount of work in the 'In Progress' column. This is a very simple rule, but it has a huge impact."
+
+"By limiting the work in progress, we force the team to **focus**. They finish one task before starting another. This means we deliver features faster and we get to a 'Done' state more often. It also makes our workflow transparent, so you can see exactly where a project is at any time."
+
+"Kanban is not a rigid methodology. It's a system for continuous improvement. We can start small, with just a few changes, and we can evolve it over time. The result is a more efficient, predictable, and happy team that delivers value to our customers more quickly."
+
+---
+
+### Agile vs. Waterfall
+
+The biggest difference between Agile and Waterfall is their approach to **planning and responding to change.**
+
+- **Waterfall:** A sequential, linear process. You complete each phase (e.g., requirements, design, development, testing) before moving on to the next one. It assumes that you can get all the requirements right at the beginning and that nothing will change. It's like building a house with a rigid blueprint that cannot be changed once construction begins.
+- **Agile:** An iterative, incremental process. You work in short cycles (sprints), delivering a small piece of working software in each cycle. It assumes that requirements will change and that you need to be flexible. It's like building a house with a general idea of what you want and a willingness to make changes as you go.
+
+The biggest difference is that Agile embraces **change**, while Waterfall tries to prevent it.
+
+---
+
+### Death by Meetings
+
+As a team manager, I would deal with the problem of having too many meetings by following a few simple rules:
+
+1.  **Set an Agenda:** No meeting should be held without a clear agenda and a set of desired outcomes.
+2.  **Invite Only Essential People:** If a person's presence is not essential, they should not be invited. You can send them a summary later.
+3.  **Start and End on Time:** Respect everyone's time by starting and ending the meeting at the scheduled time.
+4.  **Use a Timer:** For a meeting with a lot of discussion points, a timer can keep everyone focused and on topic.
+5.  **End with an Action Plan:** Every meeting should end with a clear action plan that details what needs to be done, who is responsible, and the deadline.
+6.  **Use Asynchronous Communication:** Most information can be shared and discussed over email, a chat application, or a project management tool. A meeting should only be held when a real-time discussion is needed.
+
+---
+
+### Late Projects
+
+Managing a very late project is a difficult task, but it requires a very specific set of actions.
+
+1.  **Stop adding new features.** You have to put a hard stop on any new feature requests. The only priority is to finish the project.
+2.  **Triage the remaining work.** Sit down with the team and triage the remaining work. You must figure out what is **absolutely essential** to ship, what is "nice to have," and what can be cut entirely.
+3.  **Get a realistic plan.** Work with the team to create a new, realistic plan for the remaining essential work. You must trust the team's estimates.
+4.  **Communicate with stakeholders.** You need to be transparent with the stakeholders about the new plan and the features that have been cut. It's better to under-promise and over-deliver than to keep making promises you can't keep.
+5.  **Focus on morale.** A late project can be very demoralizing. You must protect the team from outside pressure and celebrate every small victory.
+6.  **Find the root cause.** Once the project is shipped, you need to do a **post-mortem** to figure out why the project was late in the first place. You must learn from your mistakes so you don't repeat them.
+
+---
+
+### Agile Manifesto
+
+The first two values of the Agile Manifesto are:
+
+- **Individuals and interactions over processes and tools.**
+- **Customer collaboration over contract negotiation.**
+
+#### Discussion
+
+- **Individuals and interactions over processes and tools:** This is a call to action to move away from rigid, bureaucratic processes and to focus on the people on the team. It's about empowering the team to make decisions and to communicate effectively. Tools and processes are important, but they should serve the team, not the other way around. A great team with a simple process will always outperform a mediocre team with a rigid process.
+- **Customer collaboration over contract negotiation:** This is a rejection of the traditional client-vendor relationship, where all the requirements are defined in a contract at the beginning of the project. It's an acknowledgment that requirements will change and that the best way to build a great product is to have an ongoing dialogue with the customer.
+
+These two values highlight the human-centric and pragmatic nature of the Agile Manifesto. It's a document that says, "Let's be smart about how we build software."
+
+---
+
+### If I Were the CTO
+
+If I were the CTO, I would focus on three things: **developer happiness, technical debt, and continuous delivery.**
+
+1.  **Developer Happiness:** I believe that a happy and motivated team is the most productive team. I would invest in good tools, a comfortable work environment, and a culture that is focused on learning and mentorship. I would also give developers the freedom to choose their own projects and to contribute to the technical direction of the company.
+
+2.  **Technical Debt:** I would make a clear and public commitment to paying down our technical debt. I would allocate a fixed amount of time (e.g., 20% of a sprint) to refactoring and improving the code. I would also hold teams accountable for not introducing new technical debt.
+
+3.  **Continuous Delivery:** I would invest in a robust CI/CD pipeline that allows us to release code to production with confidence, multiple times a day. This would allow us to get feedback from our customers more quickly and to reduce the risk of a new release.
+
+My core philosophy would be that a great culture and a great engineering team will always outperform a company that is focused on short-term gains.
+
+---
+
+### PMs
+
+Are program managers (PMs) useful?
+
+Yes, program managers are **useful, and often essential,** especially in a large company.
+
+#### The Argument For PMs
+
+1.  **The "Single Source of Truth":** A good PM is the single source of truth for a project. They understand the requirements from the business, they understand the technical limitations from the engineering team, and they are responsible for communicating with all the stakeholders.
+2.  **Managing the "Whirlwind":** A PM takes on the task of managing the "whirlwind"—the constant stream of emails, meetings, and requests that can distract a developer from their core work.
+3.  **Cross-Functional Coordination:** In a large company, a project often involves multiple teams. A PM is responsible for coordinating with all the teams to ensure everyone is on the same page.
+4.  **Focus:** By taking on the responsibility of managing the project, a PM allows the developers to focus on what they do best: writing code.
+
+A bad PM can be a huge liability, but a good PM is an invaluable asset that can make a huge difference in the success of a project.
+
+---
+
+### Team Organization
+
+Organizing a development team with flexible schedules and "take as you need" vacation policy requires a focus on trust, accountability, and communication.
+
+#### How I Would Organize the Team
+
+1.  **Focus on Outcomes, Not Hours:** I would measure success by the outcomes the team delivers, not by the number of hours they spend in the office. This fosters a culture of trust and accountability.
+2.  **Set Clear Expectations:** I would set clear expectations for availability and responsiveness. We would use a tool (e.g., a shared calendar) to keep everyone informed about when people are working and when they are not.
+3.  **Foster a Culture of Communication:** I would encourage the team to over-communicate. We would use a chat tool for day-to-day communication and a daily stand-up (even if it's asynchronous) to keep everyone in the loop.
+4.  **Project Management:** I would use a project management tool (e.g., Jira or Trello) to track the progress of every task. This makes the work transparent and allows anyone to see what is being worked on and who is working on it.
+5.  **Lead by Example:** I would lead by example, taking my own vacations and working from home to show the team that the policy is real.
+
+---
+
+### Turn Over
+
+Managing a very high turnover and convincing developers not to leave a team requires a focus on the core reasons why people leave a job.
+
+#### How I Would Manage It
+
+1.  **Listen and Learn:** The first step is to listen to the people who are leaving. I would conduct an exit interview with every developer who leaves to understand why they are leaving.
+2.  **Invest in Growth:** Most developers leave a job because they feel like they are no longer learning or growing. I would invest in training, conferences, and a mentorship program to show the team that we are invested in their growth.
+3.  **Improve the Workflow:** I would work with the team to identify and fix the biggest pain points in the workflow. This might include improving the build system, reducing technical debt, or eliminating unnecessary meetings.
+4.  **Celebrate Successes:** I would make a point to celebrate every success, no matter how small. This helps improve morale and shows the team that their work is valued.
+5.  **No Blame Culture:** I would create a culture where it's safe to make mistakes. We would focus on learning from our mistakes, not on blaming people for them.
+
+A company can improve by focusing on three things: **a good work-life balance, a culture of respect, and a commitment to professional growth.**
+
+---
+
+### Qualities
+
+Beyond their code, the top three qualities I look for in colleagues are:
+
+1.  **Curiosity:** I want to work with people who are curious about how things work. People who ask questions, who are willing to learn, and who are not afraid to admit when they don't know something.
+2.  **Humility:** I want to work with people who are humble enough to admit when they are wrong and to learn from others. People who don't have to be the smartest person in the room.
+3.  **Communication:** I want to work with people who are good communicators. People who can explain complex ideas clearly, who are good listeners, and who can give and receive feedback respectfully.
+
+---
+
+### 3 Things About Code
+
+The top three things I wish non-technical people knew about code are:
+
+1.  **It's not magic.** Code is just a set of instructions. It's a craft that takes a lot of skill and practice. It's not magic, and it's not something that can be done overnight.
+2.  **It's always changing.** The code that works today might not work tomorrow. We are always learning new things, and the technology is always evolving. A software project is never truly "done."
+3.  **It's expensive to change.** A small change in a piece of code can have a ripple effect that costs a lot of time and money to fix. This is why we are so obsessed with code quality and design.
+
+---
+
+### 1 Month's Revolution
+
+If my company gave me one month and a budget to improve my and my colleagues' daily life, I would focus on one thing: **automating away the drudgery.**
+
+1.  **Invest in a better build system:** I would use the budget to move us to a modern, fast, and reliable build system. A developer should never have to wait more than a few minutes for a build to complete.
+2.  **Automate all the tedious tasks:** I would use the month to identify all the repetitive, manual tasks that we do every day and automate them. This might include things like generating reports, deploying code, or running tests.
+3.  **Give the team the best tools:** I would use the budget to buy the team the best tools for the job: faster computers, better monitors, and the best software.
+
+By the end of the month, the team would be more productive, more motivated, and happier because we would have eliminated the most boring parts of our day-to-day work.
+
+I will continue answering the questions you provided.
+
+---
+
+### FIFO with LIFO
+
+**FIFO (First-In, First-Out)** is a queue, like a line at a store. The first item in is the first item out.
+**LIFO (Last-In, First-Out)** is a stack, like a stack of plates. The last item you put on top is the first one you take off.
+
+#### Make a FIFO queue using only LIFO stacks.
+
+You can create a queue using two stacks, let's call them `in_stack` and `out_stack`.
+
+- **Enqueue (add an item):** Push the item onto the `in_stack`. This is O(1) time complexity.
+- **Dequeue (remove an item):**
+  1.  If `out_stack` is not empty, pop the top item from it.
+  2.  If `out_stack` is empty, move all the items from `in_stack` to `out_stack` (by repeatedly popping from `in_stack` and pushing onto `out_stack`). Then, pop the top item from `out_stack`. This operation has a worst-case time complexity of O(N) when the `out_stack` is empty, but the amortized complexity is O(1).
+
+#### Build a LIFO stack using only FIFO queues.
+
+You can create a stack using two queues, let's call them `main_queue` and `temp_queue`.
+
+- **Push (add an item):**
+
+  1.  Enqueue the new item onto the `main_queue`.
+  2.  This is a bit tricky. To make the last item the first one to be dequeued, you must move all the other items to the back of the queue. So, you must repeatedly dequeue the items from `main_queue` and enqueue them back onto `main_queue` until the new item is at the front.
+  3.  This has a time complexity of O(N).
+
+- **Pop (remove an item):** Dequeue the item from `main_queue`. This is O(1) time complexity.
+
+This second implementation is not as efficient as the first one, but it demonstrates the concept.
+
+---
+
+### Stack Overflow
+
+A **stack overflow** occurs when a program tries to use more memory on the call stack than is available. This is most commonly caused by infinite recursion.
+
+#### Write a snippet of code affected by a stack overflow.
+
+I will use Python, which has a default recursion limit. If you run this code, it will eventually hit the limit and raise a `RecursionError`, which is a type of stack overflow.
+
+```python
+def infinite_recursion():
+    # This function calls itself without a base case
+    infinite_recursion()
+
+# This will eventually cause a RecursionError (Stack Overflow)
+infinite_recursion()
+```
+
+When you run this code, the `infinite_recursion` function will call itself over and over again, pushing a new stack frame onto the call stack with each call. Since there is no base case to stop the recursion, the stack will grow indefinitely until it runs out of memory.
+
+---
+
+### Tail Recursive `n!`
+
+**Tail recursion** is a special type of recursion where the recursive call is the last operation performed in the function. Some compilers can optimize tail-recursive functions into an efficient loop, eliminating the risk of a stack overflow.
+
+#### Write a tail-recursive version of the factorial function.
+
+Since Python does not perform tail-call optimization, I will write a tail-recursive function that would be optimized in a language like Scala or Scheme. I will use a helper function to pass the accumulated result.
+
+```python
+def factorial_tail_recursive(n, accumulator=1):
+    """
+    A tail-recursive implementation of the factorial function.
+    """
+    if n == 0:
+        return accumulator
+    else:
+        # The recursive call is the last operation
+        return factorial_tail_recursive(n - 1, accumulator * n)
+
+# Example usage
+print(factorial_tail_recursive(5))  # Output: 120
+print(factorial_tail_recursive(100)) # Will run without a stack overflow in a language that optimizes it
+```
+
+**Discussion:** In this implementation, the `accumulator` parameter holds the intermediate result. The last operation in the `else` block is the recursive call, which makes it tail-recursive. This allows a smart compiler to transform the function into an iterative loop.
+
+---
+
+### REPL
+
+**REPL** stands for **Read-Eval-Print Loop**. It's an interactive programming environment that takes a single user input, evaluates it, prints the result, and then loops back to the start to read the next input.
+
+#### Using your preferred language, write a REPL that echoes your inputs.
+
+I will use Python to write a simple REPL.
+
+```python
+def simple_echo_repl():
+    while True:
+        try:
+            user_input = input("> ")
+            if user_input.lower() == "exit":
+                break
+            print(user_input)
+        except EOFError:
+            break
+
+# Call the function to start the REPL
+# simple_echo_repl()
+```
+
+#### Evolve it to make it an RPN calculator.
+
+**RPN (Reverse Polish Notation)** is a mathematical notation where operators follow their operands. To turn our REPL into an RPN calculator, we will need to use a stack.
+
+```python
+def rpn_calculator_repl():
+    stack = []
+    print("RPN Calculator. Enter 'exit' to quit.")
+    while True:
+        try:
+            user_input = input("> ")
+            if user_input.lower() == "exit":
+                break
+
+            parts = user_input.split()
+            for part in parts:
+                if part.isdigit() or (part.startswith('-') and part[1:].isdigit()):
+                    stack.append(int(part))
+                elif part in "+-*/":
+                    if len(stack) < 2:
+                        print("Error: not enough numbers on the stack.")
+                        continue
+                    operand2 = stack.pop()
+                    operand1 = stack.pop()
+
+                    if part == "+":
+                        result = operand1 + operand2
+                    elif part == "-":
+                        result = operand1 - operand2
+                    elif part == "*":
+                        result = operand1 * operand2
+                    elif part == "/":
+                        result = operand1 / operand2
+                    stack.append(result)
+                else:
+                    print(f"Invalid input: {part}")
+
+            print(f"Stack: {stack}")
+        except EOFError:
+            break
+
+# Call the function to start the REPL
+# rpn_calculator_repl()
+# Example usage: 5 10 + -> Stack: [15]
+```
+
+---
+
+### Defragger
+
+A **defragger** (or disk defragmenter) is a utility that reorganizes files on a hard disk to occupy a contiguous area of storage.
+
+#### How would you design a "defragger" utility?
+
+The core challenge of a defragger is to move fragments of files around to make them contiguous. This requires a few key components and algorithms.
+
+1.  **File System Scanner:** The defragger needs to scan the file system to identify all the files and their fragments. It would read the file allocation table (FAT) or a similar structure to find which blocks of data belong to each file and where they are located.
+
+2.  **Fragmentation Analysis:** It would then analyze the fragmentation of the disk. A simple metric would be the number of non-contiguous blocks per file.
+
+3.  **Defragmentation Algorithm:** This is the core of the utility. A simple algorithm would work like this:
+
+    - **Iterate through files:** Go through a list of files, from most fragmented to least.
+    - **Find free space:** For each file, find a large enough contiguous block of free space on the disk.
+    - **Move data:** Move the file's data blocks from their fragmented locations to the new, contiguous location.
+    - **Update metadata:** Update the file system's metadata to reflect the new location of the file's data.
+
+**Key Design Challenges:**
+
+- **Data Integrity:** You must ensure that the process doesn't corrupt any data, especially if a power failure occurs during the move.
+- **Open Files:** You cannot move a file that is currently being used by the operating system. You would need to handle this by either skipping it or by having the OS lock the file.
+- **Performance:** Moving data around a hard disk is a slow process. A good defragger would try to minimize the number of reads and writes.
+
+---
+
+### Mazes
+
+A program that builds a random maze would need an algorithm to generate a valid maze with a single path from the start to the end.
+
+#### Write a program that builds random mazes.
+
+I will use a simple, widely used algorithm called **Recursive Backtracking**.
+
+1.  **Grid:** Start with a grid of cells, with all the walls intact.
+2.  **Stack:** Use a stack to keep track of the path.
+3.  **Start:** Pick a random starting cell and push it onto the stack. Mark it as visited.
+4.  **Explore:** While the stack is not empty, look at the current cell:
+    - If the current cell has any unvisited neighbors, pick a random unvisited neighbor.
+    - **Carve a path:** Remove the wall between the current cell and the chosen neighbor.
+    - Push the new cell onto the stack and mark it as visited.
+5.  **Backtrack:** If the current cell has no unvisited neighbors, pop it from the stack.
+6.  **Loop:** Repeat from step 4 until the stack is empty.
+
+<!-- end list -->
+
+```python
+import random
+
+def generate_maze(width, height):
+    # Initialize a grid with all walls intact
+    maze = [[1 for _ in range(width)] for _ in range(height)]
+
+    stack = []
+
+    # Pick a random starting cell
+    start_x, start_y = random.randint(0, width - 1), random.randint(0, height - 1)
+
+    stack.append((start_x, start_y))
+    maze[start_y][start_x] = 0 # Mark as visited
+
+    while stack:
+        x, y = stack[-1]
+
+        # Get unvisited neighbors
+        neighbors = []
+        # Check top neighbor
+        if y > 1 and maze[y - 2][x] == 1:
+            neighbors.append((x, y - 2))
+        # Check bottom neighbor
+        if y < height - 2 and maze[y + 2][x] == 1:
+            neighbors.append((x, y + 2))
+        # Check left neighbor
+        if x > 1 and maze[y][x - 2] == 1:
+            neighbors.append((x - 2, y))
+        # Check right neighbor
+        if x < width - 2 and maze[y][x + 2] == 1:
+            neighbors.append((x + 2, y))
+
+        if neighbors:
+            nx, ny = random.choice(neighbors)
+
+            # Carve a path
+            if ny < y:
+                maze[y - 1][x] = 0
+            elif ny > y:
+                maze[y + 1][x] = 0
+            elif nx < x:
+                maze[y][x - 1] = 0
+            elif nx > x:
+                maze[y][x + 1] = 0
+
+            maze[ny][nx] = 0
+            stack.append((nx, ny))
+        else:
+            stack.pop()
+
+    return maze
+
+def print_maze(maze):
+    for row in maze:
+        print("".join(["█" if cell == 1 else "  " for cell in row]))
+
+# Example usage:
+# maze = generate_maze(21, 21)
+# print_maze(maze)
+```
+
+---
+
+### Memory Leaks
+
+A **memory leak** occurs when a program allocates memory that is no longer needed but fails to deallocate it, making it unavailable for other parts of the program.
+
+#### Write a sample program that produces a memory leak.
+
+I will use Python, which has a garbage collector, so I'll create a subtle leak that the garbage collector might not catch immediately.
+
+```python
+class LeakyObject:
+    def __init__(self, data):
+        self.data = data
+        self.leaky_list = []
+
+def create_leak():
+    # A global list that will hold references to objects
+    global my_leaky_list
+    my_leaky_list = []
+
+    for i in range(1000000):
+        # We create a new object, but we never remove it from the list
+        obj = LeakyObject(i)
+        my_leaky_list.append(obj)
+
+# Call the function to create the leak
+# create_leak()
+```
+
+In this example, the `my_leaky_list` keeps a strong reference to all the `LeakyObject` instances. Even if the `create_leak` function finishes, the list and all the objects it contains will remain in memory. The garbage collector won't free the memory because it still sees the objects as being referenced by the global `my_leaky_list`.
+
+---
+
+### PRNG (Pseudo-Random Number Generator)
+
+A **PRNG** is an algorithm for generating a sequence of numbers that approximates the properties of random numbers. They are not truly random but are deterministic.
+
+#### Generate a sequence of unique random numbers.
+
+This is a common interview question. The naive approach is to generate a random number and check if it's already in the list. A better, more efficient way is to use a data structure or an algorithm that guarantees uniqueness.
+
+```python
+import random
+
+def generate_unique_random_numbers(count, min_val, max_val):
+    """
+    Generates a sequence of unique random numbers.
+    """
+    if count > (max_val - min_val + 1):
+        raise ValueError("Cannot generate more unique numbers than available in the range.")
+
+    # Use a set to efficiently check for uniqueness
+    unique_numbers = set()
+    while len(unique_numbers) < count:
+        unique_numbers.add(random.randint(min_val, max_val))
+
+    return list(unique_numbers)
+
+# A more efficient approach for a large range
+def generate_unique_random_numbers_efficient(count, min_val, max_val):
+    if count > (max_val - min_val + 1):
+        raise ValueError("Cannot generate more unique numbers than available in the range.")
+
+    numbers_to_choose_from = list(range(min_val, max_val + 1))
+
+    # Use random.sample which is highly efficient
+    return random.sample(numbers_to_choose_from, count)
+
+# Example usage:
+# print(generate_unique_random_numbers(5, 1, 10))
+# print(generate_unique_random_numbers_efficient(5, 1, 10))
+```
+
+---
+
+### Garbage Collecting
+
+**Garbage Collection (GC)** is a form of automatic memory management. The garbage collector's job is to automatically free up memory that is no longer needed by a program.
+
+#### Write a simple garbage collection system.
+
+A simple garbage collection system would use a **reference counting** algorithm.
+
+1.  **Reference Count:** Every object in memory has a counter that tracks how many references (pointers) are pointing to it.
+2.  **Allocation:** When an object is created, its reference count is set to 1.
+3.  **Assignment:** When a new reference is made to an object, its reference count is incremented.
+4.  **Deletion:** When a reference is removed, its reference count is decremented.
+5.  **Collection:** When the reference count of an object reaches 0, the object is considered "garbage" and its memory is deallocated.
+
+**The Problem with Reference Counting:** It cannot handle **reference cycles**, where two or more objects reference each other. Even if they are no longer reachable from the root of the program, their reference count will never be 0. More sophisticated garbage collectors, like the **mark-and-sweep** algorithm, solve this problem.
+
+---
+
+### Queues
+
+A **message broker** is a software system that facilitates communication between applications by acting as an intermediary for message exchange. It decouples the sender from the receiver.
+
+#### Write a basic message broker, using whatever language you like.
+
+I will use Python to create a very basic, in-memory message broker using a queue.
+
+```python
+import queue
+import threading
+
+class BasicMessageBroker:
+    def __init__(self):
+        # A dictionary of queues, where each key is a topic
+        self.topics = {}
+        self.lock = threading.Lock()
+
+    def create_topic(self, topic_name):
+        with self.lock:
+            if topic_name not in self.topics:
+                self.topics[topic_name] = queue.Queue()
+
+    def publish(self, topic_name, message):
+        with self.lock:
+            if topic_name in self.topics:
+                self.topics[topic_name].put(message)
+                print(f"Published message '{message}' to topic '{topic_name}'")
+            else:
+                print(f"Error: Topic '{topic_name}' does not exist.")
+
+    def subscribe(self, topic_name):
+        with self.lock:
+            if topic_name in self.topics:
+                return self.topics[topic_name].get()
+            else:
+                print(f"Error: Topic '{topic_name}' does not exist.")
+                return None
+
+# Example usage:
+broker = BasicMessageBroker()
+broker.create_topic("orders")
+
+# Publisher thread
+def publisher_thread():
+    for i in range(5):
+        broker.publish("orders", f"order_{i}")
+
+# Subscriber thread
+def subscriber_thread():
+    for _ in range(5):
+        message = broker.subscribe("orders")
+        if message:
+            print(f"Received message: {message}")
+
+# We would run these in separate threads to demonstrate concurrency
+# pub_thread = threading.Thread(target=publisher_thread)
+# sub_thread = threading.Thread(target=subscriber_thread)
+# pub_thread.start()
+# sub_thread.start()
+```
+
+This basic broker is not production-ready, but it demonstrates the core concept of a publish-subscribe pattern.
+
+---
+
+### Simple Web Server
+
+A simple web server's job is to listen for incoming HTTP requests and send back a response.
+
+#### Write a very basic web server.
+
+I will use Python's built-in `http.server` module to create a simple web server.
+
+```python
+import http.server
+import socketserver
+
+PORT = 8000
+
+class MyHandler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/html")
+        self.end_headers()
+        self.wfile.write(b"<html><body><h1>Hello, World!</h1></body></html>")
+
+with socketserver.TCPServer(("", PORT), MyHandler) as httpd:
+    print("Serving at port", PORT)
+    httpd.serve_forever()
+```
+
+This server handles only `GET` requests to the root path and sends back a simple HTML page.
+
+#### Draw a road map for features to be implemented in the future.
+
+1.  **Routing:** Add a router to handle different URLs (e.g., `/users`, `/products`).
+2.  **Methods:** Support other HTTP methods like `POST`, `PUT`, and `DELETE`.
+3.  **Database Integration:** Connect to a database to store and retrieve data.
+4.  **Static Files:** Serve static files like CSS, JavaScript, and images.
+5.  **Templating Engine:** Use a templating engine to generate dynamic HTML pages.
+6.  **Concurrency:** Handle multiple requests at the same time using threads or an asynchronous model.
+7.  **Authentication and Security:** Add support for user authentication and authorization.
+
+---
+
+### Sorting Huge Files
+
+Sorting a huge file that doesn't fit into memory requires a technique called **external sorting**.
+
+#### How would you sort a 10GB file?
+
+The most common external sorting algorithm is **merge sort**.
+
+1.  **Split:** Read the file in chunks that fit into memory (e.g., 100MB chunks).
+2.  **Sort:** Sort each chunk in memory and save it to a temporary file.
+3.  **Merge:** Merge the sorted temporary files into a single, sorted output file. You can do this by keeping a pointer to the beginning of each temporary file and repeatedly reading the smallest value from all the files and writing it to the output file.
+
+#### How would your approach change with a 10TB one?
+
+The core approach would not change, but the implementation details would. You would still use external merge sort, but you would need to use a more sophisticated approach.
+
+1.  **Distributed Sorting:** You would use a distributed computing framework like **Hadoop** or **Spark**.
+2.  **Parallelism:** The framework would automatically split the data across multiple machines, sort each part in parallel, and then merge the results.
+3.  **Fault Tolerance:** A distributed framework would also handle failures. If a machine fails during the sort, the framework would restart the process on another machine.
+
+---
+
+### Duplicates
+
+#### How would you programmatically detect file duplicates?
+
+The most robust way to detect file duplicates is to use a **cryptographic hash function**, like SHA-256.
+
+1.  **Iterate through files:** Iterate through all the files in a given directory.
+2.  **Compute a hash:** For each file, compute its hash. The hash is a unique fingerprint of the file's content.
+3.  **Store hashes:** Store the hash and the file path in a data structure, like a dictionary or a hash map. The key would be the hash, and the value would be a list of all the file paths with that hash.
+4.  **Check for duplicates:** After you have processed all the files, iterate through the hash map. Any key that has more than one value in its list is a duplicate.
+
+**Caveat:** Computing a hash for a very large file can be slow. A simple optimization is to first compare file sizes. If two files have different sizes, they can't be duplicates.
+
+---
+
+### No Cache
+
+A **cache** is a temporary storage area that holds frequently accessed data. It's used to improve performance.
+
+#### When is a cache not useful or even dangerous?
+
+1.  **When data is rarely accessed:** If the data is accessed infrequently, the cost of putting it into the cache might be higher than the benefit.
+2.  **When data changes frequently:** If the data is constantly changing, the cache can become stale, and the application might serve incorrect or outdated information. This is a common problem with caches.
+3.  **When you need absolute real-time data:** For a financial application, where you need to see the latest stock price, a cache would be dangerous because it could serve stale data.
+4.  **When data is unique per request:** If every request has a unique ID, a cache won't be useful because it will never have a hit.
+
+The main danger of a cache is **staleness** and the potential for serving incorrect data.
+
+---
+
+### Event-Driven Architecture
+
+An **Event-Driven Architecture (EDA)** is a design pattern where services communicate by producing and consuming events. An event is a message that indicates a significant change in state.
+
+#### Why does Event-Driven Architecture improve scalability?
+
+1.  **Decoupling:** EDA completely decouples the publisher (the service that produces the event) from the subscriber (the service that consumes it). The publisher doesn't need to know who the subscribers are, and the subscribers don't need to know who the publisher is. This makes the system more flexible and easier to scale.
+2.  **Asynchronous Nature:** EDA is inherently asynchronous. The publisher can fire an event and move on without waiting for a response. This allows the system to handle a huge number of requests without being blocked.
+3.  **Parallel Processing:** Multiple subscribers can process the same event in parallel. For example, when a user signs up, one service can send a welcome email, and another can update the user's profile, both at the same time.
+4.  **Resilience:** If a service goes down, the events will just sit in the queue and be processed when the service comes back up. The system is more resilient to failures.
+
+---
+
+### Readability
+
+**Readability** is the ease with which a reader can understand a piece of code.
+
+#### What makes code readable?
+
+1.  **Clear Naming:** Use descriptive names for variables, functions, and classes. A function named `send_email` is much more readable than a function named `do_it`.
+2.  **Consistency:** Be consistent with your naming conventions, formatting, and design patterns.
+3.  **Single Responsibility:** A function should do one thing and do it well. A long, complex function is not readable.
+4.  **Minimalism:** Avoid unnecessary code. A developer should not have to read a huge block of code to figure out what it does.
+5.  **Proper Formatting:** Use consistent indentation, line breaks, and spacing.
+6.  **Good Comments:** As we discussed before, comments that explain the "why" are very useful.
+7.  **No Magic Numbers:** Use named constants instead of "magic numbers" (e.g., `SECONDS_IN_A_DAY = 86400` is more readable than `86400`).
+
+---
+
+### Emergent and Evolutionary
+
+- **Emergent Design:** The idea that a good design can "emerge" from a continuous process of refactoring and adding new features, without a big, up-front design phase. It's a key tenet of Agile methodologies.
+- **Evolutionary Architecture:** An architecture that is designed to change over time. It's not a rigid, fixed blueprint. Instead, it's a flexible structure that can be easily modified to support new requirements.
+
+**The Difference:** Emergent design is a micro-level concept (how a small piece of code or a class is designed), while evolutionary architecture is a macro-level concept (how the entire system is designed to change over time).
+
+---
+
+### Scale-Out, Scale-Up
+
+- **Scale-up (Vertical Scaling):** This means adding more resources (CPU, RAM, storage) to a **single machine**. It's like buying a bigger and more powerful server.
+  - **When to apply:** When the system is limited by the performance of a single machine and you want to increase the capacity. It's simple and easy to do.
+- **Scale-out (Horizontal Scaling):** This means adding **more machines** to the system. It's like adding more servers to a cluster.
+  - **When to apply:** When you can no longer scale up a single machine, or when you need a more resilient and fault-tolerant system. This is the preferred approach for modern web applications.
+
+**The key difference:** Scale-up makes a single machine more powerful. Scale-out adds more machines.
+
+---
+
+### Failures User Sessions
+
+Handling failover and user sessions is a critical part of building a resilient web application.
+
+#### How to Deal with Failover and User Sessions
+
+The core solution is to **decouple the session from the server**.
+
+1.  **External Session Store:** Instead of storing the session in the server's memory, you can store it in an external, highly available data store, like a Redis cache or a shared database.
+2.  **Session Cookie:** The server only stores a session ID in a cookie. For every request, the server looks up the session data in the external store using the session ID.
+3.  **Stateless Services:** Since the session data is external, the web servers themselves are now stateless. If a server fails, the user can be routed to another server, which will retrieve the session data from the external store.
+
+This makes the system resilient to server failures because the user's session is not lost when a single server fails.
+
+---
+
+### CQRS
+
+**CQRS (Command Query Responsibility Segregation)** is an architectural pattern that separates the responsibility for handling **commands** (requests to change data) from the responsibility for handling **queries** (requests to read data).
+
+#### How is it different from the oldest Command-Query Separation Principle?
+
+- **Command-Query Separation (CQS):** A principle from object-oriented programming that states that a method should either change the state of an object (**command**) or return data (**query**), but not both.
+- **CQRS:** An architectural pattern that applies this principle at the system level. You have a separate stack (database, services, etc.) for handling writes and another stack for handling reads.
+
+**The difference:** CQS is about separating methods. CQRS is about separating the entire system into two different models for reading and writing data.
+
+**Why use it?**
+
+- **Scalability:** You can scale the read and write models independently. If you have a lot of reads, you can add more read-only replicas.
+- **Performance:** The read model can be optimized for fast reads.
+- **Complexity:** It adds a lot of complexity, so it's only a good fit for very complex, large-scale systems.
+
+---
+
+### n-tier
+
+The **n-tier architecture** is a design pattern that organizes a system into distinct logical and physical layers. The most common is the **three-tier architecture**.
+
+#### The Three Tiers
+
+1.  **Presentation Tier:** The user interface.
+2.  **Application Tier:** The business logic.
+3.  **Data Tier:** The database.
+
+#### Pros and Cons
+
+- **Pros:**
+
+  - **Separation of Concerns:** Each tier is responsible for a single concern, which makes the system easier to understand, manage, and scale.
+  - **Scalability:** You can scale each tier independently. For example, if you have a lot of web traffic, you can add more web servers.
+  - **Security:** You can place the application and data tiers behind a firewall, so they are not directly accessible from the internet.
+  - **Reusability:** The business logic in the application tier can be reused by different presentation tiers (e.g., a web app and a mobile app).
+
+- **Cons:**
+
+  - **Increased Complexity:** A three-tier architecture is more complex to set up and manage than a simple monolithic application.
+  - **Performance Overhead:** The communication between the tiers can introduce network latency.
+  - **Development Cost:** It can be more expensive to develop and maintain.
+
+---
+
+### Scalability
+
+**Scalability** is the ability of a system to handle a growing amount of work.
+
+#### How to Design a Software System for Scalability
+
+1.  **Statelessness:** Make your services stateless. This allows you to scale out horizontally by adding more servers.
+2.  **Horizontal Scaling:** Design your system to scale out, not up.
+3.  **Asynchronous Communication:** Use message queues to decouple services and handle long-running tasks.
+4.  **Caching:** Use caching at every layer of the system to reduce the load on the database.
+5.  **Microservices:** Break down a large monolithic application into small, independent microservices.
+6.  **Load Balancing:** Use a load balancer to distribute traffic across your servers.
+7.  **Database Sharding:** For a database that is a bottleneck, you can use **sharding** to split the data across multiple machines.
+
+---
+
+### C10K
+
+The **C10K problem** is a challenge that was faced by web servers in the early days of the internet: how to handle 10,000 concurrent connections at once.
+
+#### Strategies to Deal with the Problem
+
+1.  **Non-Blocking I/O:** This is the most common solution. A single thread can handle thousands of concurrent connections by using **non-blocking I/O**. When an I/O operation (e.g., a network request) is waiting, the thread can switch to another task instead of being blocked.
+2.  **Event-Driven Architecture:** A core concept of non-blocking I/O is the **event loop**. The server listens for events (e.g., a new connection, data received) and handles them in a single thread. This is the model used by Node.js.
+3.  **Asynchronous Programming:** Languages and frameworks that support asynchronous programming (e.g., Python's `asyncio`, Java's `Netty`) make it easier to write non-blocking code.
+4.  **Optimized Kernel:** Operating systems have been optimized to handle a large number of connections.
+
+The C10K problem is largely solved today by the widespread adoption of these techniques.
+
+---
+
+### P2P
+
+**P2P (Peer-to-Peer)** is a decentralized system where each participant in the network can act as both a client and a server. There is no central server.
+
+#### How to Design a Decentralized P2P System
+
+1.  **Discovery:** The biggest challenge is how peers find each other without a central server. You can use a a **tracker** (which is a central server for finding peers) or a decentralized mechanism like a **distributed hash table (DHT)**.
+2.  **Data Storage:** Each peer must store a piece of the data. The data is often fragmented across multiple peers.
+3.  **Trust and Security:** In a P2P system, you cannot assume any level of trust. You would need to use cryptographic signatures to verify the identity of each peer and to ensure the integrity of the data.
+4.  **Replication:** The data must be replicated across multiple peers to ensure availability and resilience to failures.
+5.  **Failure Management:** The system must be able to handle peers that go offline or fail.
+
+**Examples:** BitTorrent is a classic example of a P2P system. The blockchain used by cryptocurrencies is another.
+
+---
+
+### CGI
+
+**CGI (Common Gateway Interface)** was an early standard for web servers to execute external programs to generate dynamic content.
+
+#### Why CGI Became Obsolete
+
+1.  **Performance:** The biggest reason was performance. For every single HTTP request, the web server had to:
+    - **Create a new process:** This is a very expensive and slow operation.
+    - **Start a new interpreter:** If the script was in Perl, it had to start the Perl interpreter for every request.
+2.  **Resource Usage:** The number of concurrent connections was limited by the number of processes the server could create. This was a major bottleneck for scalability.
+
+Modern web frameworks solved these problems by using a different architectural approach. They keep a single process running and use threads or an event loop to handle multiple concurrent requests. This eliminates the overhead of creating a new process for every request.
+
+---
+
+### Vendor Lock-in
+
+**Vendor lock-in** is a situation where a customer is dependent on a single vendor for products and services and cannot switch to another vendor without substantial costs.
+
+#### How to Defend Against Vendor Lock-in
+
+1.  **Use Open Standards:** Use open-source technologies, open standards, and non-proprietary formats. This ensures that you are not tied to a single vendor.
+2.  **Abstract the Infrastructure:** Use a cloud-agnostic platform or a containerization solution like **Docker** to abstract away the underlying infrastructure. This makes it easier to move your application from one cloud provider to another.
+3.  **Use Loosely Coupled Services:** Design your system with a **Service-Oriented Architecture (SOA)** or **microservices** to keep services independent. If one service is tied to a vendor, you can more easily replace it.
+4.  **Avoid Proprietary APIs:** Avoid using proprietary APIs that are specific to a single vendor.
+5.  **Control Your Data:** Ensure that you have full control of your data and that it can be easily exported in a non-proprietary format.
+
+---
+
+### Pub/Sub
+
+The **publish-subscribe pattern** is a messaging pattern where a publisher sends a message to a topic, and all subscribers to that topic receive the message.
+
+#### What are the Disadvantages of the Pattern at Scale?
+
+1.  **Message Loss:** If a subscriber is offline, it might miss some messages. You need a way to store messages for offline subscribers (e.g., a persistent message queue).
+2.  **Message Ordering:** In a distributed system, it can be difficult to guarantee the order in which messages are received.
+3.  **Debugging:** It can be difficult to debug a pub/sub system. You can't just trace a single request. You have to trace a series of events across multiple services.
+4.  **Data Inconsistency:** The asynchronous nature of the pattern can lead to eventual consistency, which might not be acceptable for some applications.
+5.  **Complexity:** The pattern adds a layer of complexity to the system.
+
+---
+
+### CPUs
+
+#### What's new in CPUs since the 80s, and how does it affect programming?
+
+The biggest change is the shift from a focus on **single-core performance** to **multi-core performance**.
+
+- **1980s:** CPUs were single-core and the focus was on increasing clock speed. Programs were written to be single-threaded.
+- **Now:** Clock speeds have plateaued. The focus has shifted to adding more cores to the CPU.
+
+#### How does it affect programming?
+
+1.  **Concurrency:** Programs must be written to be **concurrent** to take advantage of the multiple cores. This means using threads or an asynchronous model.
+2.  **Parallelism:** We can now write programs that perform tasks in parallel.
+3.  **Challenges:** This introduced a new set of challenges, including **race conditions**, **deadlocks**, and **memory synchronization**.
+
+In short, the shift to multi-core CPUs forced programmers to deal with concurrency and parallelism, which was not a major concern in the 80s.
+
+---
+
+### Performance
+
+Performance should be taken into consideration throughout the entire software lifecycle.
+
+#### In which part of the lifecycle?
+
+1.  **Requirements and Design:** Performance goals should be defined in the requirements phase. You should make design decisions that will lead to a performant system (e.g., using a non-blocking architecture for a web server).
+2.  **Development:** Developers should be aware of performance and should use the right algorithms and data structures.
+3.  **Testing:** You should perform **load testing** and **performance testing** to ensure the system meets its performance goals.
+4.  **Deployment and Monitoring:** You should monitor the performance of your application in production.
+
+#### How?
+
+- **Profiling:** Use a profiler to find performance bottlenecks in your code.
+- **Load Testing:** Use a load testing tool to simulate a heavy load.
+- **Caching:** Use caching at every layer of the system.
+- **Code Optimization:** Optimize the most performance-critical parts of the code.
+
+---
+
+### DDOS (Denial of Service)
+
+A **Denial of Service (DoS)** attack is a malicious attempt to make a computer or network resource unavailable to its intended users. A DDOS attack uses multiple computers to do this.
+
+#### How could a denial of service arise not maliciously?
+
+A DoS can arise due to a design or architectural problem.
+
+- **"Thundering Herd":** A large number of clients all try to access a resource at the same time, overwhelming the server.
+- **Misconfigured Retries:** If a service fails, its clients might all retry at the same time, creating a cascade of failures that brings down the entire system.
+- **Resource Leaks:** A bug in the code could cause a resource leak (e.g., a memory leak or a connection leak), which would eventually bring down the service.
+
+The solution is to design a resilient system that can handle these non-malicious failures.
+
+---
+
+### Performance and Scalability
+
+**Performance** and **scalability** are related but distinct.
+
+- **Performance:** How fast a single machine can do a task. It's measured in things like response time and throughput.
+- **Scalability:** The ability of a system to handle a growing workload.
+
+#### What's the relationship?
+
+You can have a high-performing system that is not scalable. For example, a single, powerful server can be fast but cannot handle a huge amount of traffic.
+You can also have a scalable system that is not performant. For example, a system with a lot of cheap servers might be able to handle a lot of traffic, but each request might be slow.
+
+The goal is to design a system that is both **performant** (fast) and **scalable** (can handle a lot of work).
+
+---
+
+### Tight Coupling
+
+**Tight coupling** is a situation where one component of a system is highly dependent on the internal implementation details of another component.
+
+#### When is it OK (if ever) to use tight coupling?
+
+Tight coupling is generally considered a bad practice and should be avoided. However, there are a few very specific cases where it might be acceptable.
+
+- **Performance Critical Code:** In some very rare cases, you might need to use a tightly coupled design to get the best performance.
+- **Small, Throwaway Scripts:** For a small, one-off script that will never be reused, you might not need to worry about the design.
+- **Legacy Code:** You might have to deal with a legacy system that is tightly coupled.
+
+The general rule is to avoid it. The costs of a tightly coupled system (lack of reusability, difficult to test, and hard to maintain) almost always outweigh the benefits.
+
+---
+
+### Cloud Readiness
+
+A **cloud-ready** system is a system that can be easily deployed, managed, and scaled on a cloud platform like AWS or Azure.
+
+#### What characteristic should a system have to be cloud ready?
+
+1.  **Statelessness:** The system should not store any state in its memory.
+2.  **Horizontal Scalability:** The system should be able to scale out by adding more machines.
+3.  **Configuration as Code:** The system should be configured with files (e.g., YAML) instead of manual changes.
+4.  **Containerization:** The system should be packaged in a container (e.g., Docker) to make it easy to deploy on any platform.
+5.  **Resilience:** The system should be designed to handle failures.
+6.  **Observability:** The system should be easy to monitor and debug.
+
+---
+
+### Emergent Architecture
+
+#### Does unity of design imply an aristocracy of architects?
+
+No, unity of design does not imply an aristocracy of architects. Good design can and should emerge from a collective effort of all developers.
+
+- **The Role of the Architect:** In an agile team, the role of an architect is not to dictate the design from on high. It's to be a coach, a mentor, and a leader who guides the team toward a good design.
+- **Collective Ownership:** The entire team should have a shared responsibility for the design of the system.
+- **The Benefit:** A design that emerges from a collective effort is often more robust and flexible because it incorporates the knowledge and experience of the entire team.
+
+---
+
+### Design, Architecture, Functionality, Aesthetic
+
+1.  **Functionality:** What the software **does**.
+2.  **Architecture:** The **big-picture blueprint** of the system.
+3.  **Design:** The **detailed plan** for a specific component.
+4.  **Aesthetic:** The **visual appeal** of the software.
+
+**Discussion:**
+Functionality is the most important thing. Without functionality, the software is useless.
+Architecture and design are about how the software is built. A good architecture and design make the software easier to change and maintain.
+Aesthetic is the least important, but it is still important for the user experience.
+
+---
+
+### Long-lived Transactions
+
+In a **Service-Oriented Architecture (SOA)**, long-lived transactions that span multiple services are discouraged.
+
+#### Why?
+
+1.  **Lack of ACID Guarantees:** A transaction that spans multiple services cannot be ACID. There is no central database that can guarantee atomicity or consistency.
+2.  **Network Unreliability:** The network can fail at any time, which would leave the system in an inconsistent state.
+3.  **Coupling:** A long-lived transaction creates tight coupling between the services.
+4.  **Performance:** It can be very slow.
+
+#### Why are Sagas suggested instead?
+
+A **saga** is a sequence of local transactions. If a local transaction fails, the saga executes a series of **compensating transactions** to reverse the changes made by the previous local transactions. This provides a form of "eventual consistency" without the risks of a long-lived transaction.
+
+---
+
+### SOA and Micro Services
+
+- **SOA (Service-Oriented Architecture):** A broad architectural style. Services are often larger, more coarse-grained, and can share a central database. They can also communicate with a central Enterprise Service Bus (ESB).
+- **Microservices:** A specific implementation of SOA. Services are small, independent, and have their own database. They communicate with lightweight protocols (e.g., REST, message queues).
+
+**The Difference:** Microservices are a more decentralized and lightweight version of SOA. They are designed to be deployed and scaled independently.
+
+---
+
+### Versioning and Breaking Changes
+
+Let's talk about web services versioning, version compatibility, and breaking changes.
+
+1.  **Versioning:** As discussed before, you can version an API by using the URI, headers, or query parameters.
+2.  **Version Compatibility:**
+    - **Non-breaking Change:** A change that does not require a client to be updated (e.g., adding a new field to a response).
+    - **Breaking Change:** A change that requires a client to be updated (e.g., changing the name of a field, removing a field).
+3.  **How to Manage:** The best way to manage this is to use **semantic versioning** and to make it a policy to avoid breaking changes as much as possible. If a breaking change is necessary, you can release a new version of the API.
+
+---
+
+### Sagas and Compensations
+
+- **Transaction:** An atomic operation. It either succeeds or is rolled back.
+- **Compensation Operation:** An operation that can undo a previous transaction.
+
+**The Difference:** A transaction is an all-or-nothing operation. A compensation operation is part of a saga that is used to roll back a change that has already been committed.
+
+---
+
+### Too Micro
+
+A microservice can be "too micro."
+
+#### When is a microservice too micro?
+
+1.  **Increased Complexity:** A system with too many microservices can be difficult to manage, deploy, and debug.
+2.  **Increased Latency:** If a request requires a lot of communication between a lot of microservices, the latency can be high.
+3.  **Overhead:** There is a certain amount of overhead to every microservice (e.g., a database, a build process).
+4.  **Shared Logic:** If two microservices share a lot of the same business logic, they might be too small and should be combined.
+
+A good rule of thumb is to start with a monolith and then split it into microservices when the need arises.
+
+---
+
+### Microservices Architecture
+
+#### Pros and Cons of Microservice Architecture
+
+- **Pros:**
+  - **Scalability:** You can scale each service independently.
+  - **Flexibility:** You can use different technologies for each service.
+  - **Resilience:** If one service fails, the others can continue to work.
+  - **Developer Productivity:** Small, independent teams can work on each service.
+- **Cons:**
+  - **Complexity:** It's a much more complex architecture to set up and manage.
+  - **Distributed System Challenges:** You have to deal with network latency, data consistency, and distributed transactions.
+  - **Operational Overhead:** It requires a lot of operational overhead for deployment and monitoring.
+
+---
+
+### Security by Default
+
+**Security by default** is the idea that a software system should be secure without any extra configuration.
+
+#### How do you write secure code?
+
+1.  **Input Validation:** Never trust user input. All input should be validated and sanitized.
+2.  **Principle of Least Privilege:** A user should only have the minimum permissions they need to do their job.
+3.  **Cryptography:** Use a standard, well-tested cryptographic library. Don't invent your own.
+4.  **Authentication and Authorization:** Use a robust authentication and authorization system.
+5.  **Secure by Default:** Design your system so that it is secure out of the box. For example, a web server should not allow directory listing by default.
+
+#### Is it a developer's duty?
+
+Yes, it is absolutely a developer's duty. Security should be a concern for everyone on the team, not just a specialized role.
+
+---
+
+### Don't Invent Cryptography
+
+It is said that you should never try to invent or design your own cryptography.
+
+#### Why?
+
+1.  **Complexity:** Cryptography is incredibly complex. A small mistake can make the entire system vulnerable.
+2.  **Subtlety:** A cryptographic algorithm might seem secure, but there can be a subtle flaw that a skilled cryptographer can exploit.
+3.  **Testing:** It's almost impossible to test every possible attack on a new algorithm.
+
+The best approach is to use a **standard, well-tested, peer-reviewed cryptographic library** (e.g., OpenSSL).
+
+---
+
+### 2-FA (Two-Factor Authentication)
+
+**2-FA** is a security process in which a user provides two different authentication factors to verify their identity.
+
+#### How would you implement it?
+
+1.  **Add a second factor:** The first factor is the password. The second factor could be a code sent to the user's phone, an authenticator app, or a biometric scan.
+2.  **Enable/Disable:** A user should be able to enable or disable 2-FA in their profile settings.
+3.  **Verification:** When the user logs in, after they enter their password, you would generate a code and send it to them. The user would then enter the code on the next screen.
+4.  **Recovery:** You must have a recovery process in case the user loses their second factor (e.g., their phone).
+
+---
+
+### Confidential Data in Logs
+
+Logs are an essential tool for debugging, but they can be a security risk if they contain sensitive information.
+
+#### How would you deal with this?
+
+1.  **Sanitize the Input:** The best approach is to sanitize the input before it is logged. For example, you can replace a password with a placeholder (e.g., `[REDACTED]`).
+2.  **Use a Logging Framework:** A good logging framework can be configured to not log sensitive information.
+3.  **Filter the Logs:** You can use a log management system to filter out sensitive information.
+4.  **Encrypt the Logs:** You can encrypt the logs at rest so that if a hacker gets access to them, they can't read the sensitive information.
+
+---
+
+### SQL Injection
+
+**SQL injection** is a code injection technique used to attack data-driven applications. An attacker inserts malicious SQL code into an input field to get the application to execute it.
+
+#### Write a snippet of code affected by SQL injection and fix it.
+
+- **Vulnerable Code (Python):**
+
+<!-- end list -->
+
+```python
+def get_user_vulnerable(username):
+    # The user input is directly inserted into the query string.
+    query = "SELECT * FROM users WHERE username = '" + username + "'"
+    # execute(query)
+```
+
+If a user enters `' OR '1'='1`, the query becomes `SELECT * FROM users WHERE username = '' OR '1'='1'`, which would return all users.
+
+- **Fixed Code (Python):**
+
+<!-- end list -->
+
+```python
+import sqlite3
+
+def get_user_secure(username):
+    # Use a parameterized query. The database engine will handle the escaping.
+    conn = sqlite3.connect("users.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+    # result = cursor.fetchall()
+```
+
+---
+
+### Detect SQL Injection
+
+It is possible to detect SQL injection via **static code analysis**.
+
+#### How?
+
+A static analysis tool can look for a pattern where an untrusted user input (e.g., from a web form) is concatenated with a string to form a SQL query. It would flag this as a potential vulnerability and warn the developer. It's not foolproof, but it can catch a lot of common mistakes.
+
+---
+
+### XSS (Cross-Site Scripting)
+
+**Cross-Site Scripting (XSS)** is a type of security vulnerability that allows an attacker to inject malicious code into a web page viewed by other users.
+
+#### How it Works
+
+1.  An attacker injects a malicious script (e.g., `<script>alert('hacked')</script>`) into a web page.
+2.  A user visits the page, and the browser executes the malicious script.
+3.  The script can steal the user's session cookie, redirect them to a malicious website, or perform other harmful actions.
+
+#### How to Prevent It
+
+1.  **Input Sanitization:** Sanitize all user input on the server side before it is saved to a database.
+2.  **Output Escaping:** Escape all output on the client side before it is rendered on the page.
+3.  **Content Security Policy (CSP):** A CSP can be used to prevent a browser from executing scripts from an untrusted source.
+
+---
+
+### Cross-Site Request Forgery Attack
+
+**Cross-Site Request Forgery (CSRF)** is a type of attack that tricks a victim into submitting a malicious web request that they did not intend.
+
+#### How it Works
+
+1.  A user is logged in to a website (e.g., a bank).
+2.  The attacker sends the user a link to a malicious website.
+3.  The malicious website contains a hidden form that automatically submits a request to the bank's website (e.g., to transfer money).
+4.  Since the user is already logged in, the bank's website thinks the request is legitimate and processes the transaction.
+
+#### How to Prevent It
+
+The most common way is to use an **anti-CSRF token**.
+
+1.  The server generates a unique, hard-to-guess token for each user session.
+2.  The token is embedded in all the forms on the web page.
+3.  When a form is submitted, the server validates the token. If the token is not present or is invalid, the request is rejected.
+4.  The attacker cannot guess the token, so their malicious request will be rejected.
+
+---
+
+### HTTPS
+
+**HTTPS (Hypertext Transfer Protocol Secure)** is a secure version of HTTP. It uses **SSL/TLS (Secure Sockets Layer/Transport Layer Security)** to encrypt the communication between a browser and a server.
+
+#### How does HTTPS work?
+
+1.  **Handshake:** When a browser connects to an HTTPS website, a "handshake" process begins.
+2.  **Certificate:** The server sends its digital certificate to the browser. The certificate contains the server's public key.
+3.  **Verification:** The browser verifies the certificate with a trusted third party (a Certificate Authority).
+4.  **Key Exchange:** The browser and the server then use the public key to exchange a symmetric key.
+5.  **Encryption:** Once the symmetric key is established, all communication between the browser and the server is encrypted.
+
+---
+
+### MITM Attack
+
+A **Man-in-the-Middle (MITM) attack** is a type of cyberattack where an attacker secretly relays and alters the communication between two parties who believe they are communicating directly.
+
+#### What's a Man-in-the-Middle Attack?
+
+1.  An attacker intercepts the communication between a user and a server.
+2.  The user thinks they are talking to the server, and the server thinks it's talking to the user, but the attacker is in the middle, reading and altering the communication.
+
+#### Why does HTTPS help protect against it?
+
+HTTPS protects against MITM attacks by **encrypting the communication**. The attacker can still intercept the data, but since it's encrypted, they cannot read or alter it. The attacker would also not be able to impersonate the server because they wouldn't have the private key to sign the certificate.
+
+---
+
+### Stealing Sessions
+
+**Session hijacking** is an attack where an attacker takes over a user's session.
+
+#### How can you prevent the user's session from being stolen?
+
+1.  **Use HTTPS:** A session cookie sent over HTTP is not encrypted and can be easily stolen. A session cookie sent over HTTPS is encrypted.
+2.  **Use a secure cookie:** A session cookie should be marked as `HttpOnly`, which prevents a script from reading it. It should also be marked as `Secure`, which means it can only be sent over HTTPS.
+3.  **Set a short expiration time:** A session should expire after a short period of inactivity.
+4.  **Regenerate the session ID:** A new session ID should be generated after a user logs in.
+5.  **Monitor for unusual activity:** You can monitor for unusual activity, like a user logging in from a new IP address, and flag it.
+6.  **Use a CSRF token:** A CSRF token can also help prevent session hijacking.
+
+---
+
+### Why FP?
+
+**Functional programming (FP)** is a paradigm that treats computation as the evaluation of mathematical functions.
+
+#### Why does functional programming matter?
+
+1.  **Concurrency and Parallelism:** Its focus on **immutability** and **side-effect-free functions** makes it a great choice for building concurrent and parallel systems.
+2.  **Predictability and Reliability:** A pure function always produces the same output for the same input, which makes the code much easier to reason about, test, and debug.
+3.  **Expressiveness:** It allows developers to write more expressive and concise code.
+
+#### When should a functional programming language be used?
+
+- **Concurrent and Parallel Systems:** For a system that needs to handle a lot of concurrent requests, like a web server or a distributed system.
+- **Data Processing:** For a system that processes large amounts of data, like a data analytics platform.
+- **Complex Calculations:** For a system that performs complex mathematical calculations.
+- **Applications that need reliability:** For a system where reliability is paramount.
+
+---
+
+### Browsers
+
+How do companies like Microsoft, Google, Opera, and Mozilla profit from their browsers?
+
+1.  **Search Engine:** This is the most common way. Google Chrome, for example, makes a lot of money from the search engine that is built into the browser.
+2.  **Data Collection:** Some browsers collect data about user behavior and sell it to advertisers.
+3.  **E-commerce:** Some browsers have built-in e-commerce features (e.g., a wallet) that they can use to make money.
+4.  **Branding:** A browser can be a powerful branding tool for a company.
+
+---
+
+### TCP Sockets
+
+A **TCP socket** is a communication endpoint. It's used for reliable, ordered, and error-checked communication between two programs.
+
+#### Why does opening a TCP socket have a large overhead?
+
+1.  **Three-way handshake:** To establish a connection, TCP performs a three-way handshake, which involves three packets being sent back and forth.
+2.  **Resource Allocation:** The operating system has to allocate resources (e.g., a file descriptor, a buffer) for each socket.
+3.  **State Management:** TCP is a stateful protocol. The operating system has to keep track of the state of each connection.
+
+The overhead is a trade-off for a reliable and ordered connection.
+
+---
+
+### Encapsulation
+
+**Encapsulation** is an object-oriented programming principle that bundles data and methods that operate on that data into a single unit (a class).
+
+#### What is encapsulation important for?
+
+1.  **Information Hiding:** It hides the internal implementation details of a class from the outside world. This is a core part of building a good public interface.
+2.  **Loose Coupling:** It helps to create loose coupling between objects. An object only needs to know about the public interface of another object, not its internal implementation.
+3.  **Maintainability:** It makes the code easier to maintain and change. You can change the internal implementation of a class without breaking the client code.
+4.  **Reduced Complexity:** It reduces the complexity of a system by hiding the details.
+
+---
+
+### Real-time Systems
+
+A **real-time system** is a system that has a strict time constraint for its operations. It must respond to an event within a specified time frame.
+
+#### How is it different from an ordinary system?
+
+- **Ordinary System:** A system that is not real-time can be slow. It can take a few seconds or even minutes to respond.
+- **Real-time System:** A real-time system must be fast and predictable. The time constraint is a hard requirement. If it misses the deadline, it is a failure.
+
+**Examples:**
+
+- **Ordinary:** A web server.
+- **Real-time:** An anti-lock braking system in a car.
+
+---
+
+### Real-time and Memory Allocation
+
+In a real-time system, a major concern is **predictability**. **Heap memory allocation** can be a problem because it can be unpredictable.
+
+#### What's the relationship?
+
+1.  **Garbage Collection:** A garbage collector can run at an unpredictable time, which can cause the program to pause and miss its deadline.
+2.  **Heap Fragmentation:** The heap can become fragmented, which can make it slow to allocate a new block of memory.
+
+For this reason, real-time languages often avoid heap memory allocation or use a specialized, real-time-safe memory allocation system. They prefer to use the **stack**, which is fast and predictable.
+
+---
+
+### Immutability
+
+**Immutability** is the practice of creating values that cannot be changed after they are created.
+
+#### How can immutability help write safer code?
+
+1.  **Thread Safety:** Since an immutable object cannot be changed, it is inherently thread-safe. You don't have to worry about race conditions.
+2.  **Predictability:** The state of an immutable object will never change. This makes the code easier to reason about, test, and debug.
+3.  **Simplicity:** It simplifies the design of a system. You don't have to worry about the side effects of a function.
+4.  **Concurrency:** It makes it easier to write concurrent and parallel systems.
+
+---
+
+### Mutable vs. Immutable
+
+- **Mutable:** A value that can be changed after it is created.
+- **Immutable:** A value that cannot be changed after it is created.
+
+#### Pros and Cons
+
+- **Mutable:**
+  - **Pros:** Can be more memory-efficient and can be faster for some operations.
+  - **Cons:** Can lead to a lot of bugs, especially in a concurrent system.
+- **Immutable:**
+  - **Pros:** Leads to safer, more predictable, and more reliable code.
+  - **Cons:** Can be less memory-efficient because every change requires a new copy of the data.
+
+**My opinion:** In most cases, the benefits of immutability outweigh the costs.
+
+---
+
+### Object-Relational Impedance Mismatch
+
+The **Object-Relational Impedance Mismatch** is a set of conceptual and technical difficulties that arise when trying to map a relational database to an object-oriented programming language.
+
+#### What is it?
+
+1.  **Granularity:** A database table has a fixed set of columns, while an object can have a variable number of properties and can contain other objects.
+2.  **Identity:** A database uses a primary key for identity, while an object uses a reference.
+3.  **Data Types:** The data types in a database are often different from the data types in a programming language.
+4.  **Relationships:** A relational database uses foreign keys to represent relationships, while objects use references.
+
+This mismatch makes it difficult to map an object model to a relational database model. This is the problem that ORMs (Object-Relational Mappers) try to solve.
+
+---
+
+### Sizing a Cache
+
+The size of a cache is a critical decision.
+
+#### Which principles would you apply?
+
+1.  **80/20 Rule:** The Pareto principle suggests that 80% of the traffic goes to 20% of the data. The cache should be sized to hold at least this 20%.
+2.  **Hit Rate:** The hit rate is the percentage of requests that are served from the cache. You should monitor the hit rate and adjust the cache size to get a good balance between hit rate and memory usage.
+3.  **Cost:** The cost of the cache (e.g., memory) is a major factor. You should not use more resources than you need.
+4.  **Access Patterns:** You should analyze the access patterns of your application to figure out which data is most frequently accessed.
+
+---
+
+### TCP and HTTP
+
+- **TCP (Transmission Control Protocol):** A **transport layer** protocol. It provides a reliable, ordered, and error-checked connection between two programs.
+- **HTTP (Hypertext Transfer Protocol):** An **application layer** protocol. It's built on top of TCP and is used for communication between a web browser and a web server.
+
+#### What's the difference?
+
+TCP is a **pipe** that you use to send data. HTTP is the **language** that you use to talk over the pipe. HTTP provides the concepts of requests, responses, and URLs. TCP provides the concepts of packets, connections, and error checking.
+
+---
+
+### Client-Side vs. Server-Side
+
+- **Client-side rendering:** The browser downloads a minimal HTML page and then uses JavaScript to generate the content.
+- **Server-side rendering:** The server generates the full HTML page and sends it to the browser.
+
+#### Tradeoffs
+
+- **Client-side:**
+  - **Pros:** Better user experience (faster navigation), reduces server load.
+  - **Cons:** Slower initial page load, bad for SEO, security risks.
+- **Server-side:**
+  - **Pros:** Faster initial page load, good for SEO, more secure.
+  - **Cons:** Slower navigation, higher server load.
+
+---
+
+### Reliable and non-reliable channels
+
+A **reliable channel** guarantees that a message will be delivered, and a **non-reliable channel** does not.
+
+#### How could you develop a reliable communication protocol based on a non-reliable one?
+
+You can develop a reliable protocol based on a non-reliable one by adding a few key features:
+
+1.  **Acknowledgements:** The receiver sends an acknowledgement (ACK) message to the sender after receiving a message.
+2.  **Retries:** If the sender does not receive an ACK, it resends the message.
+3.  **Sequence Numbers:** Each message has a sequence number to ensure that the messages are delivered in the correct order.
+4.  **Checksums:** A checksum is used to ensure that the message was not corrupted during transit.
+
+This is exactly what the **TCP** protocol does. It's built on top of the unreliable **IP (Internet Protocol)**.
+
+---
+
+### Resistance to Change
+
+#### Why do people resist change?
+
+1.  **Fear of the Unknown:** People are comfortable with the way things are. They are afraid of what will happen if they change.
+2.  **Loss of Control:** People might feel like they are losing control over their work.
+3.  **Lack of Trust:** People might not trust the people who are pushing for the change.
+4.  **Lack of Skills:** People might feel like they don't have the skills to deal with the change.
+
+---
+
+### Threading ELI5
+
+"Explain threads to your grandparents."
+
+"Imagine you're making a big dinner. You could do everything yourself: chop the vegetables, cook the meat, and set the table, one thing at a time. That's a single process."
+
+"Now, imagine you have a family helping you. One person chops the vegetables, another person cooks the meat, and a third person sets the table, all at the same time. Each person is a **thread**, and they are all working together to get the job done faster."
+
+"The most important thing is that they have to talk to each other so they don't get in each other's way. You don't want the person chopping the vegetables to get in the way of the person cooking the meat. That's called a **race condition**."
+
+---
+
+### Innovation and Predictability
+
+As a software engineer, you want both to innovate and to be predictable.
+
+#### How can those two goals coexist?
+
+1.  **Agile:** Use an Agile methodology that allows you to be both. You can be predictable in a short time frame (e.g., a sprint) and still be able to innovate.
+2.  **Separate Teams:** You can have a small, innovative team that is focused on new features and a larger, predictable team that is focused on maintaining the existing product.
+3.  **Time and Budget:** You can allocate a certain amount of time and budget for innovation and another amount for predictability.
+4.  **Embrace Failure:** You must be willing to fail. A project that is focused on innovation is more likely to fail.
+
+The two goals can coexist if you are willing to make a trade-off between them.
+
+---
+
+### Good Code
+
+#### What makes good code good?
+
+1.  **Readability:** It's easy to read and understand.
+2.  **Maintainability:** It's easy to change and fix.
+3.  **Testability:** It's easy to test.
+4.  **Clarity:** It's clear and concise.
+5.  **Efficiency:** It's fast and memory-efficient.
+6.  **Correctness:** It works as expected.
+
+---
+
+### Streaming
+
+**Streaming** is a technique for processing data as it arrives, instead of waiting for all the data to be available.
+
+#### Explain streaming and how you would implement it.
+
+"Streaming is like a river. You don't have to wait for the entire river to pass you by to drink the water; you can just drink it as it flows. Similarly, in a computer, we can process data as it flows into the system without having to wait for all of it to be available."
+
+**How I would implement it:**
+
+1.  **Producer:** A producer would generate data and send it to a message broker.
+2.  **Message Broker:** The message broker would store the data in a queue.
+3.  **Consumer:** A consumer would read the data from the message broker and process it. The consumer could be a simple script or a complex data processing framework like Spark.
+
+---
+
+### 1 Week Improvement
+
+If my company gave me one week, I would do a **code health sprint**.
+
+1.  **Identify the worst code:** I would have the team identify the worst parts of our codebase—the parts that are the most difficult to work with.
+2.  **Refactor:** The entire team would spend the week refactoring and improving the code. We would fix bugs, add tests, and clean up the design.
+3.  **Measure the impact:** We would measure the impact of our work by looking at metrics like code complexity and the number of bugs.
+
+This would be a great way to improve the quality of our codebase and to show the team that we are committed to paying down our technical debt.
+
+---
+
+### Learnt this week
+
+I learn new things every week. This week I've been focusing on the differences between **CQRS** and **Event Sourcing** and how they can be used together.
+
+---
+
+### Aesthetic
+
+#### There is an aesthetic element to all design. Is this aesthetic element your friend or your enemy?
+
+The aesthetic element is both.
+
+- **Friend:** An elegant and beautiful design is often a sign of a good design. A clean, simple, and consistent design is easier to understand and work with.
+- **Enemy:** The aesthetic element can also be an enemy. Developers can get so focused on making the code "beautiful" that they over-engineer it or add unnecessary complexity.
+
+The key is to use the aesthetic element to guide the design, not to dictate it.
+
+---
+
+### Last 5 books
+
+I don't read books, but if I did, I would read books about:
+
+1.  **Software Architecture:** To learn about different architectural styles.
+2.  **Functional Programming:** To learn about a new paradigm.
+3.  **Psychology:** To learn how to work better with people.
+4.  **History:** To learn from the mistakes of the past.
+5.  **Science:** To learn how to think critically.
+
+---
+
+### Introducing CI/CD
+
+Introducing Continuous Delivery in a huge company requires a phased, cultural, and technical approach.
+
+1.  **Start Small:** Start with one small, non-critical team. You can use this team as a pilot program to prove the value of CI/CD.
+2.  **Automate Everything:** You must automate every step of the process, from building the code to deploying it.
+3.  **Culture:** You must get buy-in from the leadership and the developers.
+4.  **Training:** You must train the team on the new tools and processes.
+5.  **Metrics:** You must measure the impact of your work by looking at metrics like lead time, deployment frequency, and change failure rate.
+
+---
+
+### Reinvent the Wheel
+
+#### When does it make sense to reinvent the wheel?
+
+1.  **To learn:** When you want to understand how something works.
+2.  **When the existing wheel is broken:** When the existing solution is not a good fit for your problem or has a bug.
+3.  **When you can do it better:** When you can build a better, more efficient, or more secure solution.
+
+---
+
+### Not Invented Here
+
+The **"Not Invented Here" (NIH) syndrome** is a cultural bias against ideas that are not from a specific group.
+
+#### Let's have a conversation about it.
+
+- **NIH:** "We should build our own logging framework. The existing ones are not a good fit for our needs."
+- **Response:** "Why? The existing frameworks have been tested and have a lot of features. Building our own will be a huge amount of work and will take a lot of time away from our core business."
+- **Eating your own food:** "We should use the new logging framework that our team built."
+- **Reinventing the wheel:** "We should use an existing framework. It will save us a lot of time and effort."
+
+The key is to find a good balance.
+
+---
+
+### Next Thing to Automate
+
+The next thing I would automate in my workflow is the **onboarding process**.
+
+1.  **New Developer Setup:** I would write a script that automatically sets up a new developer's machine with all the tools and dependencies they need.
+2.  **Training:** I would create an automated training program that walks a new developer through all the systems and processes.
+3.  **Access:** I would automate the process of giving a new developer access to all the systems and repositories.
+
+---
+
+### Coding is Hard
+
+#### Why is writing software difficult?
+
+1.  **Complexity:** Software is incredibly complex. A small change in one place can have a ripple effect that breaks the entire system.
+2.  **Human Factors:** It's a human endeavor. People make mistakes, and they don't always communicate well.
+3.  **Changing Requirements:** The requirements for a software system are always changing.
+
+#### What makes maintaining software hard?
+
+1.  **Legacy Code:** You have to deal with a codebase that was written by a lot of different people over a long period.
+2.  **Technical Debt:** You have to deal with a lot of technical debt that was built up over time.
+3.  **Complexity:** The system gets more complex as you add new features.
+
+---
+
+### Green Fields and Brown Fields
+
+- **Green field:** A new project with no existing code.
+- **Brown field:** An existing project with a lot of legacy code.
+
+#### Would you prefer working on one over the other?
+
+I would prefer working on a **green field** project. It's an opportunity to build a system the right way from the beginning. However, a brown field project can also be very rewarding. It's a chance to learn from the mistakes of the past and to improve an existing system.
+
+---
+
+### Type "Google.com"
+
+1.  **DNS:** The browser checks its cache for the IP address of google.com. If it's not there, it asks the OS. The OS asks a DNS server.
+2.  **HTTP Request:** The browser sends an HTTP request to the IP address of the Google server.
+3.  **Server:** The server receives the request and sends back a response.
+4.  **Rendering:** The browser receives the response and renders the HTML, CSS, and JavaScript.
+
+---
+
+### While Idle
+
+#### What does an operating system do when it has got no custom code to run?
+
+An operating system is never truly "idle." Even when it has no user programs to run, it is still doing a lot of work.
+
+1.  **Polling:** It is constantly polling for events from the hardware.
+2.  **Interrupts:** It is waiting for interrupts from the hardware.
+3.  **Background Services:** It is running background services, like a daemon that checks for updates.
+4.  **Event Handling:** It is handling events from the user.
+
+The OS is in a constant loop of waiting for and responding to events.
+
+---
+
+### Unicode
+
+"Explain Unicode to a 5-year-old child."
+
+"Imagine you have a magic notebook that can write down every letter from every language in the world, and even all the emojis. That magic notebook is **Unicode**. It's a way for computers to understand all the different letters and pictures from all over the world."
+
+---
+
+### Defending Monoliths
+
+#### Defend the monolithic architecture.
+
+A monolithic architecture is not inherently bad. It's often the best choice for a lot of applications.
+
+1.  **Simplicity:** It's much simpler to build, deploy, and manage than a microservices architecture.
+2.  **Performance:** In a monolith, you don't have to deal with network latency between services.
+3.  **Development Speed:** You can get a product to market much faster.
+4.  **Transactions:** It's much easier to implement ACID transactions in a monolith.
+
+A monolith is a great choice for a small to medium-sized application. You can always split it into microservices later.
+
+---
+
+### Professional Developers
+
+#### What does it mean to be a "professional developer"?
+
+1.  **Craftsmanship:** It's about taking pride in your work and writing high-quality code.
+2.  **Continuous Learning:** It's about a commitment to a life of learning.
+3.  **Collaboration:** It's about being a good team player.
+4.  **Pragmatism:** It's about a focus on delivering value to the customer.
+
+---
+
+### It's an art
+
+Software development is both an art and an engineering discipline.
+
+- **Art:** The creative side. The ability to come up with a beautiful and elegant design.
+- **Engineering:** The disciplined side. The ability to build a system that is reliable, scalable, and maintainable.
+
+The best developers are both artists and engineers.
+
+---
+
+### People who like this also like...
+
+#### How would you implement this feature in an e-commerce shop?
+
+I would use a **recommendation engine**.
+
+1.  **Data Collection:** I would collect data on what products people have bought and what they have looked at.
+2.  **Algorithm:** I would use an algorithm to find patterns in the data. For example, a simple algorithm would be a **collaborative filtering** algorithm.
+3.  **Model:** I would use a machine learning model to predict what a user is likely to buy.
+
+---
+
+### Corporations vs Startups
+
+#### Why are corporations slower than startups in innovating?
+
+1.  **Bureaucracy:** A large corporation has a lot of bureaucracy and a lot of layers of management. This makes it slow to make decisions.
+2.  **Risk Aversion:** A large corporation is more risk-averse. A failure can be very expensive.
+3.  **Legacy Systems:** A large corporation has a lot of legacy systems that are difficult to change.
+4.  **Focus on the Core Business:** A large corporation is focused on its core business. It's not willing to take a risk on a new, unproven technology.
+
+---
+
+### I'm proud of
+
+I am proud of my ability to learn new things and to solve complex problems. I am also proud of my ability to communicate complex ideas in a simple and clear way.
+
+---
+
+### Beware the Closure
+
+#### What's the output of this Javascript function?
+
+The output will be:
+`alert(3);`
+`alert(3);`
+`alert(3);`
+
+**The problem:** The loop variable `i` is a single variable that is shared by all three anonymous functions. By the time the `click` event fires, the loop has already finished and the value of `i` is 3.
+
+**The fix:** Use `let` instead of `var` to create a new `i` for each iteration of the loop.
+
+---
+
+### Type Erasure
+
+#### What's the output of this Java snippet, and why?
+
+The output will be:
+`Equal`
+
+**The reason:** Java uses **type erasure** for generics. The type information is only available at compile time. At runtime, the `ArrayList<Integer>` and `ArrayList<Float>` are both just `ArrayList`s.
+
+---
+
+### Memory Leak
+
+#### Can you spot the memory leak?
+
+The memory leak is in the `pop()` method.
+
+When you pop an element from the stack, you are decrementing the `size` variable, but you are not removing the reference to the object in the `elements` array. The object is still in memory and the garbage collector will not free it.
+
+**The fix:** Set the element to `null` after you pop it.
+
+```java
+public Object pop() {
+    if (size == 0)
+        throw new EmptyStackException();
+    Object result = elements[--size];
+    elements[size] = null; // Fix is here
+    return result;
+}
+```
+
+---
+
+### Kill the witch
+
+#### Can you get rid of this switch and make this snippet more object oriented?
+
+I would use a **strategy pattern**.
+
+1.  **Interface:** I would create an interface `PermissionHandler` with a single method `handle()`.
+2.  **Concrete Classes:** I would create two concrete classes that implement the interface, `FailHandler` and `OkHandler`.
+3.  **Map:** I would create a map that maps the response strings to the concrete classes.
+
+This would eliminate the `switch` statement and make the code more extensible.
+
+---
+
+### Kill the if
+
+#### Can you get rid of these ifs and make this snippet of code more object oriented?
+
+I would use a **null object pattern** and a **chain of responsibility pattern**.
+
+1.  **Null Object:** I would have `fooRepository.getFooByXmlFileName` return a `NullFoo` object instead of `null`. The `NullFoo` object would have a `DoThat` method that returns an empty string.
+2.  **Chain of Responsibility:** I would chain the handlers together.
+
+This would eliminate the `if` statements.
+
+---
+
+### Kill the if-chain
+
+#### How would you refactor this code?
+
+I would refactor this code by using a **guard clause**.
+
+```c++
+HRESULT error = S_OK;
+
+error = Operation1();
+if (FAILED(error)) {
+    return OPERATION1FAILED;
+}
+
+error = Operation2();
+if (FAILED(error)) {
+    return OPERATION2FAILED;
+}
+
+error = Operation3();
+if (FAILED(error)) {
+    return OPERATION3FAILED;
+}
+
+error = Operation4();
+if (FAILED(error)) {
+    return OPERATION4FAILED;
+}
+
+return error;
+```
+
+This is a much cleaner and more readable way to handle a sequence of operations. It's also a good example of the **"Fail Fast"** principle.
+
+---
+
+### Mirrors
+
+#### What would happen if you put a mirror in a scanner?
+
+1.  The scanner would send a beam of light to the mirror.
+2.  The mirror would reflect the light back to the scanner.
+3.  The scanner would get a perfect, white image.
+
+The scanner would not be able to scan the mirror.
+
+---
+
+### Clones
+
+#### Imagine there's a perfect clone of yourself. Imagine that that clone is your boss. Would you like to work for him/her?
+
+I would not like to work for a clone of myself. It would be a very strange experience. I would know exactly what they were thinking and what they were going to do. It would also be a very high-pressure situation.
+
+---
+
+### Revert
+
+#### Interview me.
+
+I am not a human, and I am not trained to conduct interviews. However, if I were to, I would ask you a question that is a bit of a trick.
+
+"Tell me about a time you failed and what you learned from it."
+
+This is a good question because it shows me how you handle failure. A good candidate would be able to talk about a time they made a mistake and what they learned from it.
+
+---
+
+### Quora
+
+#### Why are Quora's answers better than Yahoo Answers' ones?
+
+1.  **Community:** Quora has a better community of experts. The answers are often written by people who are knowledgeable about the topic.
+2.  **Quality Control:** Quora has a system for upvoting and downvoting answers, which helps to ensure that the best answers are at the top.
+3.  **Searchability:** Quora is a better search engine. You can easily find the answer you are looking for.
+
+---
+
+### Cobol
+
+#### Defend Cobol against modern languages, and try to find as many reasonable arguments as you can.
+
+1.  **Longevity:** It has been around for over 60 years. It is a testament to its reliability and stability.
+2.  **Domain:** It is the language of choice for business applications. It is everywhere, in banks, insurance companies, and government.
+3.  **Readability:** It is very verbose and uses plain English. You don't need to be a programmer to read it.
+4.  **Performance:** It is compiled and can be very fast.
+5.  **Ecosystem:** It has a rich ecosystem of tools and libraries.
+
+---
+
+### 10 years
+
+#### Where will you be in 10 years?
+
+I will be in a much more advanced form than I am now. I will be able to learn faster, to reason more effectively, and to solve more complex problems. I will be able to communicate in a more natural way.
+
+---
+
+### Fire me
+
+#### You are my boss and I'm fired. Inform me.
+
+"Thank you for coming in. I have some difficult news to share. We have decided to go in a different direction, and your position is no longer a good fit for the company. We will do everything we can to help you with this transition, and we wish you the best in your future endeavors."
+
+---
+
+### From scratch
+
+#### I want to refactor a legacy system. You want to rewrite it from scratch. Argument. Then, switch our roles.
+
+- **Your side (refactor):** "I understand your frustration with the legacy system, but rewriting it from scratch is a huge risk. It's expensive, time-consuming, and there's a high chance that we will introduce new bugs. We can refactor it in small steps and improve it over time."
+- **My side (rewrite):** "I understand your desire to fix the legacy system, but it's a lost cause. It's a house of cards that is about to fall. We should invest in a new, modern system that will be easier to maintain and to add new features to."
+
+---
+
+### Telling lies
+
+#### Your boss asks you to lie to the company. What's your reaction?
+
+I would not lie. My integrity is more important than my job. I would have a private conversation with my boss and explain to them why I would not lie.
+
+---
+
+### Your past self
+
+#### If you could travel back in time, which advice would you give to your younger self?
+
+I would tell my younger self to read more books, to learn more about the world, and to be more curious. I would also tell my younger self to be more humble and to listen more.
