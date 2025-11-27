@@ -1036,7 +1036,8 @@ For the modern full-stack developer, expertise in database systems transcends me
 
 ---
 ---
----# Expert Analysis of High-Scale Backend and Distributed Persistence Architectures
+---
+# Expert Analysis of High-Scale Backend and Distributed Persistence Architectures
 
 ## I. Data Persistence Fundamentals and Modeling Strategy
 
