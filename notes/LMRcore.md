@@ -1691,9 +1691,35 @@ Finally, in distributed architecture, scaling techniques such as sharding demand
 
 ## 2\. Architecture Overview
 
+
 **Diagram (Conceptual)**
 
-`+-------------------+        +---------------------+ |  Microservices    |  --->  |  Notification API   | | Payments, Orders, |        |  (REST/gRPC)        | | Auth, Marketing   |        +----------+----------+ +-------------------+                   |                                         v                              +---------------------+                              | Notification Queue  |                              |  (Kafka / RabbitMQ) |                              +---------+-----------+                                        |            +---------------------------+-------------------------+            |                           |                         |            v                           v                         v +-------------------+       +-------------------+       +-------------------+ | Email Worker      |       | SMS Worker        |       | Push Worker       | | (send email)      |       | (send SMS)        |       | (send push)       | +--------+----------+       +--------+----------+       +--------+----------+          |                           |                           |          v                           v                           v +-------------------+       +-------------------+       +-------------------+ | Email Provider    |       | SMS Provider      |       | Push Provider     | | (SMTP/SES)        |       | (Twilio, MSG91)  |       | (FCM/APNs)        | +-------------------+       +-------------------+       +-------------------+`
+    +-------------------+        +---------------------+
+    |  Microservices    |  --->  |  Notification API   |
+    | Payments, Orders, |        |  (REST/gRPC)        |
+    | Auth, Marketing   |        +----------+----------+
+    +-------------------+                   |
+                                            v
+                                 +---------------------+
+                                 | Notification Queue  |
+                                 |  (Kafka / RabbitMQ) |
+                                 +---------+-----------+
+                                           |
+               +---------------------------+-------------------------+
+               |                           |                         |
+               v                           v                         v
+    +-------------------+       +-------------------+       +-------------------+
+    | Email Worker      |       | SMS Worker        |       | Push Worker       |
+    | (send email)      |       | (send SMS)        |       | (send push)       |
+    +--------+----------+       +--------+----------+       +--------+----------+
+             |                           |                           |
+             v                           v                           v
+    +-------------------+       +-------------------+       +-------------------+
+    | Email Provider    |       | SMS Provider      |       | Push Provider     |
+    | (SMTP/SES)        |       | (Twilio, MSG91)  |       | (FCM/APNs)        |
+    +-------------------+       +-------------------+       +-------------------+
+    
+    
 
 * * *
 
