@@ -1650,3 +1650,1236 @@ In data persistence, the decision between SQL (favoring strong ACID consistency)
 For concurrency, modern systems achieve high throughput by shifting from pessimistic locking to **Multi-Version Concurrency Control (MVCC)**, such as in PostgreSQL. However, this architectural benefit imposes a new, critical operational dependency on the `VACUUM` maintenance process to prevent bloat and catastrophic XID wraparound failure `[12, 13]`. Similarly, adopting asynchronous, high-speed messaging systems like Kafka (which favors at-least-once delivery) introduces an architectural mandate: **all consumers must be idempotent** to prevent state corruption from duplicate processing.
 
 Finally, in distributed architecture, scaling techniques such as sharding demand careful key selection to avoid hotspots, while distributed coordination protocols like 2PC are often bypassed for the Saga pattern, exchanging synchronous strong consistency for eventual consistency and greater availability. This aligns with the consensus that high-scale systems must be designed to tolerate and manage failure, leading to the advanced principle that architects should seek to eliminate distributed locks entirely in favor of inherently safer, non-blocking asynchronous patterns `[26]`. The success of a high-scale backend system is measured not just by its speed, but by its ability to predictably survive these inherent distributed failure modes.
+
+
+---
+---
+---
+# High-Level Design: Central Notification Service
+
+## 1\. Requirements
+
+**Functional Requirements (FR):**
+
+1.  Accept notification requests from multiple microservices (Payments, Orders, Authentication, Marketing).
+    
+2.  Support multiple channels: **Email, SMS, Push Notifications**.
+    
+3.  Provide **status tracking** (sent, failed, queued).
+    
+4.  Allow **retry mechanism** for failed notifications.
+    
+5.  Allow **scheduled/delayed notifications**.
+    
+6.  Provide **APIs for notification creation, status query, and analytics**.
+    
+
+**Non-Functional Requirements (NFR):**
+
+1.  Handle **10 million notifications/day** (~115 notifications/sec peak assuming uniform load).
+    
+2.  **Highly available** and **scalable**.
+    
+3.  **Fault-tolerant** and supports **retry/backoff**.
+    
+4.  Extensible to add new channels easily.
+    
+5.  **Audit logs** and monitoring.
+    
+
+* * *
+
+## 2\. Architecture Overview
+
+**Diagram (Conceptual)**
+
+`+-------------------+        +---------------------+ |  Microservices    |  --->  |  Notification API   | | Payments, Orders, |        |  (REST/gRPC)        | | Auth, Marketing   |        +----------+----------+ +-------------------+                   |                                         v                              +---------------------+                              | Notification Queue  |                              |  (Kafka / RabbitMQ) |                              +---------+-----------+                                        |            +---------------------------+-------------------------+            |                           |                         |            v                           v                         v +-------------------+       +-------------------+       +-------------------+ | Email Worker      |       | SMS Worker        |       | Push Worker       | | (send email)      |       | (send SMS)        |       | (send push)       | +--------+----------+       +--------+----------+       +--------+----------+          |                           |                           |          v                           v                           v +-------------------+       +-------------------+       +-------------------+ | Email Provider    |       | SMS Provider      |       | Push Provider     | | (SMTP/SES)        |       | (Twilio, MSG91)  |       | (FCM/APNs)        | +-------------------+       +-------------------+       +-------------------+`
+
+* * *
+
+## 3\. Components
+
+### 3.1 Notification API / Gateway
+
+*   Exposes endpoints for microservices:
+    
+    *   `POST /notifications` — Create notification.
+        
+    *   `GET /notifications/{id}` — Get status.
+        
+    *   `GET /notifications?filter=...` — Analytics.
+        
+*   Validates payload: channel, recipient, message, priority.
+    
+*   Assigns **unique Notification ID**.
+    
+
+### 3.2 Notification Queue
+
+*   **Decouples producers (microservices) from consumers (workers)**.
+    
+*   **Reliable message queue**: Kafka, RabbitMQ, AWS SQS.
+    
+*   **Partitioning**:
+    
+    *   By channel (Email/SMS/Push).
+        
+    *   By priority (High/Low).
+        
+*   Supports **retry/backoff** for failed deliveries.
+    
+
+### 3.3 Worker Service / Processor
+
+*   **Separate worker per channel** for scalability.
+    
+*   **Responsibilities**:
+    
+    *   Pull messages from queue.
+        
+    *   Transform payload if needed.
+        
+    *   Call external provider API.
+        
+    *   Update notification status in **DB**.
+        
+*   **Scaling**: Horizontal scaling with multiple workers per channel to handle load.
+    
+
+### 3.4 Notification Storage
+
+*   Stores **notification metadata and status**.
+    
+*   Database: **Relational (PostgreSQL/MySQL)** or **NoSQL (DynamoDB, MongoDB)**.
+    
+*   Schema:
+    
+    `Notification {     id: UUID,     recipient: string,     channel: ENUM(SMS, EMAIL, PUSH),     message: string,     status: ENUM(PENDING, SENT, FAILED),     retries: int,     created_at: timestamp,     sent_at: timestamp,     failed_at: timestamp }`
+    
+
+### 3.5 Retry & Dead Letter Queue
+
+*   Failed notifications go to **DLQ** after N retries.
+    
+*   Optionally, trigger alerts for manual intervention.
+    
+
+### 3.6 Monitoring & Analytics
+
+*   Track metrics:
+    
+    *   Messages processed per second
+        
+    *   Success / failure rates per channel
+        
+    *   Average latency
+        
+*   Tools: Prometheus + Grafana, ELK Stack, CloudWatch (AWS)
+    
+
+* * *
+
+## 4\. Scaling Considerations
+
+1.  **Queue-Based Load Leveling**:
+    
+    *   Decouples API load from processing load.
+        
+    *   Handles burst traffic (e.g., Black Friday notifications).
+        
+2.  **Horizontal Scaling**:
+    
+    *   Multiple API servers behind **load balancer** (Nginx/ALB).
+        
+    *   Multiple workers per channel.
+        
+3.  **Database Scaling**:
+    
+    *   Use **NoSQL DB** for high write throughput.
+        
+    *   Partition by **date or notification ID**.
+        
+4.  **Batching**:
+    
+    *   Batch notifications to provider APIs to reduce API calls and improve throughput.
+        
+5.  **Idempotency**:
+    
+    *   Ensure notifications are not sent multiple times in case of retries.
+        
+
+* * *
+
+## 5\. Technology Choices
+
+| Component | Tech Example |
+| --- | --- |
+| API / Gateway | Node.js/Express, Python FastAPI, gRPC |
+| Queue | Kafka, RabbitMQ, AWS SQS |
+| Worker / Processor | Node.js, Python, Java |
+| Database | PostgreSQL / MySQL / MongoDB / DynamoDB |
+| Email Provider | AWS SES, SendGrid |
+| SMS Provider | Twilio, MSG91 |
+| Push Provider | FCM, APNs |
+| Monitoring | Prometheus + Grafana, ELK |
+
+* * *
+
+## 6\. Traffic & Performance Estimation
+
+*   **10M notifications/day** ≈ 115 notifications/sec (uniform).
+    
+*   **Peak bursts** may reach 5–10x average → design queue + workers to handle 500–1000/sec.
+    
+*   Use **horizontal scaling**, batch sends, and async workers to meet this throughput.
+    
+
+* * *
+
+## 7\. Extensibility
+
+*   Add new channels easily by adding:
+    
+    1.  Worker for new channel
+        
+    2.  Integration with external provider
+        
+    3.  Update Notification API to accept new channel type
+        
+*   Support **multi-tenancy**: add tenant ID for multiple services inside company.
+    
+
+* * *
+
+## 8\. Security & Reliability
+
+*   **Authentication & Authorization**: Only internal services can send notifications (JWT/API key).
+    
+*   **Idempotency Key**: Avoid duplicate notifications.
+    
+*   **Retry Mechanism**: Exponential backoff for failed messages.
+    
+*   **Audit Logging**: All notification requests logged for troubleshooting.
+    
+*   **Rate Limiting**: Protect providers from exceeding quotas.
+
+---
+#   
+
+Absolutely! Let’s create **15+ high-level system design (HLD) solutions** for common large-scale systems, **structured the same way** as your Notification Service example — covering **Requirements, Architecture, Components, Scaling, Technology Choices, Extensibility, Security, etc.**. Each design will follow the same detailed, practical framework.
+
+* * *
+
+# 1\. URL Shortener Service (like bit.ly)
+
+### 1\. Requirements
+
+# 
+
+**Functional Requirements (FR):**
+
+*   Shorten a long URL.
+    
+*   Redirect short URL to original URL.
+    
+*   Track click analytics.
+    
+*   Custom aliases for URLs.
+    
+*   Expiration dates for URLs (optional).
+    
+
+**Non-Functional Requirements (NFR):**
+
+*   Handle high read throughput (redirects) > high write throughput.
+    
+*   Low latency redirect (<50ms).
+    
+*   Highly available and scalable.
+    
+*   Prevent duplicate short URLs.
+    
+
+### 2\. Architecture Overview
+
+# 
+
+    +------------------+       +-------------------+       +-----------------+
+    |  User / Client   |  ---> |  API Gateway      |  ---> |  Shortening     |
+    | Browser / Mobile |       | (REST/gRPC)       |       |  Service        |
+    +------------------+       +-------------------+       +--------+--------+
+                                                                 |
+                                                                 v
+                                                       +-----------------+
+                                                       |  Storage DB     |
+                                                       |  (SQL/NoSQL)    |
+                                                       +-----------------+
+                                                                 |
+                                                                 v
+                                                       +-----------------+
+                                                       |  Analytics DB   |
+                                                       +-----------------+
+    
+
+### 3\. Components
+
+# 
+
+*   **API Gateway**: Expose endpoints: `POST /shorten`, `GET /{short_url}`, `GET /analytics/{id}`
+    
+*   **Shortening Service**: Generate unique short code (hash/base62).
+    
+*   **Storage DB**: Map short code → long URL (Redis for cache, SQL for persistence).
+    
+*   **Analytics DB**: Track clicks, location, timestamp.
+    
+*   **Cache Layer**: Redis/Memcached for high-speed redirects.
+    
+
+### 4\. Scaling Considerations
+
+# 
+
+*   Use **consistent hashing** for multiple DB shards.
+    
+*   Use **CDN / caching** for hot URLs.
+    
+*   Async analytics writes to avoid slowing redirect path.
+    
+
+### 5\. Technology Choices
+
+# 
+
+*   API: Node.js, Go, Python
+    
+*   DB: MySQL/Postgres + Redis
+    
+*   Queue: Kafka for async analytics
+    
+
+* * *
+
+# 2\. File Storage Service (like Dropbox)
+
+### 1\. Requirements
+
+# 
+
+**FR:** Upload/download files, folder hierarchy, versioning, sharing, access control  
+**NFR:**
+
+*   Handle large files, high concurrency
+    
+*   Data durability & availability
+    
+*   Low-latency access
+    
+
+### 2\. Architecture Overview
+
+# 
+
+    Client --> API Gateway --> File Service --> Object Storage (S3/GCS)
+                                          --> Metadata DB (PostgreSQL)
+                                          --> CDN for caching
+    
+
+### 3\. Components
+
+# 
+
+*   **API Gateway**: Authentication, rate-limiting
+    
+*   **File Service**: Chunk files, handle upload/download
+    
+*   **Storage**: Object storage (S3/DynamoDB for metadata)
+    
+*   **Metadata DB**: File info, version, user info
+    
+*   **CDN**: Fast file delivery
+    
+
+### 4\. Scaling
+
+# 
+
+*   File chunking, distributed storage
+    
+*   Load balancers
+    
+*   Horizontal scaling of API servers
+    
+*   Multi-region replication
+    
+
+### 5\. Technology Choices
+
+# 
+
+*   API: Python/FastAPI
+    
+*   Storage: S3, MinIO
+    
+*   DB: Postgres, Redis
+    
+*   Queue: RabbitMQ/Kafka for async tasks
+    
+
+* * *
+
+# 3\. Ride Sharing / Taxi Booking Service (like Uber)
+
+### 1\. Requirements
+
+# 
+
+**FR:**
+
+*   Book rides, cancel, track drivers
+    
+*   Real-time location updates
+    
+*   Dynamic pricing
+    
+*   Ratings & history
+    
+
+**NFR:**
+
+*   Real-time updates (<1 sec)
+    
+*   High availability, scalable for millions of users
+    
+*   Fault-tolerant
+    
+
+### 2\. Architecture Overview
+
+# 
+
+    User App --> API Gateway --> Booking Service --> Matching Service --> Drivers
+                                   |
+                                   v
+                              Trip DB / Location DB
+                                   |
+                                   v
+                                Queue (Kafka)
+    
+
+### 3\. Components
+
+# 
+
+*   API Gateway: Accept requests
+    
+*   Booking Service: Create trips, cancel
+    
+*   Matching Service: Match nearest driver using geo-hashing
+    
+*   Location Service: Real-time driver tracking
+    
+*   Queue: Async notifications
+    
+*   Database: Trip, driver, user info
+    
+
+### 4\. Scaling
+
+# 
+
+*   Geospatial DB for driver location
+    
+*   Load balancers + sharding by region
+    
+*   Push notifications via Kafka
+    
+
+### 5\. Tech Choices
+
+# 
+
+*   API: Node.js/Go
+    
+*   DB: Postgres + Redis for location
+    
+*   Messaging: Kafka, RabbitMQ
+    
+*   Realtime: WebSocket/Socket.IO
+    
+
+* * *
+
+# 4\. Chat Application (like WhatsApp)
+
+# 
+
+**FR:** Text, media messages, group chats, read receipts  
+**NFR:** Real-time (<1s), high availability, fault-tolerant
+
+**Architecture Overview:**
+
+*   Client → API Gateway → Chat Service → Queue → Message DB → Push to recipient
+    
+*   Components:
+    
+    *   API Gateway
+        
+    *   Chat Service
+        
+    *   Message Queue (Kafka)
+        
+    *   DB (MongoDB/Postgres)
+        
+    *   Notification Service (for push)
+        
+
+**Scaling:**
+
+*   Partition users by ID for DB sharding
+    
+*   Async writes + read replicas
+    
+*   WebSocket / push notifications
+    
+
+**Tech:** Node.js, WebSocket, Redis, MongoDB, Kafka
+
+* * *
+
+# 5\. Social Media Feed Service (like Twitter)
+
+# 
+
+**FR:** Post tweets, follow/unfollow, feed generation, like/share  
+**NFR:** High throughput for reads/writes, low latency feed (<500ms)
+
+**Architecture Overview:**
+
+*   Users → API Gateway → Post Service / Feed Service → DB / Cache
+    
+*   Components:
+    
+    *   Post Service
+        
+    *   Feed Service (fan-out on write or fan-out on read)
+        
+    *   Redis cache
+        
+    *   Timeline DB (NoSQL)
+        
+
+**Scaling:**
+
+*   Horizontal scaling
+    
+*   Cache hot feeds
+    
+*   Use sharding & replication
+    
+
+**Tech:** Go, Redis, Cassandra/MongoDB, Kafka
+
+* * *
+
+# 6\. E-Commerce Order Management System
+
+# 
+
+**FR:** Create orders, update status, payment integration, notifications  
+**NFR:** High availability, reliability, transactional integrity
+
+**Architecture:**
+
+*   User → API Gateway → Order Service → Payment Service → Inventory Service → Notification Service
+    
+*   Components: Order DB, Payment Gateway, Queue for async processing, Notification Service
+    
+
+**Scaling:**
+
+*   Microservices, horizontal scaling
+    
+*   Queues to decouple services
+    
+*   Read replicas for high traffic
+    
+
+**Tech:** Node.js/Java, Kafka, PostgreSQL, Redis
+
+* * *
+
+# 7\. Video Streaming Service (like YouTube)
+
+# 
+
+**FR:** Upload, stream, like/comment, recommendations  
+**NFR:** Low latency streaming, CDN caching, high throughput
+
+**Architecture:**
+
+*   Client → API → Video Service → Object Storage → CDN → Analytics Service
+    
+*   Components:
+    
+    *   Video Service: Upload/stream
+        
+    *   Storage: S3
+        
+    *   CDN: Akamai/CloudFront
+        
+    *   Metadata DB
+        
+    *   Recommendation Engine
+        
+
+**Scaling:**
+
+*   Multi-region CDN
+    
+*   Chunked video streaming
+    
+*   Async transcoding
+    
+
+**Tech:** Python/Go, S3, Redis, Kafka
+
+* * *
+
+# 8\. Online Payment Gateway
+
+# 
+
+**FR:** Payment processing, refunds, wallet  
+**NFR:** High reliability, security, low latency
+
+**Architecture:**
+
+*   User → API Gateway → Payment Service → Bank API / Wallet Service → Queue → Notification Service
+    
+*   Components: Fraud Detection, Ledger DB, Transaction DB
+    
+
+**Scaling:**
+
+*   Idempotent transactions
+    
+*   Retry mechanism
+    
+*   Horizontal scaling
+    
+
+**Tech:** Java/Spring, Kafka, MySQL, Redis
+
+* * *
+
+# 9\. Analytics / Metrics Dashboard Service
+
+# 
+
+**FR:** Collect events, aggregate metrics, provide dashboards  
+**NFR:** Handle millions of events/sec, near real-time aggregation
+
+**Architecture:**
+
+*   Client/Service → Event API → Event Queue (Kafka) → Stream Processor (Flink/Spark) → Aggregation DB → Dashboard
+    
+*   Components: Event Collector, Stream Processor, DB (ClickHouse/Redshift), Dashboard
+    
+
+**Scaling:**
+
+*   Partitioning events by type/source
+    
+*   Stream processing horizontally
+    
+*   Caching dashboards
+    
+
+**Tech:** Kafka, Flink/Spark, ClickHouse/Redshift, React.js
+
+* * *
+
+# 10\. Search Engine Service (like ElasticSearch for site)
+
+# 
+
+**FR:** Index documents, search, autocomplete, ranking  
+**NFR:** Low latency search, high throughput indexing
+
+**Architecture:**
+
+*   Client → API → Indexing Service → Search Engine (Elasticsearch) → Cache
+    
+*   Components: Indexer, Query Processor, Cache Layer, Analytics
+    
+
+**Scaling:**
+
+*   Sharded index
+    
+*   Horizontal scaling of query nodes
+    
+*   Caching frequent queries
+    
+
+**Tech:** Elasticsearch, Redis, Python/Go
+
+* * *
+
+# 11\. Email Marketing Campaign Service
+
+# 
+
+**FR:** Send bulk emails, schedule campaigns, analytics  
+**NFR:** High throughput, rate limits per provider
+
+**Architecture:**
+
+*   Marketing Service → API → Queue → Email Workers → Email Provider
+    
+*   Components: API Gateway, Queue, Workers, Analytics DB
+    
+
+**Scaling:**
+
+*   Horizontal workers
+    
+*   Batch sending
+    
+*   Retry with DLQ
+    
+
+**Tech:** Node.js, Kafka/RabbitMQ, Postgres, AWS SES
+
+* * *
+
+# 12\. Real-Time Multiplayer Game Backend
+
+# 
+
+**FR:** Matchmaking, real-time gameplay, leaderboard  
+**NFR:** Low latency, high concurrency, scalability
+
+**Architecture:**
+
+*   Game Client → Game Server → Matchmaking Service → Game State DB → Real-time communication via WebSocket
+    
+*   Components: Game Logic, Matchmaking, Leaderboard DB, Cache for player states
+    
+
+**Tech:** Go/Node.js, Redis, WebSocket, PostgreSQL
+
+* * *
+
+# 13\. IoT Data Ingestion System
+
+# 
+
+**FR:** Collect sensor data, process, store, analytics  
+**NFR:** High ingestion rate, fault-tolerant, scalable
+
+**Architecture:**
+
+*   IoT Device → MQTT Broker → Ingestion Service → Queue → Processing Service → DB / Analytics
+    
+*   Components: MQTT Broker, Ingestion, Stream Processing, Storage
+    
+
+**Scaling:**
+
+*   Partition by device ID
+    
+*   Horizontal scaling
+    
+*   Data retention policies
+    
+
+**Tech:** Kafka, MQTT, InfluxDB, Spark Streaming
+
+* * *
+
+# 14\. Recommendation Engine Service
+
+# 
+
+**FR:** Generate recommendations for users  
+**NFR:** Low latency, scalable for millions of users
+
+**Architecture:**
+
+*   User Event → Event API → Queue → Model Service → Cache → Recommendation API → Client
+    
+*   Components: Event collector, Model service (ML), Cache (Redis), API
+    
+
+**Scaling:**
+
+*   Cache top-N recommendations
+    
+*   Batch offline training
+    
+*   Horizontal scaling of API
+    
+
+**Tech:** Python, Redis, Kafka, TensorFlow/PyTorch
+
+* * *
+
+# 15\. Health Monitoring / Alerting System
+
+# 
+
+**FR:** Monitor servers/services, trigger alerts via SMS/Email/Push  
+**NFR:** Real-time alerting, scalable, fault-tolerant
+
+**Architecture:**
+
+*   Agents → Metrics Collector → Queue → Alert Processor → Notification Service → Users
+    
+*   Components: Collector, Processor, Notification Service, DB, Dashboard
+    
+
+**Scaling:**
+
+*   Partition by service
+    
+*   Horizontal scaling of processors
+    
+*   Retry and DLQ
+    
+
+**Tech:** Prometheus, Grafana, Kafka, Node.js
+
+* * *
+
+---
+---
+
+# 1\. CMS Content Storage & Delivery System
+
+**Problem:** Design a system to store, manage, and serve articles, blogs, and media content for multiple websites.
+
+**Requirements:**
+
+**Functional:**
+
+*   Create, edit, delete content (CRUD).
+    
+*   Support rich media (images, videos).
+    
+*   Version control for edits.
+    
+*   Publish/unpublish scheduling.
+    
+*   Search/filter content.
+    
+
+**Non-Functional:**
+
+*   Handle millions of articles.
+    
+*   Low-latency content retrieval.
+    
+*   Scalable across multiple tenants/websites.
+    
+*   Analytics for content views.
+    
+
+**Architecture Overview:**
+
+    +----------------+        +------------------+        +-------------------+
+    | Admin / Editor |  --->  |  CMS API Gateway |  --->  | Content Service    |
+    +----------------+        +------------------+        +---------+---------+
+                                                               |
+                                                               v
+                                                        +-------------+
+                                                        |  DB (Meta) |
+                                                        +-------------+
+                                                               |
+                                                               v
+                                                        +-------------+
+                                                        |  Storage    |
+                                                        |  (Images/VM)| 
+                                                        +-------------+
+    
+
+**Components:**
+
+*   API Gateway: CRUD operations, auth.
+    
+*   Content Service: Handles versioning, scheduling.
+    
+*   Storage: Blob storage for media.
+    
+*   Metadata DB: Article info, status, author.
+    
+*   Cache Layer: Redis for frequently accessed content.
+    
+
+**Scaling:**
+
+*   Horizontal scaling of services.
+    
+*   CDNs for media delivery.
+    
+*   Partition DB by tenant or content type.
+    
+
+**Tech:** Node.js / FastAPI, MongoDB/Postgres, S3, Redis, CDN
+
+* * *
+
+# 2\. Multi-Tenant Dashboard & Analytics System
+
+**Problem:** Design a dashboard for admins to view content performance across websites.
+
+**Requirements:**  
+**Functional:**
+
+*   Show metrics: views, clicks, engagement.
+    
+*   Filter by date, category, website.
+    
+*   Real-time updates (optional).
+    
+
+**Non-Functional:**
+
+*   Real-time or near real-time metrics.
+    
+*   High read throughput.
+    
+*   Multi-tenant isolation.
+    
+
+**Architecture Overview:**
+
+    Admin --> API Gateway --> Metrics Service --> Analytics DB
+                                        |
+                                        v
+                                   Queue (Kafka)
+                                        |
+                                        v
+                               Event Processing Service
+    
+
+**Components:**
+
+*   API Gateway: REST/gRPC endpoints.
+    
+*   Metrics Service: Query analytics DB, aggregate metrics.
+    
+*   Event Processor: Process user interaction events.
+    
+*   Analytics DB: Clickstream data (Cassandra / ClickHouse).
+    
+*   Queue: Kafka for event ingestion.
+    
+
+**Scaling:**
+
+*   Partition data by tenant/website.
+    
+*   Horizontal scaling of API + processing.
+    
+*   Cache frequent queries (Redis).
+    
+
+**Tech:** Node.js/Go, Kafka, ClickHouse/ElasticSearch, Redis
+
+* * *
+
+# 3\. CMS Notification Service
+
+**Problem:** Notify admins/users about content updates, approvals, or workflow events.
+
+**Requirements:**
+
+*   Send notifications via Email, SMS, Push.
+    
+*   Schedule notifications (e.g., publish reminders).
+    
+*   Track status.
+    
+*   Retry on failure.
+    
+
+**Architecture:** Similar to the Notification Service you already have.
+
+**Components:**
+
+*   Notification API Gateway
+    
+*   Queue (Kafka/RabbitMQ)
+    
+*   Channel-specific workers (Email/SMS/Push)
+    
+*   Storage DB (status, retries)
+    
+
+**Scaling:**
+
+*   Horizontal worker scaling for burst notifications
+    
+*   Partition queue by tenant or channel
+    
+*   DLQ + retry mechanism
+    
+
+**Tech:** Node.js, Kafka, SES/Twilio/FCM, MongoDB/Postgres, Redis
+
+* * *
+
+# 4\. CMS Media Upload & Optimization System
+
+**Problem:** Handle image/video uploads from editors with processing and optimization.
+
+**Requirements:**
+
+*   Upload files securely.
+    
+*   Resize/compress images.
+    
+*   Convert video formats.
+    
+*   Serve optimized media.
+    
+
+**Architecture Overview:**
+
+    Editor --> Upload API --> Media Processing Service --> Storage (S3/Blob)
+                                           |
+                                           v
+                                   Queue (for async processing)
+    
+
+**Components:**
+
+*   Upload API: Auth, validation, throttling.
+    
+*   Media Processor: Resize, compress, transcode.
+    
+*   Storage: Blob storage for optimized media.
+    
+*   Queue: Async processing.
+    
+*   CDN: Deliver optimized media globally.
+    
+
+**Scaling:**
+
+*   Horizontal worker scaling.
+    
+*   CDN caching.
+    
+*   Async processing to prevent blocking upload requests.
+    
+
+**Tech:** Node.js/Python, S3, FFmpeg (video), Redis/Kafka, CDN
+
+* * *
+
+# 5\. CMS Search & Content Recommendation System
+
+**Problem:** Enable search and content recommendation for end-users or admins.
+
+**Requirements:**
+
+*   Keyword search, category filter.
+    
+*   Auto-suggestions.
+    
+*   Recommended content based on tags or user activity.
+    
+
+**Architecture Overview:**
+
+    User/Admin --> API --> Search Service --> Search Engine (ElasticSearch)
+                                    |
+                                    v
+                             Recommendation Engine
+    
+
+**Components:**
+
+*   Search Service: Accepts queries, returns results.
+    
+*   Recommendation Engine: ML-based suggestions.
+    
+*   Search Engine: Indexed content (ElasticSearch).
+    
+*   Analytics DB: Store user interactions for recommendations.
+    
+
+**Scaling:**
+
+*   Shard indices by content type.
+    
+*   Horizontal scaling of search nodes.
+    
+*   Cache top searches/recommendations.
+    
+
+**Tech:** ElasticSearch, Node.js/Python, Redis, Kafka
+
+* * *
+
+# 6\. CMS Role-Based Access Control (RBAC) System
+
+**Problem:** Manage roles and permissions for editors, admins, and users.
+
+**Requirements:**
+
+*   Assign roles to users.
+    
+*   Control access to content, features, dashboards.
+    
+*   Audit logs for changes.
+    
+
+**Architecture Overview:**
+
+    User --> API Gateway --> Auth Service --> DB (Roles & Permissions)
+                                             |
+                                             v
+                                        Audit Logs
+    
+
+**Components:**
+
+*   API Gateway: Auth check per request.
+    
+*   Auth Service: Token validation, permission checks.
+    
+*   DB: Role, user-role mapping, permission mapping.
+    
+*   Audit Service: Track changes.
+    
+
+**Scaling:**
+
+*   Horizontal scaling of auth service.
+    
+*   Cache permission lookups (Redis).
+    
+
+**Tech:** Node.js, JWT/OAuth, PostgreSQL/MongoDB, Redis
+
+* * *
+
+# 7\. CMS Scheduled Content Publishing System
+
+**Problem:** Allow scheduling articles or media for future publishing.
+
+**Requirements:**
+
+*   Schedule publish time per article.
+    
+*   Auto-publish at the scheduled time.
+    
+*   Notify stakeholders after publishing.
+    
+
+**Architecture Overview:**
+
+    Content Service --> Scheduler Service --> Queue --> Publisher Worker --> Storage/DB
+    
+
+**Components:**
+
+*   Scheduler: Cron-based or distributed task scheduler (Celery/Quartz).
+    
+*   Queue: Kafka/RabbitMQ for tasks.
+    
+*   Publisher Worker: Publishes content at scheduled time.
+    
+*   Notification Service: Notify stakeholders.
+    
+
+**Scaling:**
+
+*   Partition tasks by tenant.
+    
+*   Horizontal scaling of workers.
+    
+*   Retry failed tasks with DLQ.
+    
+
+**Tech:** Node.js/Python, RabbitMQ/Kafka, PostgreSQL, Redis
+
+* * *
+
+# 8\. CMS Activity Logging & Audit System
+
+**Problem:** Track all changes in CMS for compliance and rollback.
+
+**Requirements:**
+
+*   Log content edits, deletions, approvals.
+    
+*   Store user actions with timestamps.
+    
+*   Allow querying and reporting.
+    
+
+**Architecture Overview:**
+
+    CMS Services --> Logging API --> Queue --> Analytics DB / ELK Stack
+    
+
+**Components:**
+
+*   Logging API: Collect events.
+    
+*   Queue: Kafka for high-throughput logs.
+    
+*   Storage: ElasticSearch/ClickHouse for queries.
+    
+*   Dashboard: Visualization for admins.
+    
+
+**Scaling:**
+
+*   Partition logs by date/service
+    
+*   Horizontal scaling of collectors and processors
+    
+
+**Tech:** Kafka, Node.js, ElasticSearch, Grafana
+
+* * *
+
+# Other Potential CMS-Related System Design Questions
+
+9.  **Content Versioning System** – Handle multiple versions of an article.
+    
+10.  **Multi-Language CMS** – Serve content in different languages dynamically.
+    
+11.  **Content Approval Workflow** – Design editorial workflow with approvals.
+    
+12.  **Analytics Event Pipeline** – Track user interactions with content.
+    
+13.  **Content Search Engine** – Full-text search with ranking and autocomplete.
+    
+14.  **Bulk Content Upload** – Upload multiple articles/media at once.
+    
+15.  **Push Notification for Content Updates** – Notify users of new content.
+    
+
+* * *
+
+✅ **Tips for CMS-Based Company Interview Prep:**
+
+1.  **Focus on microservices**: Content Service, Media Service, Notification Service, Analytics Service.
+    
+2.  **Scalability**: Most content-heavy systems require **caching, queueing, sharding, horizontal scaling**.
+    
+3.  **Workflow & RBAC**: Editors/admin roles are often tested.
+    
+4.  **Notifications & Scheduling**: Integration of scheduled tasks, queues, and async workers.
+    
+5.  **Real-World CMS Features**: Versioning, search, recommendations, multi-tenant support.
+    
+
+* * *
